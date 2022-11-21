@@ -1,7 +1,8 @@
 package com.example.demo;
 
-import org.springframework.boot.*;
+import com.example.demo.frontend.AppFrontEnd;
 import org.springframework.boot.autoconfigure.*;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
@@ -14,6 +15,11 @@ public class DemoApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+
+//		SpringApplication.run(DemoApplication.class, args);
+		SpringApplicationBuilder builder = new SpringApplicationBuilder(DemoApplication.class);
+		builder.headless(false);
+
+		new AppFrontEnd();
 	}
 }
