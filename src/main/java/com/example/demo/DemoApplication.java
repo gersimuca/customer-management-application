@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.frontend.AppFrontEnd;
+import com.example.demo.frontend.view.CreateClientView;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +20,7 @@ public class DemoApplication {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(DemoApplication.class);
 		builder.headless(false);
 
-		new AppFrontEnd();
+//		new IndexView();
+		new CreateClientView();
 	}
 }

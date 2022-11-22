@@ -88,6 +88,26 @@ public class ManagementRepository {
         entityManagerFactory.close();
     }
 
+    public Management login(String email, String password){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+
+        entityTransaction.begin();
+        List<Management> managements;
+        Management management = new Management();
+        Query query = entityManager.createQuery("SELECT m FROM Management m " +
+                " WHERE m.email = :email AND m.password = :password", Management.class);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+        managements = query.getResultList();
+        if(!managements.isEmpty()) management = managements.get(0);
+        entityTransaction.commit();
+
+        return management != null ? management : null;
+    }
+
 
 
     /*
