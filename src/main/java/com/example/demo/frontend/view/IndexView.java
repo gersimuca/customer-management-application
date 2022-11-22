@@ -1,21 +1,30 @@
-package com.example.demo.frontend;
+package com.example.demo.frontend.view;
 
-import com.example.demo.backend.model.Management;
+import com.example.demo.backend.repository.ClientRepository;
 import com.example.demo.backend.repository.ManagementRepository;
+import com.example.demo.frontend.model.IndexModel;
 
 import javax.swing.*;
-import java.util.List;
+import java.awt.*;
 
-public class AppFrontEnd extends JFrame {
+public class IndexView extends JFrame {
 
-    public final ManagementRepository managementRepository = new ManagementRepository();
+    private final IndexModel indexModel = new IndexModel();
+
     public JButton buttonClient;
     public JButton buttonStaff;
 
-    public AppFrontEnd() {
+    public JTextField textFieldClientEmail;
+    public JTextField textFieldClientPassword;
 
+    public JTextField textFieldStaff;
+
+
+    public IndexView() {
+
+        setTextFieldClientEmail();
+        setTextFieldClientPassword();
         setLayout();
-        setIcon();
         clientLabel();
         adminLabel();
         buttonClient();
@@ -25,14 +34,24 @@ public class AppFrontEnd extends JFrame {
 
     }
 
-    void setLayout() {
-        this.setLayout(null);
+    void setTextFieldClientEmail() {
+        textFieldClientEmail = new JTextField();
+        textFieldClientEmail.setPreferredSize(new Dimension(250, 40));
+        textFieldClientEmail.setBounds(70, 150, 80, 25);
+        textFieldClientEmail.setText("email");
+        this.add(textFieldClientEmail);
     }
 
-    void setIcon() {
-        // set icon
-        ImageIcon icon = new ImageIcon("src/main/java/com/example/demo/frontend/images/1725018.jpg");
-        this.setIconImage(icon.getImage());
+    void setTextFieldClientPassword() {
+        textFieldClientPassword = new JTextField();
+        textFieldClientPassword.setPreferredSize(new Dimension(250, 40));
+        textFieldClientPassword.setBounds(70, 180, 80, 25);
+        textFieldClientPassword.setText("password");
+        this.add(textFieldClientPassword);
+    }
+
+    void setLayout() {
+        this.setLayout(null);
     }
 
     void clientLabel() {
@@ -51,19 +70,12 @@ public class AppFrontEnd extends JFrame {
 
     void buttonClient() {
         buttonClient = new JButton();
-        buttonClient.setText("Login");
-        buttonClient.setBounds(67, 150, 200, 200);
+        buttonClient.setText("create");
+        buttonClient.setBounds(77, 220, 200, 200);
         buttonClient.setSize(65, 25);
         buttonClient.setFocusable(false);
-        buttonClientListener(buttonClient);
+        indexModel.createClient(this, buttonClient);
         this.add(buttonClient);
-    }
-
-    void buttonClientListener(JButton button) {
-        buttonClient.addActionListener(e -> {
-            List<Management> managements = managementRepository.getAllManagement();
-            System.out.println(managements);
-        });
     }
 
     void buttonStaff() {
@@ -72,7 +84,6 @@ public class AppFrontEnd extends JFrame {
         buttonStaff.setBounds(300, 150, 200, 200);
         buttonStaff.setSize(65, 25);
         buttonStaff.setFocusable(false);
-        buttonStaff.addActionListener(e -> System.out.println("XXX"));
         this.add(buttonStaff);
     }
 
@@ -83,4 +94,6 @@ public class AppFrontEnd extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+
 }
