@@ -2,6 +2,8 @@ package com.example.demo.backend.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "client")
@@ -10,7 +12,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_client")
-    private Long id;
+    private Long id_client;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -24,12 +26,12 @@ public class Client {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public Long getId() {
-        return id;
+    public Long getId_client() {
+        return id_client;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_client(Long id_client) {
+        this.id_client = id_client;
     }
 
     public String getFirstName() {
@@ -62,5 +64,16 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id_client=" + id_client +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

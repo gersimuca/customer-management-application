@@ -4,7 +4,6 @@ import com.example.demo.backend.model.Client;
 import com.example.demo.backend.model.Management;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClientRepository {
@@ -36,5 +35,33 @@ public class ClientRepository {
 
         entityManager.close();
         entityManagerFactory.close();
+    }
+
+    public Client login(String email, String password){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        List<Client> clients;
+        Client client = null;
+
+        Query query = entityManager.createQuery("SELECT m FROM Client m WHERE m.email = :email AND m.password = :password", Client.class);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+
+        clients = query.getResultList();
+
+        for(Client samples : clients) {
+            if(samples.getEmail().equals(email) && samples.getPassword().equals(password)) {
+                client = samples;
+                break;
+            }
+        }
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        return  client != null ? client : null;
     }
 }
