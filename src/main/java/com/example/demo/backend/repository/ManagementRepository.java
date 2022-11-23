@@ -1,6 +1,7 @@
 package com.example.demo.backend.repository;
 
 
+import com.example.demo.backend.model.Client;
 import com.example.demo.backend.model.Management;
 
 import javax.persistence.*;
@@ -8,17 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManagementRepository {
-
-
     public List<Management> getAllManagement() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
-        List<Management> managements = new ArrayList<>();
-
         entityTransaction.begin();
-
+        List<Management> managements;
         Query query = entityManager.createQuery("SELECT m FROM Management m", Management.class);
         managements = query.getResultList();
         entityTransaction.commit();
@@ -28,7 +25,7 @@ public class ManagementRepository {
         return managements;
     }
 
-    public Management getManagementById(int id){
+    public Management getManagementById(int id) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("filma24-em");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -46,10 +43,8 @@ public class ManagementRepository {
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-
-        entityManager.getTransaction().begin();
         entityManager.persist(management);
-        entityManager.getTransaction().commit();
+        entityTransaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
@@ -62,8 +57,6 @@ public class ManagementRepository {
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-
-        entityManager.getTransaction().begin();
         entityManager.merge(management);
         entityManager.getTransaction().commit();
 
@@ -73,7 +66,7 @@ public class ManagementRepository {
         return management;
     }
 
-    public void deleteManagementUser(int id) {
+    public void deleteManagementUser(Long id) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -88,56 +81,45 @@ public class ManagementRepository {
         entityManagerFactory.close();
     }
 
-    public Management login(String email, String password){
+    public Management login(String email, String password) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
-
         entityTransaction.begin();
         List<Management> managements;
-        Management management = new Management();
-        Query query = entityManager.createQuery("SELECT m FROM Management m " +
-                " WHERE m.email = :email AND m.password = :password", Management.class);
+        Management management = null;
+
+        Query query = entityManager.createQuery("SELECT m FROM Management m WHERE m.email = :email AND m.password = :password", Management.class);
         query.setParameter("email", email);
         query.setParameter("password", password);
+
         managements = query.getResultList();
-        if(!managements.isEmpty()) management = managements.get(0);
+
+        for (Management samples : managements) {
+            if (samples.getEmail().equals(email) && samples.getPassword().equals(password)) {
+                management = samples;
+                break;
+            }
+        }
+
         entityTransaction.commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
 
         return management != null ? management : null;
     }
 
 
-
-    /*
-    public Customer createCustomer(Customer customer) {
+    public List<Client> getAllCustomers(){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(customer);
-        entityManager.getTransaction().commit();
-
-        entityManager.close();
-        entityManagerFactory.close();
-        return customer;
-    }
-
-
-    public List<Customer> getAllCustomers(){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        List<Customer> customers = new ArrayList<>();
-
-        entityTransaction.begin();
-
-        Query query = entityManager.createQuery("SELECT m FROM Customer m", Customer.class);
+        List<Client> customers;
+        Query query = entityManager.createQuery("SELECT m FROM Client m", Client.class);
         customers = query.getResultList();
         entityTransaction.commit();
 
@@ -146,35 +128,34 @@ public class ManagementRepository {
         return customers;
     }
 
-    public Customer getById(int id) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        entityTransaction.begin();
-
-        entityManager.getTransaction().begin();
-        Customer customer = entityManager.find(Customer.class, id);
-        entityManager.getTransaction().commit();
-
-        entityManager.close();
-        entityManagerFactory.close();
-        return customer;
-    }
-
-    public void deleteCustomer(int id) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        entityTransaction.begin();
-
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.find(Customer.class, id));
-        entityManager.getTransaction().commit();
-
-        entityManager.close();
-        entityManagerFactory.close();
-    }
-    */
+//    public Customer getById(int id) {
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityTransaction entityTransaction = entityManager.getTransaction();
+//
+//        entityTransaction.begin();
+//
+//        entityManager.getTransaction().begin();
+//        Customer customer = entityManager.find(Customer.class, id);
+//        entityManager.getTransaction().commit();
+//
+//        entityManager.close();
+//        entityManagerFactory.close();
+//        return customer;
+//    }
+//
+//    public void deleteCustomer(int id) {
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityTransaction entityTransaction = entityManager.getTransaction();
+//
+//        entityTransaction.begin();
+//
+//        entityManager.getTransaction().begin();
+//        entityManager.remove(entityManager.find(Customer.class, id));
+//        entityManager.getTransaction().commit();
+//
+//        entityManager.close();
+//        entityManagerFactory.close();
+//    }
 }

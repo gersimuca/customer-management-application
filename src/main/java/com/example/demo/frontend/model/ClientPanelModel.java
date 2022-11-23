@@ -13,17 +13,21 @@ public class ClientPanelModel implements ClientPanelController {
 
     @Override
     public void updateProfile(ClientPanelView clientPanelView, JButton button) {
-        button.addActionListener(e -> {
-            Client client = clientPanelView.getClient();
+        try {
+            button.addActionListener(e -> {
+                Client client = clientPanelView.getClient();
 
-            client.setFirstName(clientPanelView.getFirstName().getText());
-            client.setLastName(clientPanelView.getLastName().getText());
-            client.setEmail(clientPanelView.getEmail().getText());
-            client.setPassword(clientPanelView.getPassword().getText());
+                client.setFirstName(clientPanelView.getFirstName().getText());
+                client.setLastName(clientPanelView.getLastName().getText());
+                client.setEmail(clientPanelView.getEmail().getText());
+                client.setPassword(clientPanelView.getPassword().getText());
 
-            client = clientRepository.updateClient(client);
-            new ClientPanelView(client);
-        });
+                client = clientRepository.updateClient(client);
+                new ClientPanelView(client);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

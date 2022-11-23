@@ -24,11 +24,13 @@ public class Management {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name = "phone_number")
-    private int phoneNumber;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -60,34 +62,5 @@ public class Management {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Management{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", phoneNumber=" + phoneNumber +
-                '}';
     }
 }

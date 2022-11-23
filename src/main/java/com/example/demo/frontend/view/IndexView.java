@@ -117,6 +117,7 @@ public class IndexView extends JFrame {
         buttonStaffLogin.setBounds(300, 220, 200, 200);
         buttonStaffLogin.setSize(75, 25);
         buttonStaffLogin.setFocusable(false);
+        indexModel.loginStaff(this, buttonStaffLogin);
         this.add(buttonStaffLogin);
     }
 
@@ -126,6 +127,7 @@ public class IndexView extends JFrame {
         buttonStaffCreate.setBounds(300, 250, 200, 200);
         buttonStaffCreate.setSize(75, 25);
         buttonStaffCreate.setFocusable(false);
+        indexModel.createStaff(this, buttonStaffCreate);
         this.add(buttonStaffCreate);
     }
     void setLayout() {
