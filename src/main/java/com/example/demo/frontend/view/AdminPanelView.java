@@ -4,7 +4,7 @@ import com.example.demo.backend.model.Management;
 import com.example.demo.frontend.model.AdminPanelModel;
 
 import javax.swing.*;
-import java.util.List;
+
 
 public class AdminPanelView extends JFrame {
     private final AdminPanelModel adminPanelModel = new AdminPanelModel();
