@@ -25,4 +25,12 @@ public class CreateClientModel implements CreateClientController {
             new IndexView();
         });
     }
+
+    @Override
+    public void backToMain(JFrame frame, JButton button) {
+        button.addActionListener(e -> {
+            frame.dispose();
+            new IndexView();
+        });
+    }
 }

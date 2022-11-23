@@ -8,19 +8,20 @@ import java.util.List;
 
 public class ClientRepository {
 
-    public void updateClient(Client management) {
+    public Client updateClient(Client client) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
-        entityTransaction.begin();
 
-        entityManager.getTransaction().begin();
-        entityManager.merge(management);
-        entityManager.getTransaction().commit();
+        entityTransaction.begin();
+        entityManager.merge(client);
+        entityTransaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
+
+        return client;
     }
 
 
@@ -64,4 +65,20 @@ public class ClientRepository {
 
         return  client != null ? client : null;
     }
+
+    public void deleted(Long id) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        Client client = entityManager.find(Client.class, id);
+        if(client != null) entityManager.remove(client);
+        entityTransaction.commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+    }
+
+
 }
