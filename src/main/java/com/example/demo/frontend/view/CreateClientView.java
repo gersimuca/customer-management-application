@@ -22,6 +22,7 @@ public class CreateClientView extends JFrame {
         setFieldEmail();
         setFieldPassword();
 
+        backToMainButton();
         submitButton();
 
         setLayout();
@@ -84,10 +85,19 @@ public class CreateClientView extends JFrame {
         this.add(email);
     }
 
+    void backToMainButton(){
+        JButton button = new JButton();
+        button.setText("back");
+        button.setBounds(130, 250, 200, 200);
+        button.setSize(85, 30);
+        button.setFocusable(false);
+        createClientModel.backToMain(this, button);
+        this.add(button);
+    }
     void submitButton() {
         JButton button = new JButton();
         button.setText("submit");
-        button.setBounds(175, 250, 200, 200);
+        button.setBounds(220, 250, 200, 200);
         button.setSize(85, 30);
         button.setFocusable(false);
         createClientModel.createClient(this, button);
