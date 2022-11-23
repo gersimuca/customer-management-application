@@ -5,8 +5,8 @@ import com.example.demo.frontend.view.IndexView;
 import javax.swing.*;
 
 public interface IndexController {
-    void createStaff(JButton button);
+    void createStaff(JFrame frame, JButton button);
     void createClient(JFrame frame, JButton button);
     void loginClient(IndexView indexView,JButton button);
-    void loginStaff(JButton button);
+    void loginStaff(IndexView indexView, JButton button);
 }

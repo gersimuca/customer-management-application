@@ -1,18 +1,21 @@
 package com.example.demo.frontend.model;
 
 import com.example.demo.backend.model.Client;
+import com.example.demo.backend.model.Management;
 import com.example.demo.backend.repository.ClientRepository;
+import com.example.demo.backend.repository.ManagementRepository;
 import com.example.demo.frontend.controller.IndexController;
-import com.example.demo.frontend.view.ClientPanelView;
-import com.example.demo.frontend.view.CreateClientView;
-import com.example.demo.frontend.view.IndexView;
+import com.example.demo.frontend.view.*;
 
 import javax.swing.*;
 
 public class IndexModel implements IndexController {
     @Override
-    public void createStaff(JButton button) {
-
+    public void createStaff(JFrame frame, JButton button) {
+        button.addActionListener(e -> {
+            frame.dispose();
+            new CreateAdminView();
+        });
     }
 
     @Override
@@ -25,23 +28,35 @@ public class IndexModel implements IndexController {
 
     @Override
     public void loginClient(IndexView indexView, JButton button) {
-        try{
+        try {
             button.addActionListener(e -> {
                 Client client = new ClientRepository().login(indexView.getTextFieldClientEmail().getText(), indexView.getTextFieldClientPassword().getText());
-                if(client.getEmail().equals(indexView.getTextFieldClientEmail().getText())){
-                    if(client.getPassword().equals(indexView.getTextFieldClientPassword().getText())){
+                if (client.getEmail().equals(indexView.getTextFieldClientEmail().getText())) {
+                    if (client.getPassword().equals(indexView.getTextFieldClientPassword().getText())) {
                         indexView.dispose();
                         new ClientPanelView(client);
                     }
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void loginStaff(JButton button) {
-
+    public void loginStaff(IndexView indexView, JButton button) {
+        try {
+            button.addActionListener(e -> {
+                Management management = new ManagementRepository().login(indexView.getTextStaffEmail().getText(), indexView.getTextStaffPassword().getText());
+                if (management.getEmail().equals(indexView.getTextStaffEmail().getText())) {
+                    if (management.getPassword().equals(indexView.getTextStaffPassword().getText())) {
+                        indexView.dispose();
+                        new AdminPanelView(management);
+                    }
+                } else System.out.println("Something Wrong");
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

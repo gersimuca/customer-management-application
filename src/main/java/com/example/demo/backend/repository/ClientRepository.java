@@ -59,6 +59,7 @@ public class ClientRepository {
                 break;
             }
         }
+        entityTransaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
