@@ -27,11 +27,11 @@ public class Requests {
     }
 
     public String getProduct() {
-        return productName;
+        return productName.toUpperCase();
     }
 
     public void setProduct(String product) {
-        this.productName = product;
+        this.productName = product.toUpperCase();
     }
 
     public Integer getQuality() {
@@ -43,10 +43,10 @@ public class Requests {
     }
 
     public String getStatus() {
-        return status;
+        return status.toUpperCase();
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status.toUpperCase();
     }
 }

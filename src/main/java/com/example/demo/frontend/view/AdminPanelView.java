@@ -3,18 +3,27 @@ package com.example.demo.frontend.view;
 import com.example.demo.backend.model.Client;
 import com.example.demo.backend.model.Management;
 import com.example.demo.backend.model.Product;
+import com.example.demo.backend.model.Requests;
 import com.example.demo.frontend.model.AdminPanelModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Element;
+import javax.swing.text.TableView;
+import javax.swing.text.View;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 
-public class AdminPanelView extends JFrame {
+public class AdminPanelView extends JFrame{
     private final AdminPanelModel adminPanelModel = new AdminPanelModel();
 
     private List<Management> managements;
     private List<Client> clients;
     private List<Product> products;
+
+    private List<Requests> requests;
     private Management management;
     private Product product;
     private JTextField firstName;
@@ -26,6 +35,9 @@ public class AdminPanelView extends JFrame {
     private JTextField manufacture;
     private JTextField quantity;
     private JTextField country;
+
+    private JComboBox productForDelete;
+    private JComboBox requestForDeleteOrUpdate;
 
     public AdminPanelView(Management management) {
         this.management = management;
@@ -49,12 +61,13 @@ public class AdminPanelView extends JFrame {
 
         labelAllAdmins();
         listOfAdmins();
-
         labelAllClients();
         listOfClients();
-
         labelAllProducts();
         listOfProducts();
+        labelAllRequest();
+        listOfRequests();
+
 
         labelCreateProducts();
         labelProductName();
@@ -68,6 +81,12 @@ public class AdminPanelView extends JFrame {
         fieldCountryOfOrigin();
 
         createProductButton();
+        requestForDeleteOrUpdate();
+
+        requestForDeleteOrUpdate();
+        requestForApproved();
+
+//        productForDelete();
 
         setLayout();
         phaseOneProperties();
@@ -171,14 +190,14 @@ public class AdminPanelView extends JFrame {
         this.add(button);
     }
 
-    void labelAllAdmins(){
+    void labelAllAdmins() {
         JLabel label = new JLabel();
         label.setText("STAFF");
         label.setBounds(40, 190, 250, 40);
         this.add(label);
     }
 
-    void listOfAdmins(){
+    void listOfAdmins() {
         this.managements = adminPanelModel.listOfManagers();
         String[] staff = adminPanelModel.listOfAdmins(this.getManagements());
         JComboBox admins = new JComboBox(staff);
@@ -186,14 +205,14 @@ public class AdminPanelView extends JFrame {
         this.add(admins);
     }
 
-    void labelAllClients(){
+    void labelAllClients() {
         JLabel label = new JLabel();
         label.setText("CLIENTS");
         label.setBounds(120, 190, 250, 40);
         this.add(label);
     }
 
-    void listOfClients(){
+    void listOfClients() {
         this.clients = adminPanelModel.allClients();
         String[] staff = adminPanelModel.listOfClients(this.getClients());
         JComboBox admins = new JComboBox(staff);
@@ -201,18 +220,33 @@ public class AdminPanelView extends JFrame {
         this.add(admins);
     }
 
-    void labelAllProducts(){
+    void labelAllProducts() {
         JLabel label = new JLabel();
         label.setText("PRODUCTS");
         label.setBounds(200, 190, 250, 40);
         this.add(label);
     }
 
-    void listOfProducts(){
+    void listOfProducts() {
         this.products = adminPanelModel.allProducts();
         String[] staff = adminPanelModel.listOfProducts(this.getProducts());
         JComboBox admins = new JComboBox(staff);
         admins.setBounds(200, 220, 65, 30);
+        this.add(admins);
+    }
+
+    void labelAllRequest() {
+        JLabel label = new JLabel();
+        label.setText("REQUESTS");
+        label.setBounds(280, 190, 250, 40);
+        this.add(label);
+    }
+
+    void listOfRequests() {
+        this.requests = adminPanelModel.allRequests();
+        String[] staff = adminPanelModel.listOfRequest(this.getRequests());
+        JComboBox admins = new JComboBox(staff);
+        admins.setBounds(280, 220, 65, 30);
         this.add(admins);
     }
 
@@ -275,7 +309,7 @@ public class AdminPanelView extends JFrame {
         this.add(country);
     }
 
-    void createProductButton(){
+    void createProductButton() {
         JButton button = new JButton();
         button.setText("create");
         button.setBounds(30, 355, 375, 30);
@@ -285,6 +319,58 @@ public class AdminPanelView extends JFrame {
     }
 
 
+    void requestForDeleteOrUpdate() {
+        JLabel label = new JLabel();
+        label.setText("REQUESTS");
+        label.setBounds(30, 400, 250, 40);
+        this.add(label);
+
+        String[] staff = adminPanelModel.listOfRequest(this.getRequests());
+        requestForDeleteOrUpdate = new JComboBox(staff);
+        requestForDeleteOrUpdate.setBounds(30, 445, 250, 40);
+        this.add(requestForDeleteOrUpdate);
+
+        JButton button = new JButton();
+        button.setText("delete request");
+        button.setBounds(320, 445, 150, 40);
+        Requests requestsChoice = adminPanelModel.findRequest(getRequests(), requestForDeleteOrUpdate);
+        adminPanelModel.deleteRequest(this, button, requestsChoice);
+        this.add(button);
+    }
+
+    void requestForApproved() {
+        JButton button = new JButton();
+        button.setText("APPROVE");
+        button.setBounds(320, 495, 150, 40);
+        button.setFocusable(false);
+        Requests requestsChoice = adminPanelModel.findRequest(getRequests(), requestForDeleteOrUpdate);
+        adminPanelModel.approved(this, requestsChoice, button, getProducts());
+        this.add(button);
+    }
+
+    /*
+    Some issue from products can not be deleted because return null Long ID
+
+    void productForDelete() {
+        JLabel label = new JLabel();
+        label.setText("PRODUCTS");
+        label.setBounds(30, 600, 250, 40);
+        this.add(label);
+
+        String[] staff = adminPanelModel.listOfProducts(this.getProducts());
+        productForDelete = new JComboBox(staff);
+        productForDelete.setBounds(30, 655, 250, 40);
+        this.add(productForDelete);
+
+
+        JButton button = new JButton();
+        button.setText("delete product");
+        button.setBounds(320, 655, 150, 40);
+        Product productChoice = adminPanelModel.findProduct(adminPanelModel.allProducts(), requestForDeleteOrUpdate);
+        adminPanelModel.deleteProduct(this, button, productChoice);
+        this.add(button);
+    }
+    */
 
 
     void setLayout() {
@@ -401,5 +487,33 @@ public class AdminPanelView extends JFrame {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Requests> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<Requests> requests) {
+        this.requests = requests;
+    }
+
+    public JComboBox getRequestForDeleteOrUpdate() {
+        return requestForDeleteOrUpdate;
+    }
+
+    public void setRequestForDelete(JComboBox requestForDeleteOrUpdate) {
+        this.requestForDeleteOrUpdate = requestForDeleteOrUpdate;
+    }
+
+    public JComboBox getProductForDelete() {
+        return productForDelete;
+    }
+
+    public void setProductForDelete(JComboBox productForDelete) {
+        this.productForDelete = productForDelete;
+    }
+
+    public void setRequestForDeleteOrUpdate(JComboBox requestForDeleteOrUpdate) {
+        this.requestForDeleteOrUpdate = requestForDeleteOrUpdate;
     }
 }

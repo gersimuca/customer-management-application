@@ -27,6 +27,22 @@ public class RequestRepository {
         entityManagerFactory.close();
     }
 
+    public List<Requests> getAllRequest() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        List<Requests> requests;
+        Query query = entityManager.createQuery("SELECT m FROM Requests m", Requests.class);
+        requests = query.getResultList();
+        entityTransaction.commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return requests;
+    }
+
     public List<Requests> getAllRequest(Client client) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -51,6 +67,19 @@ public class RequestRepository {
         entityTransaction.begin();
         Requests requests = entityManager.find(Requests.class, id);
         entityManager.remove(requests);
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+    }
+
+    public void updateRequest(Requests requests){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        entityManager.merge(requests);
         entityManager.getTransaction().commit();
 
         entityManager.close();

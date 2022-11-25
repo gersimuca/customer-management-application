@@ -2,11 +2,10 @@ package com.example.demo.backend.repository;
 
 
 import com.example.demo.backend.model.Product;
+import com.example.demo.backend.model.Requests;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.util.List;
 
 public class ProductRepository {
     public void createProduct(Product product) {
@@ -36,7 +35,7 @@ public class ProductRepository {
         return product;
     }
 
-    public void delete(Long id) {
+    public void delete(long id) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -48,5 +47,20 @@ public class ProductRepository {
 
         entityManager.close();
         entityManagerFactory.close();
+    }
+
+    public int getQuantity(Product product){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        Product sample = entityManager.find(Product.class, product.getProductId());
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        return Integer.parseInt(sample.getQuantity());
     }
 }

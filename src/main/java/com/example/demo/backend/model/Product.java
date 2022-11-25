@@ -34,11 +34,11 @@ public class Product {
     }
 
     public String getProductName() {
-        return productName;
+        return productName.toUpperCase();
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
+        this.productName = productName.toUpperCase();
     }
 
     public String getManufacturer() {
@@ -63,6 +63,17 @@ public class Product {
 
     public void setCountryOfOrigin(String countryOfOrigin) {
         this.countryOfOrigin = countryOfOrigin;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", countryOfOrigin='" + countryOfOrigin + '\'' +
+                '}';
     }
 }
 
