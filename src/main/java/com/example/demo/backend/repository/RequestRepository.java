@@ -1,49 +1,56 @@
 package com.example.demo.backend.repository;
 
-
+import com.example.demo.backend.model.Client;
+import com.example.demo.backend.model.Management;
 import com.example.demo.backend.model.Product;
+import com.example.demo.backend.model.Requests;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.util.List;
 
-public class ProductRepository {
-    public void createProduct(Product product) {
+public class RequestRepository {
+    public void createRequest(Client client , Requests request) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-        entityManager.persist(product);
+
+
+        Client dbClient = entityManager.find(Client.class, client.getId_client());
+        dbClient.getRequests().add(request);
+        entityManager.persist(request);
+
         entityManager.getTransaction().commit();
 
         entityManager.close();
         entityManagerFactory.close();
     }
 
-    public Product updateProduct(Product product) {
+    public List<Requests> getAllRequest(Client client) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-        entityManager.merge(product);
-        entityManager.getTransaction().commit();
+        List<Requests> requests;
+        Query query = entityManager.createNativeQuery("SELECT * FROM requests WHERE requests.fk_request = " + client.getId_client(), Requests.class);
+        requests = query.getResultList();
+        entityTransaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
-        return product;
+        return requests;
     }
 
-    public void delete(Long id) {
+    public void deleteRequest(long id){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-        Product product = entityManager.find(Product.class, id);
-        entityManager.remove(product);
+        Requests requests = entityManager.find(Requests.class, id);
+        entityManager.remove(requests);
         entityManager.getTransaction().commit();
 
         entityManager.close();

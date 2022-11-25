@@ -1,7 +1,6 @@
 package com.example.demo.backend.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "management")

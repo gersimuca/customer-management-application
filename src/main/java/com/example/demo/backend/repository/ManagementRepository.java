@@ -3,9 +3,9 @@ package com.example.demo.backend.repository;
 
 import com.example.demo.backend.model.Client;
 import com.example.demo.backend.model.Management;
+import com.example.demo.backend.model.Product;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManagementRepository {
@@ -128,34 +128,20 @@ public class ManagementRepository {
         return customers;
     }
 
-//    public Customer getById(int id) {
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        EntityTransaction entityTransaction = entityManager.getTransaction();
-//
-//        entityTransaction.begin();
-//
-//        entityManager.getTransaction().begin();
-//        Customer customer = entityManager.find(Customer.class, id);
-//        entityManager.getTransaction().commit();
-//
-//        entityManager.close();
-//        entityManagerFactory.close();
-//        return customer;
-//    }
-//
-//    public void deleteCustomer(int id) {
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        EntityTransaction entityTransaction = entityManager.getTransaction();
-//
-//        entityTransaction.begin();
-//
-//        entityManager.getTransaction().begin();
-//        entityManager.remove(entityManager.find(Customer.class, id));
-//        entityManager.getTransaction().commit();
-//
-//        entityManager.close();
-//        entityManagerFactory.close();
-//    }
+    public List<Product> getAllProducts(){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        List<Product> products;
+        Query query = entityManager.createQuery("SELECT m FROM Product m", Product.class);
+        products = query.getResultList();
+        entityTransaction.commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return products;
+    }
+
 }

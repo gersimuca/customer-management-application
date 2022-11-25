@@ -1,9 +1,8 @@
 package com.example.demo.backend.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "client")
@@ -25,6 +24,11 @@ public class Client {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @OneToMany
+    @JoinColumn(name = "fk_request")
+    List<Requests> requests = new ArrayList<>();
+
 
     public Long getId_client() {
         return id_client;
@@ -64,6 +68,14 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Requests> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<Requests> requests) {
+        this.requests = requests;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.demo.backend.repository;
 
 import com.example.demo.backend.model.Client;
-import com.example.demo.backend.model.Management;
+import com.example.demo.backend.model.Requests;
 
 import javax.persistence.*;
 import java.util.List;
@@ -80,6 +80,4 @@ public class ClientRepository {
         entityManager.close();
         entityManagerFactory.close();
     }
-
-
 }

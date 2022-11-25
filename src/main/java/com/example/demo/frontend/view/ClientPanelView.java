@@ -1,18 +1,27 @@
 package com.example.demo.frontend.view;
 
 import com.example.demo.backend.model.Client;
+import com.example.demo.backend.model.Product;
+import com.example.demo.backend.model.Requests;
 import com.example.demo.frontend.model.ClientPanelModel;
 
 import javax.swing.*;
+import java.util.List;
 
 
 public class ClientPanelView extends JFrame {
     private final ClientPanelModel clientPanelModel = new ClientPanelModel();
     private Client client;
+    private List<Requests> requests;
     private JTextField firstName;
     private JTextField lastName;
     private JTextField email;
     private JTextField password;
+
+    private JTextField productName;
+    private JTextField quantity;
+
+    private JComboBox listOfRequest;
 
     public ClientPanelView(Client client){
         this.client = client;
@@ -33,6 +42,19 @@ public class ClientPanelView extends JFrame {
 
         buttonLogOut();
         deleteAccountButton();
+
+        labelCreateRequest();
+        labelProductName();
+        labelQuantity();
+
+        fieldProductName();
+        fieldQuantity();
+
+        buttonCreateRequest();
+
+        labelListOfProducts();
+        listOfRequest();
+        deleteRequest();
 
         setLayout();
         phaseOneProperties();
@@ -130,11 +152,79 @@ public class ClientPanelView extends JFrame {
     void deleteAccountButton(){
         JButton button = new JButton();
         button.setText("DELETE ACCOUNT");
-        button.setBounds(300, 370, 150, 30);
+        button.setBounds(300, 470, 150, 30);
         button.setFocusable(false);
         clientPanelModel.deleteAccount(this, button);
         this.add(button);
     }
+
+    void labelCreateRequest() {
+        JLabel label = new JLabel();
+        label.setText("Create request");
+        label.setBounds(40, 200, 250, 40);
+        this.add(label);
+    }
+
+    void labelProductName(){
+        JLabel label = new JLabel();
+        label.setText("Product Name");
+        label.setBounds(40, 240, 250, 40);
+        this.add(label);
+    }
+
+    void labelQuantity(){
+        JLabel label = new JLabel();
+        label.setText("Quantity");
+        label.setBounds(150, 240, 250, 40);
+        this.add(label);
+    }
+
+    void fieldProductName(){
+        productName = new JTextField();
+        productName.setBounds(40, 280, 85, 30);
+        this.add(productName);
+    }
+
+    void fieldQuantity(){
+        quantity = new JTextField();
+        quantity.setBounds(150, 280, 65, 30);
+        this.add(quantity);
+    }
+
+    void buttonCreateRequest(){
+        JButton button = new JButton();
+        button.setText("submit");
+        button.setFocusable(false);
+        button.setBounds(230, 280, 85, 30);
+        clientPanelModel.createRequest(this, button);
+        this.add(button);
+    }
+
+    void labelListOfProducts(){
+        JLabel label = new JLabel();
+        label.setText("List of Request");
+        label.setBounds(40, 320, 250, 40);
+        this.add(label);
+    }
+
+    void listOfRequest(){
+        this.requests = clientPanelModel.allRequest(this.getClient());
+        String[] staff = clientPanelModel.listOfRequests(this.getRequests());
+        listOfRequest = new JComboBox<>(staff);
+        listOfRequest.setBounds(40,360,250,30);
+        this.add(listOfRequest);
+    }
+
+    void deleteRequest(){
+        JButton button = new JButton();
+        button.setText("delete request");
+        Requests requests1 = clientPanelModel.findRequest(requests, listOfRequest);
+        clientPanelModel.deleteRequest(this, button, requests1);
+        button.setBounds(320,360,140,30);
+        this.add(button);
+    }
+
+
 
 
     void setLayout() {
@@ -143,11 +233,12 @@ public class ClientPanelView extends JFrame {
 
     void phaseOneProperties() {
         this.setTitle("Application Form");
-        this.setSize(500, 500);
+        this.setSize(500, 800);
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
 
     public Client getClient() {
         return client;
@@ -187,5 +278,38 @@ public class ClientPanelView extends JFrame {
 
     public void setPassword(JTextField password) {
         this.password = password;
+    }
+
+
+    public JTextField getProductName() {
+        return productName;
+    }
+
+    public void setProductName(JTextField productName) {
+        this.productName = productName;
+    }
+
+    public JTextField getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(JTextField quantity) {
+        this.quantity = quantity;
+    }
+
+    public List<Requests> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<Requests> requests) {
+        this.requests = requests;
+    }
+
+    public JComboBox getListOfRequest() {
+        return listOfRequest;
+    }
+
+    public void setListOfRequest(JComboBox listOfRequest) {
+        this.listOfRequest = listOfRequest;
     }
 }

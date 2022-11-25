@@ -1,12 +1,12 @@
 package com.example.demo.frontend.model;
 
-import javax.swing.*;
-
 import com.example.demo.backend.model.Client;
 import com.example.demo.backend.repository.ClientRepository;
 import com.example.demo.frontend.controller.CreateClientController;
 import com.example.demo.frontend.view.CreateClientView;
 import com.example.demo.frontend.view.IndexView;
+
+import javax.swing.*;
 
 public class CreateClientModel implements CreateClientController {
     private final ClientRepository clientRepository = new ClientRepository();
