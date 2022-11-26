@@ -104,7 +104,7 @@ public class AdminPanelModel implements AdminPanelController {
     public String[] listOfRequest(List<Requests> requests) {
         String[] prod = new String[requests.size()];
         for (int i = 0; i < requests.size(); i++)
-            if(requests.get(i).getStatus().equals("PENDING")){
+            if (requests.get(i).getStatus().equals("PENDING")) {
                 prod[i] = requests.get(i).getProduct();
             }
         return prod;
@@ -140,9 +140,9 @@ public class AdminPanelModel implements AdminPanelController {
     @Override
     public Requests findRequest(List<Requests> requests, JComboBox jComboBox) {
         Requests request = new Requests();
-        for(Requests sample : requests){
+        for (Requests sample : requests) {
             StringBuilder s = new StringBuilder(sample.getProduct());
-            if(s.toString().equals(jComboBox.getSelectedItem())){
+            if (s.toString().equals(jComboBox.getSelectedItem())) {
                 request = sample;
                 break;
             }
@@ -166,12 +166,14 @@ public class AdminPanelModel implements AdminPanelController {
                             productRepository.updateProduct(sample);
                             adminPanelView.dispose();
                             new AdminPanelView(adminPanelView.getManagement());
-                            break;
+                            return;
                         }
                     }
                 }
+                requests.setStatus("DENIED");
+                requestRepository.updateRequest(requests);
             });
-        }  catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -179,9 +181,9 @@ public class AdminPanelModel implements AdminPanelController {
     @Override
     public Product findProduct(List<Product> products, JComboBox jComboBox) {
         Product product = new Product();
-        for(Product sample : products){
+        for (Product sample : products) {
             StringBuilder s = new StringBuilder(sample.getProductName());
-            if(s.toString().equals(jComboBox.getSelectedItem())){
+            if (s.toString().equals(jComboBox.getSelectedItem())) {
                 product = sample;
                 break;
             }

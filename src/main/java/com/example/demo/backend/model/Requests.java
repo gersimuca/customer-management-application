@@ -49,4 +49,14 @@ public class Requests {
     public void setStatus(String status) {
         this.status = status.toUpperCase();
     }
+
+    @Override
+    public String toString() {
+        return "Requests{" +
+                "id_request=" + id_request +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

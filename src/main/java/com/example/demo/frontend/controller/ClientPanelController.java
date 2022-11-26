@@ -20,4 +20,5 @@ public interface ClientPanelController {
     Requests findRequest(List<Requests> requests, JComboBox jComboBox);
     void deleteRequest(ClientPanelView clientPanelView, JButton button, Requests requests);
 
+
 }
