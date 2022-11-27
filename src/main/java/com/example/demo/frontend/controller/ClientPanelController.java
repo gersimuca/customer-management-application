@@ -11,14 +11,12 @@ import java.util.List;
 public interface ClientPanelController {
 
     void updateProfile(ClientPanelView clientPanelView, JButton button);
-    void logOut(JFrame frame, JButton button);
+    void logOut(ClientPanelView clientPanelView, JButton button);
     void deleteAccount(ClientPanelView clientPanelView, JButton button);
-    void createRequest(ClientPanelView clientPanelView, JButton button);
+    void createRequest(ClientPanelView clientPanelView, JButton button, JComboBox<String> products);
 
     List<Requests> allRequest(Client client);
-    String[] listOfRequests(List<Requests> requests);
-    Requests findRequest(List<Requests> requests, JComboBox jComboBox);
-    void deleteRequest(ClientPanelView clientPanelView, JButton button, Requests requests);
-
+    List<Product> allProducts();
+    void deleteRequest(ClientPanelView clientPanelView, JButton button, JComboBox<String> requests);
 
 }

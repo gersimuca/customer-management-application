@@ -4,41 +4,48 @@ import com.example.demo.backend.model.Client;
 import com.example.demo.backend.model.Product;
 import com.example.demo.backend.model.Requests;
 import com.example.demo.backend.repository.ClientRepository;
+import com.example.demo.backend.repository.ProductRepository;
 import com.example.demo.backend.repository.RequestRepository;
 import com.example.demo.frontend.controller.ClientPanelController;
+import com.example.demo.frontend.view.responses.EmailExistError;
 import com.example.demo.frontend.view.ClientPanelView;
 import com.example.demo.frontend.view.IndexView;
 
+import javax.persistence.RollbackException;
 import javax.swing.*;
 import java.util.List;
 
 public class ClientPanelModel implements ClientPanelController {
     private final ClientRepository clientRepository = new ClientRepository();
     private final RequestRepository requestRepository = new RequestRepository();
+    private final ProductRepository productRepository = new ProductRepository();
 
     @Override
     public void updateProfile(ClientPanelView clientPanelView, JButton button) {
-        try {
-            button.addActionListener(e -> {
-                Client client = clientPanelView.getClient();
+        button.addActionListener(e -> {
+            Client client = clientPanelView.getClient();
 
-                client.setFirstName(clientPanelView.getFirstName().getText());
-                client.setLastName(clientPanelView.getLastName().getText());
-                client.setEmail(clientPanelView.getEmail().getText());
-                client.setPassword(clientPanelView.getPassword().getText());
+            client.setFirstName(clientPanelView.getFirstNameField().getText());
+            client.setLastName(clientPanelView.getLastNameField().getText());
+            client.setEmail(clientPanelView.getEmailField().getText());
+            client.setPassword(clientPanelView.getPasswordField().getText());
 
+            try {
                 client = clientRepository.updateClient(client);
-                new ClientPanelView(client);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            } catch (RollbackException rbe){
+                rbe.printStackTrace();
+                new EmailExistError();
+                return;
+            }
+            clientPanelView.dispose();
+            new ClientPanelView(client);
+        });
     }
 
     @Override
-    public void logOut(JFrame frame, JButton button) {
+    public void logOut(ClientPanelView clientPanelView, JButton button) {
         button.addActionListener(e -> {
-            frame.dispose();
+            clientPanelView.dispose();
             new IndexView();
         });
     }
@@ -53,20 +60,19 @@ public class ClientPanelModel implements ClientPanelController {
     }
 
     @Override
-    public void createRequest(ClientPanelView clientPanelView, JButton button) {
+    public void createRequest(ClientPanelView clientPanelView, JButton button, JComboBox<String> products) {
         button.addActionListener(e -> {
             Requests request = new Requests();
-            request.setProduct(clientPanelView.getProductName().getText());
-            request.setQuality(Integer.parseInt(clientPanelView.getQuantity().getText()));
+            request.setProduct(clientPanelView.getProductJComboBox().getSelectedItem().toString());
 
-            Client client = clientPanelView.getClient();
-
-            System.out.println(request.getProduct());
-            System.out.println(request.getQuality());
-
-            requestRepository.createRequest(client, request);
+            for (int i = 0; i < clientPanelView.getQuantityField().getText().length(); i++) {
+                char ch = clientPanelView.getQuantityField().getText().charAt(i);
+                if (Character.isLetter(ch)) return;
+            }
+            request.setQuality(Integer.parseInt(clientPanelView.getQuantityField().getText()));
+            requestRepository.createRequest(clientPanelView.getClient(), request);
             clientPanelView.dispose();
-            new ClientPanelView(client);
+            new ClientPanelView(clientPanelView.getClient());
         });
     }
 
@@ -76,33 +82,28 @@ public class ClientPanelModel implements ClientPanelController {
     }
 
     @Override
-    public String[] listOfRequests(List<Requests> requests) {
-        String[] request = new String[requests.size()];
-        for (int i = 0; i<requests.size(); i++) request[i] = requests.get(i).getProduct() + " [" + requests.get(i).getStatus();
-        return request;
+    public List<Product> allProducts() {
+        return productRepository.getAllProducts();
     }
 
     @Override
-    public Requests findRequest(List<Requests> requests, JComboBox jComboBox) {
-        Requests request = new Requests();
-        for(Requests sample : requests){
-            StringBuilder s = new StringBuilder(sample.getProduct() + " [" + sample.getStatus());
-            if(s.toString().equals(jComboBox.getSelectedItem())){
-                request = sample;
-                break;
-            }
-        }
-        return request;
-    }
-
-    @Override
-    public void deleteRequest(ClientPanelView clientPanelView, JButton button, Requests requests) {
+    public void deleteRequest(ClientPanelView clientPanelView, JButton button, JComboBox<String> requestJCombo) {
         button.addActionListener(e -> {
-            requestRepository.deleteRequest(requests.getId_request());
-            Client client = clientPanelView.getClient();
+            Requests request = new Requests();
+            String temp = requestJCombo.getSelectedItem().toString();
+            StringBuilder name = new StringBuilder();
+            for (int i = 3; i < temp.length(); i++) {
+                if (temp.charAt(i) == ' ') break;
+                name.append(temp.charAt(i));
+            }
+            request.setId_request((long) Integer.parseInt(name.toString()));
+
+            request = requestRepository.findRequest(request);
+            requestRepository.deleteRequest(request.getId_request());
             clientPanelView.dispose();
-            new ClientPanelView(client);
+            new ClientPanelView(clientPanelView.getClient());
         });
     }
+
 }
 

@@ -6,8 +6,10 @@ import com.example.demo.backend.repository.ClientRepository;
 import com.example.demo.backend.repository.ManagementRepository;
 import com.example.demo.frontend.controller.IndexController;
 import com.example.demo.frontend.view.*;
+import com.example.demo.frontend.view.responses.IncorrectLoginCredentialsError;
 
 import javax.swing.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class IndexModel implements IndexController {
     @Override
@@ -28,35 +30,41 @@ public class IndexModel implements IndexController {
 
     @Override
     public void loginClient(IndexView indexView, JButton button) {
-        try {
-            button.addActionListener(e -> {
-                Client client = new ClientRepository().login(indexView.getTextFieldClientEmail().getText(), indexView.getTextFieldClientPassword().getText());
+
+        button.addActionListener(e -> {
+            Client client;
+            try {
+                client = new ClientRepository().login(indexView.getTextFieldClientEmail().getText(), indexView.getTextFieldClientPassword().getText());
                 if (client.getEmail().equals(indexView.getTextFieldClientEmail().getText())) {
                     if (client.getPassword().equals(indexView.getTextFieldClientPassword().getText())) {
                         indexView.dispose();
                         new ClientPanelView(client);
                     }
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            } catch (NullPointerException npe) {
+                npe.printStackTrace();
+                new IncorrectLoginCredentialsError();
+            }
+        });
+
     }
 
     @Override
     public void loginStaff(IndexView indexView, JButton button) {
-        try {
-            button.addActionListener(e -> {
+
+        button.addActionListener(e -> {
+            try {
                 Management management = new ManagementRepository().login(indexView.getTextStaffEmail().getText(), indexView.getTextStaffPassword().getText());
                 if (management.getEmail().equals(indexView.getTextStaffEmail().getText())) {
                     if (management.getPassword().equals(indexView.getTextStaffPassword().getText())) {
                         indexView.dispose();
                         new AdminPanelView(management);
                     }
-                } else System.out.println("Something Wrong");
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                }
+            } catch (NullPointerException npe) {
+                npe.printStackTrace();
+                new IncorrectLoginCredentialsError();
+            }
+        });
     }
 }

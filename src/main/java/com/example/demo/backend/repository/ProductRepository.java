@@ -63,4 +63,34 @@ public class ProductRepository {
 
         return Integer.parseInt(sample.getQuantity());
     }
+
+    public List<Product> getAllProducts(){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        List<Product> products;
+        Query query = entityManager.createQuery("SELECT m FROM Product m", Product.class);
+        products = query.getResultList();
+        entityTransaction.commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return products;
+    }
+
+    public Product findProduct(Product theProduct){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        Product product = entityManager.find(Product.class, theProduct.getProductId());
+        entityTransaction.commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return product;
+    }
 }

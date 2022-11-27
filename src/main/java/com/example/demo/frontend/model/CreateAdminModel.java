@@ -6,7 +6,10 @@ import com.example.demo.backend.repository.ManagementRepository;
 import com.example.demo.frontend.controller.CreateAdminController;
 import com.example.demo.frontend.view.CreateAdminView;
 import com.example.demo.frontend.view.IndexView;
+import com.example.demo.frontend.view.responses.EmailExistError;
 
+import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 import javax.swing.*;
 
 public class CreateAdminModel implements CreateAdminController {
@@ -22,7 +25,13 @@ public class CreateAdminModel implements CreateAdminController {
             management.setEmail(createAdminView.getEmail().getText());
             management.setPassword(createAdminView.getPassword().getText());
 
-            managementRepository.createManagementUser(management);
+            try {
+                managementRepository.createManagementUser(management);
+            } catch (PersistenceException pe){
+                pe.printStackTrace();
+                new EmailExistError();
+                return;
+            }
             createAdminView.dispose();
             new IndexView();
         });

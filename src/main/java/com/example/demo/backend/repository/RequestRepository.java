@@ -85,4 +85,18 @@ public class RequestRepository {
         entityManager.close();
         entityManagerFactory.close();
     }
+
+    public Requests findRequest(Requests request){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        Requests requests = entityManager.find(Requests.class, request.getId_request());
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return requests;
+    }
 }

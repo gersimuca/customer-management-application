@@ -1,10 +1,16 @@
 package com.example.demo.frontend.view;
 
 import com.example.demo.frontend.model.CreateAdminModel;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class CreateAdminView extends JFrame{
+@Getter
+@Setter
+public class CreateAdminView extends JFrame implements MouseListener {
     private JTextField firstName;
     private JTextField lastName;
     private JTextField password;
@@ -13,107 +19,64 @@ public class CreateAdminView extends JFrame{
     private final CreateAdminModel createAdminModel = new CreateAdminModel();
 
     public CreateAdminView() {
-        adminLabelFirsName();
-        adminLabelLastName();
-        adminLabelEmail();
-        adminLabelPassword();
+        addMouseListener(this);
+        JLabel firstNameLabel = new JLabel();
+        firstNameLabel.setText("First Name: ");
+        firstNameLabel.setBounds(40, 50, 70, 40);
+        this.add(firstNameLabel);
 
-        setFieldFirstName();
-        setFieldLastname();
-        setFieldEmail();
-        setFieldPassword();
+        JLabel lastNameLabel = new JLabel();
+        lastNameLabel.setText("Last Name: ");
+        lastNameLabel.setBounds(40, 100, 70, 40);
+        this.add(lastNameLabel);
 
-        backToMainButton();
-        submitButton();
+        JLabel emailLabel = new JLabel();
+        emailLabel.setText("E-Mail: ");
+        emailLabel.setBounds(40, 150, 70, 40);
+        this.add(emailLabel);
 
-        setLayout();
-        phaseOneProperties();
+        JLabel passwordLabel = new JLabel();
+        passwordLabel.setText("Password: ");
+        passwordLabel.setBounds(40, 200, 70, 40);
+        this.add(passwordLabel);
 
-    }
-
-    void adminLabelFirsName() {
-        JLabel label = new JLabel();
-        label.setText("First Name: ");
-        label.setBounds(40, 50, 70, 40);
-        this.add(label);
-    }
-
-    void adminLabelLastName() {
-        JLabel label = new JLabel();
-        label.setText("Last Name: ");
-        label.setBounds(40, 100, 70, 40);
-        this.add(label);
-    }
-
-    void adminLabelEmail() {
-        JLabel label = new JLabel();
-        label.setText("E-Mail: ");
-        label.setBounds(40, 150, 70, 40);
-        this.add(label);
-    }
-
-    void adminLabelPassword() {
-        JLabel label = new JLabel();
-        label.setText("Password: ");
-        label.setBounds(40, 200, 70, 40);
-        this.add(label);
-    }
-
-
-    void setFieldFirstName() {
         this.firstName = new JTextField();
         firstName.setText("...");
         firstName.setBounds(150, 60, 150, 20);
         this.add(firstName);
-    }
 
-    void setFieldLastname() {
         lastName = new JTextField();
         lastName.setText("...");
         lastName.setBounds(150, 110, 150, 20);
         this.add(lastName);
-    }
 
-    void setFieldEmail() {
         password = new JTextField();
         password.setText("...");
         password.setBounds(150, 160, 150, 20);
         this.add(password);
-    }
 
-    void setFieldPassword() {
         email = new JTextField();
         email.setText("...");
         email.setBounds(150, 210, 150, 20);
         this.add(email);
-    }
 
-    void backToMainButton() {
-        JButton button = new JButton();
-        button.setText("back");
-        button.setBounds(130, 250, 200, 200);
-        button.setSize(85, 30);
-        button.setFocusable(false);
-        createAdminModel.backToMain(this, button);
-        this.add(button);
-    }
+        JButton backButton = new JButton();
+        backButton.setText("back");
+        backButton.setBounds(130, 250, 200, 200);
+        backButton.setSize(85, 30);
+        backButton.setFocusable(false);
+        createAdminModel.backToMain(this, backButton);
+        this.add(backButton);
 
-    void submitButton() {
-        JButton button = new JButton();
-        button.setText("submit");
-        button.setBounds(220, 250, 200, 200);
-        button.setSize(85, 30);
-        button.setFocusable(false);
-        createAdminModel.createAdmin(this, button);
-        this.add(button);
-    }
+        JButton submitButton = new JButton();
+        submitButton.setText("submit");
+        submitButton.setBounds(220, 250, 200, 200);
+        submitButton.setSize(85, 30);
+        submitButton.setFocusable(false);
+        createAdminModel.createAdmin(this, submitButton);
+        this.add(submitButton);
 
-
-    void setLayout() {
         this.setLayout(null);
-    }
-
-    void phaseOneProperties() {
         this.setTitle("Application Form");
         this.setSize(500, 500);
         this.setResizable(false);
@@ -121,19 +84,31 @@ public class CreateAdminView extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public JTextField getFirstName() {
-        return firstName;
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 
-    public JTextField getLastName() {
-        return lastName;
+    @Override
+    public void mousePressed(MouseEvent e) {
+
     }
 
-    public JTextField getPassword() {
-        return password;
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        firstName.setText("");
+        lastName.setText("");
+        email.setText("");
+        password.setText("");
     }
 
-    public JTextField getEmail() {
-        return email;
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

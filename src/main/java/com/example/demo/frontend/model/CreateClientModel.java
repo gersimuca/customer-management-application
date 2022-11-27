@@ -5,7 +5,9 @@ import com.example.demo.backend.repository.ClientRepository;
 import com.example.demo.frontend.controller.CreateClientController;
 import com.example.demo.frontend.view.CreateClientView;
 import com.example.demo.frontend.view.IndexView;
+import com.example.demo.frontend.view.responses.EmailExistError;
 
+import javax.persistence.RollbackException;
 import javax.swing.*;
 
 public class CreateClientModel implements CreateClientController {
@@ -20,7 +22,13 @@ public class CreateClientModel implements CreateClientController {
             client.setEmail(createClientView.getEmail().getText());
             client.setPassword(createClientView.getPassword().getText());
 
-            clientRepository.createClient(client);
+            try{
+                clientRepository.createClient(client);
+            } catch (RollbackException re){
+                re.printStackTrace();
+                new EmailExistError();
+                return;
+            }
             createClientView.dispose();
             new IndexView();
         });

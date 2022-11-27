@@ -5,25 +5,26 @@ import com.example.demo.backend.model.Management;
 import com.example.demo.backend.model.Product;
 import com.example.demo.backend.model.Requests;
 import com.example.demo.frontend.model.AdminPanelModel;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Element;
 import javax.swing.text.TableView;
 import javax.swing.text.View;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.TimerTask;
 
-
-public class AdminPanelView extends JFrame{
+@Getter
+@Setter
+public class AdminPanelView extends JFrame implements ActionListener {
     private final AdminPanelModel adminPanelModel = new AdminPanelModel();
-
-    private List<Management> managements;
-    private List<Client> clients;
-    private List<Product> products;
-
-    private List<Requests> requests;
     private Management management;
     private Product product;
     private JTextField firstName;
@@ -35,485 +36,371 @@ public class AdminPanelView extends JFrame{
     private JTextField manufacture;
     private JTextField quantity;
     private JTextField country;
+    private JComboBox<String> productForDelete;
+    private JComboBox<String> requestForDeleteOrUpdate;
 
-    private JComboBox productForDelete;
-    private JComboBox requestForDeleteOrUpdate;
+    private JComboBox<String> listOfAdminsJComboBox;
+    private JComboBox<String> listOfProductsJComboBox;
+    private JComboBox<String> listOfClientsJComboBox;
+    private JComboBox<String> listOfRequestJComboBox;
+    private JComboBox<String> listOfRequestForDeleteOrApproveJComboBox;
+    private JComboBox<String> listOfProductsForDeleteJComboBox;
+    private JComboBox<String> listOfProductsToAddQuantity;
+    private JTextField addQuantityProductField;
 
     public AdminPanelView(Management management) {
         this.management = management;
-        welcome();
+        JLabel welcomeLabel = new JLabel();
+        welcomeLabel.setText("Welcome, " + management.getFirstName() + " " + management.getLastName());
+        welcomeLabel.setBounds(40, 40, 250, 40);
+        this.add(welcomeLabel);
 
-        updateLabel();
-        updateButton();
+        JLabel updateLabel = new JLabel();
+        updateLabel.setText("Update Your Profile");
+        updateLabel.setBounds(40, 90, 250, 40);
+        this.add(updateLabel);
 
-        labelFirstName();
-        labelLastName();
-        labelEmail();
-        labelPassword();
+        JButton updateButton = new JButton();
+        updateButton.setText("update");
+        updateButton.setBounds(370, 165, 75, 30);
+        updateButton.setFocusable(false);
+        adminPanelModel.updateProfile(this, updateButton);
+        this.add(updateButton);
 
-        fieldFirstName();
-        fieldLastName();
-        fieldEmail();
-        fieldPassword();
+        JLabel firstNameLabel = new JLabel();
+        firstNameLabel.setText("First Name");
+        firstNameLabel.setBounds(40, 125, 250, 40);
+        this.add(firstNameLabel);
 
-        buttonLogOut();
-        deleteAccountButton();
+        JLabel lastNameLabel = new JLabel();
+        lastNameLabel.setText("Last Name");
+        lastNameLabel.setBounds(120, 125, 250, 40);
+        this.add(lastNameLabel);
 
-        labelAllAdmins();
-        listOfAdmins();
-        labelAllClients();
-        listOfClients();
-        labelAllProducts();
-        listOfProducts();
-        labelAllRequest();
-        listOfRequests();
+        JLabel emailLabel = new JLabel();
+        emailLabel.setText("E-Mail");
+        emailLabel.setBounds(210, 125, 250, 40);
+        this.add(emailLabel);
 
+        JLabel passwordLabel = new JLabel();
+        passwordLabel.setText("Password");
+        passwordLabel.setBounds(280, 125, 250, 40);
+        this.add(passwordLabel);
 
-        labelCreateProducts();
-        labelProductName();
-        labelManufacturer();
-        labelQuantity();
-        labelCountryOfOrigin();
-
-        fieldProductName();
-        fieldManufacturer();
-        fieldQuantity();
-        fieldCountryOfOrigin();
-
-        createProductButton();
-        requestForDeleteOrUpdate();
-
-        requestForDeleteOrUpdate();
-        requestForApproved();
-
-//        productForDelete();
-
-        setLayout();
-        phaseOneProperties();
-    }
-
-
-    void welcome() {
-        JLabel label = new JLabel();
-        label.setText("Welcome, " + management.getFirstName() + " " + management.getLastName());
-        label.setBounds(40, 40, 250, 40);
-        this.add(label);
-    }
-
-    void updateLabel() {
-        JLabel label = new JLabel();
-        label.setText("Update Your Profile");
-        label.setBounds(40, 90, 250, 40);
-        this.add(label);
-    }
-
-    void updateButton() {
-        JButton button = new JButton();
-        button.setText("update");
-        button.setBounds(370, 165, 75, 30);
-        button.setFocusable(false);
-        adminPanelModel.updateProfile(this, button);
-        this.add(button);
-    }
-
-    void labelFirstName() {
-        JLabel label = new JLabel();
-        label.setText("First Name");
-        label.setBounds(40, 125, 250, 40);
-        this.add(label);
-    }
-
-    void labelLastName() {
-        JLabel label = new JLabel();
-        label.setText("Last Name");
-        label.setBounds(120, 125, 250, 40);
-        this.add(label);
-    }
-
-    void labelEmail() {
-        JLabel label = new JLabel();
-        label.setText("E-Mail");
-        label.setBounds(210, 125, 250, 40);
-        this.add(label);
-    }
-
-    void labelPassword() {
-        JLabel label = new JLabel();
-        label.setText("Password");
-        label.setBounds(280, 125, 250, 40);
-        this.add(label);
-    }
-
-    void fieldFirstName() {
         firstName = new JTextField();
         firstName.setText(management.getFirstName());
         firstName.setBounds(40, 165, 65, 30);
         this.add(firstName);
-    }
 
-    void fieldLastName() {
         lastName = new JTextField();
         lastName.setText(management.getLastName());
         lastName.setBounds(120, 165, 65, 30);
         this.add(lastName);
-    }
 
-    void fieldEmail() {
         email = new JTextField();
         email.setText(management.getEmail());
         email.setBounds(210, 165, 65, 30);
         this.add(email);
-    }
 
-    void fieldPassword() {
         password = new JTextField();
         password.setText(management.getPassword());
         password.setBounds(280, 165, 65, 30);
         this.add(password);
-    }
 
-    void buttonLogOut() {
-        JButton button = new JButton();
-        button.setText("LOGOUT");
-        button.setBounds(380, 30, 100, 30);
-        button.setFocusable(false);
-        adminPanelModel.logOut(this, button);
-        this.add(button);
-    }
+        JButton logoutButton = new JButton();
+        logoutButton.setText("LOGOUT");
+        logoutButton.setBounds(380, 30, 100, 30);
+        logoutButton.setFocusable(false);
+        adminPanelModel.logOut(this, logoutButton);
+        this.add(logoutButton);
 
-    void deleteAccountButton() {
-        JButton button = new JButton();
-        button.setText("DELETE ACCOUNT");
-        button.setBounds(300, 870, 150, 30);
-        button.setFocusable(false);
-        adminPanelModel.deleteAccount(this, button);
-        this.add(button);
-    }
+        JButton deleteAccountButton = new JButton();
+        deleteAccountButton.setText("DELETE ACCOUNT");
+        deleteAccountButton.setBounds(300, 900, 150, 30);
+        deleteAccountButton.setFocusable(false);
+        adminPanelModel.deleteAccount(this, deleteAccountButton);
+        this.add(deleteAccountButton);
 
-    void labelAllAdmins() {
-        JLabel label = new JLabel();
-        label.setText("STAFF");
-        label.setBounds(40, 190, 250, 40);
-        this.add(label);
-    }
+        JLabel staffLabel = new JLabel();
+        staffLabel.setText("STAFF");
+        staffLabel.setBounds(40, 190, 250, 40);
+        this.add(staffLabel);
 
-    void listOfAdmins() {
-        this.managements = adminPanelModel.listOfManagers();
-        String[] staff = adminPanelModel.listOfAdmins(this.getManagements());
-        JComboBox admins = new JComboBox(staff);
-        admins.setBounds(40, 220, 65, 30);
-        this.add(admins);
-    }
+        List<Management> managements = adminPanelModel.listOfManagers();
+        listOfAdminsJComboBox = new JComboBox();
+        if (managements.size() != 0) {
+            for (Management staff : managements) {
+                this.listOfAdminsJComboBox.addItem("No." + staff.getId() + " | "
+                        + staff.getFirstName() + " "
+                        + staff.getLastName()
+                        + " [ " + staff.getEmail() + " ] ");
+            }
+            if (listOfAdminsJComboBox.getSelectedIndex() == -1) {
+                JLabel listOfAdminsAreNotAvailable = new JLabel();
+                listOfAdminsAreNotAvailable.setBounds(40, 220, 65, 30);
+                listOfAdminsAreNotAvailable.setText("Staff are not available");
+                this.add(listOfAdminsAreNotAvailable);
+            } else {
+                listOfAdminsJComboBox.setBounds(40, 220, 200, 30);
+                listOfAdminsJComboBox.addActionListener(this);
+                this.add(listOfAdminsJComboBox);
+            }
+        }
 
-    void labelAllClients() {
-        JLabel label = new JLabel();
-        label.setText("CLIENTS");
-        label.setBounds(120, 190, 250, 40);
-        this.add(label);
-    }
+        JLabel productsLabel = new JLabel();
+        productsLabel.setText("PRODUCTS");
+        productsLabel.setBounds(260, 190, 250, 40);
+        this.add(productsLabel);
 
-    void listOfClients() {
-        this.clients = adminPanelModel.allClients();
-        String[] staff = adminPanelModel.listOfClients(this.getClients());
-        JComboBox admins = new JComboBox(staff);
-        admins.setBounds(120, 220, 65, 30);
-        this.add(admins);
-    }
+        List<Product> products = adminPanelModel.allProducts();
+        listOfProductsJComboBox = new JComboBox<>();
+        if (products.size() != 0) {
+            for (Product theProduct : products) {
+                this.listOfProductsJComboBox.addItem("No." + theProduct.getProductId() + " | "
+                        + theProduct.getProductName() + " [ "
+                        + theProduct.getQuantity() + " ] ");
+            }
+            if (listOfProductsJComboBox.getSelectedIndex() == -1) {
+                JLabel listOfProductsAreNotAvailable = new JLabel();
+                listOfProductsAreNotAvailable.setBounds(120, 200, 65, 30);
+                listOfProductsAreNotAvailable.setText("Products are not available");
+                this.add(listOfProductsAreNotAvailable);
+            } else {
+                listOfProductsJComboBox.setBounds(250, 220, 200, 30);
+                listOfProductsJComboBox.addActionListener(this);
+                this.add(listOfProductsJComboBox);
+            }
+        }
 
-    void labelAllProducts() {
-        JLabel label = new JLabel();
-        label.setText("PRODUCTS");
-        label.setBounds(200, 190, 250, 40);
-        this.add(label);
-    }
+        JLabel clientsLabel = new JLabel();
+        clientsLabel.setText("CLIENTS");
+        clientsLabel.setBounds(40, 260, 250, 40);
+        this.add(clientsLabel);
 
-    void listOfProducts() {
-        this.products = adminPanelModel.allProducts();
-        String[] staff = adminPanelModel.listOfProducts(this.getProducts());
-        JComboBox admins = new JComboBox(staff);
-        admins.setBounds(200, 220, 65, 30);
-        this.add(admins);
-    }
 
-    void labelAllRequest() {
-        JLabel label = new JLabel();
-        label.setText("REQUESTS");
-        label.setBounds(280, 190, 250, 40);
-        this.add(label);
-    }
+        List<Client> clients = adminPanelModel.allClients();
+        listOfClientsJComboBox = new JComboBox<>();
+        if (clients.size() != 0) {
+            for (Client client : clients) {
+                this.listOfClientsJComboBox.addItem("No." + client.getId_client() + " | "
+                        + client.getFirstName() + " "
+                        + client.getLastName()
+                        + " [ " + client.getEmail() + " ] ");
+            }
+            if (listOfClientsJComboBox.getSelectedIndex() == -1) {
+                JLabel listOfClientsAreNotAvailable = new JLabel();
+                listOfClientsAreNotAvailable.setBounds(200, 260, 200, 30);
+                listOfClientsAreNotAvailable.setText("Clients are not available");
+                this.add(listOfClientsAreNotAvailable);
+            } else {
+                listOfClientsJComboBox.setBounds(40, 290, 200, 30);
+                listOfClientsJComboBox.addActionListener(this);
+                this.add(listOfClientsJComboBox);
+            }
+        }
 
-    void listOfRequests() {
-        this.requests = adminPanelModel.allRequests();
-        String[] staff = adminPanelModel.listOfRequest(this.getRequests());
-        JComboBox admins = new JComboBox(staff);
-        admins.setBounds(280, 220, 65, 30);
-        this.add(admins);
-    }
+        JLabel requestLabel = new JLabel();
+        requestLabel.setText("REQUESTS");
+        requestLabel.setBounds(280, 260, 250, 40);
+        this.add(requestLabel);
 
-    void labelCreateProducts() {
-        JLabel label = new JLabel();
-        label.setText("Create Products");
-        label.setBounds(40, 250, 250, 40);
-        this.add(label);
-    }
+        List<Requests> requests = adminPanelModel.allRequests();
+        listOfRequestJComboBox = new JComboBox<>();
+        if (requests.size() != 0) {
+            for (Requests request : requests) {
+                this.listOfRequestJComboBox.addItem("No." + request.getId_request() + " | "
+                        + request.getProduct() + " "
+                        + " [ " + request.getQuality() + " ] ");
+            }
+            if (listOfRequestJComboBox.getSelectedIndex() == -1) {
+                JLabel listOfRequestAreNotAvailable = new JLabel();
+                listOfRequestAreNotAvailable.setBounds(250, 290, 200, 30);
+                listOfRequestAreNotAvailable.setText("Requests are not available");
+                this.add(listOfRequestAreNotAvailable);
+            } else {
+                listOfRequestJComboBox.setBounds(250, 290, 200, 30);
+                listOfRequestJComboBox.addActionListener(this);
+                this.add(listOfRequestJComboBox);
+            }
+        }
 
-    void labelProductName() {
-        JLabel label = new JLabel();
-        label.setText("Product Name");
-        label.setBounds(40, 280, 250, 40);
-        this.add(label);
-    }
+        JLabel createProductsLabel = new JLabel();
+        createProductsLabel.setText("Create Products");
+        createProductsLabel.setBounds(40, 330, 250, 40);
+        this.add(createProductsLabel);
 
-    void labelManufacturer() {
-        JLabel label = new JLabel();
-        label.setText("Manufacturer");
-        label.setBounds(150, 280, 250, 40);
-        this.add(label);
-    }
+        JLabel productNameLabel = new JLabel();
+        productNameLabel.setText("Product Name");
+        productNameLabel.setBounds(40, 360, 250, 40);
+        this.add(productNameLabel);
 
-    void labelQuantity() {
-        JLabel label = new JLabel();
-        label.setText("Quantity");
-        label.setBounds(250, 280, 250, 40);
-        this.add(label);
-    }
+        JLabel manufacturerLabel = new JLabel();
+        manufacturerLabel.setText("Manufacturer");
+        manufacturerLabel.setBounds(150, 360, 250, 40);
+        this.add(manufacturerLabel);
 
-    void labelCountryOfOrigin() {
-        JLabel label = new JLabel();
-        label.setText("Country of Origin");
-        label.setBounds(330, 280, 250, 40);
-        this.add(label);
-    }
+        JLabel quantityLabel = new JLabel();
+        quantityLabel.setText("Quantity");
+        quantityLabel.setBounds(250, 360, 250, 40);
+        this.add(quantityLabel);
 
-    void fieldProductName() {
+        JLabel countryOfOriginLabel = new JLabel();
+        countryOfOriginLabel.setText("Country of Origin");
+        countryOfOriginLabel.setBounds(330, 360, 250, 40);
+        this.add(countryOfOriginLabel);
+
         productName = new JTextField();
-        productName.setBounds(40, 310, 65, 30);
+        productName.setBounds(40, 390, 65, 30);
         this.add(productName);
-    }
 
-    void fieldManufacturer() {
         manufacture = new JTextField();
-        manufacture.setBounds(150, 310, 65, 30);
+        manufacture.setBounds(150, 390, 65, 30);
         this.add(manufacture);
-    }
 
-    void fieldQuantity() {
         quantity = new JTextField();
-        quantity.setBounds(250, 310, 65, 30);
+        quantity.setBounds(250, 390, 65, 30);
         this.add(quantity);
-    }
 
-    void fieldCountryOfOrigin() {
         country = new JTextField();
-        country.setBounds(330, 310, 65, 30);
+        country.setBounds(330, 390, 65, 30);
         this.add(country);
-    }
 
-    void createProductButton() {
-        JButton button = new JButton();
-        button.setText("create");
-        button.setBounds(30, 355, 375, 30);
-        button.setFocusable(false);
-        adminPanelModel.createProduct(this, button);
-        this.add(button);
-    }
+        JButton createButton = new JButton();
+        createButton.setText("create");
+        createButton.setBounds(30, 425, 375, 30);
+        createButton.setFocusable(false);
+        adminPanelModel.createProduct(this, createButton);
+        this.add(createButton);
 
-
-    void requestForDeleteOrUpdate() {
         JLabel label = new JLabel();
         label.setText("REQUESTS");
-        label.setBounds(30, 400, 250, 40);
+        label.setBounds(30, 480, 250, 40);
         this.add(label);
 
-        String[] staff = adminPanelModel.listOfRequest(this.getRequests());
-        requestForDeleteOrUpdate = new JComboBox(staff);
-        requestForDeleteOrUpdate.setBounds(30, 445, 250, 40);
-        this.add(requestForDeleteOrUpdate);
+        listOfRequestForDeleteOrApproveJComboBox = new JComboBox<>();
+        if (requests.size() != 0) {
+            for (Requests request : requests) {
+                if (request.getStatus().equals("PENDING")) {
+                    this.listOfRequestForDeleteOrApproveJComboBox.addItem("No." + request.getId_request() + " | "
+                            + request.getProduct() + " "
+                            + " [ " + request.getQuality() + " ] ");
 
-        JButton button = new JButton();
-        button.setText("delete request");
-        button.setBounds(320, 445, 150, 40);
-        Requests requestsChoice = adminPanelModel.findRequest(getRequests(), requestForDeleteOrUpdate);
-        adminPanelModel.deleteRequest(this, button, requestsChoice);
-        this.add(button);
-    }
+                }
+            }
 
-    void requestForApproved() {
-        JButton button = new JButton();
-        button.setText("APPROVE");
-        button.setBounds(320, 495, 150, 40);
-        button.setFocusable(false);
-        Requests requestsChoice = adminPanelModel.findRequest(getRequests(), requestForDeleteOrUpdate);
-        adminPanelModel.approved(this, requestsChoice, button, getProducts());
-        this.add(button);
-    }
+            if (listOfRequestForDeleteOrApproveJComboBox.getSelectedIndex() == -1) {
+                JLabel listOfRequestAreNotAvailable = new JLabel();
+                listOfRequestAreNotAvailable.setBounds(30, 520, 180, 40);
+                listOfRequestAreNotAvailable.setText("NO NEW REQUEST BE MADE");
+                this.add(listOfRequestAreNotAvailable);
+            } else {
+                listOfRequestForDeleteOrApproveJComboBox.setBounds(30, 520, 250, 40);
+                listOfRequestForDeleteOrApproveJComboBox.addActionListener(this);
+                this.add(listOfRequestForDeleteOrApproveJComboBox);
 
-    /*
-    Some issue from products can not be deleted because return null Long ID
+                JButton deleteRequestButton = new JButton();
+                deleteRequestButton.setText("delete request");
+                deleteRequestButton.setBounds(320, 520, 150, 40);
+                adminPanelModel.deleteRequest(this, deleteRequestButton, listOfRequestForDeleteOrApproveJComboBox);
+                this.add(deleteRequestButton);
 
-    void productForDelete() {
-        JLabel label = new JLabel();
-        label.setText("PRODUCTS");
-        label.setBounds(30, 600, 250, 40);
-        this.add(label);
+                JButton approveButton = new JButton();
+                approveButton.setText("APPROVE");
+                approveButton.setBounds(320, 570, 150, 40);
+                approveButton.setFocusable(false);
+                adminPanelModel.approved(this, listOfRequestForDeleteOrApproveJComboBox, approveButton);
+                this.add(approveButton);
+            }
+        }
 
-        String[] staff = adminPanelModel.listOfProducts(this.getProducts());
-        productForDelete = new JComboBox(staff);
-        productForDelete.setBounds(30, 655, 250, 40);
-        this.add(productForDelete);
+        JLabel seeProductsLabel = new JLabel();
+        seeProductsLabel.setText("PRODUCTS");
+        seeProductsLabel.setBounds(30, 610, 250, 40);
+        this.add(seeProductsLabel);
 
+        listOfProductsForDeleteJComboBox = new JComboBox<>();
+        if (products.size() != 0) {
+            for (Product theProduct : products) {
+                this.listOfProductsForDeleteJComboBox.addItem("No." + theProduct.getProductId() + " | "
+                        + theProduct.getProductName() + " [ "
+                        + theProduct.getQuantity() + " ] ");
+            }
+            if (listOfProductsForDeleteJComboBox.getSelectedIndex() == -1) {
+                JLabel listOfProductsAreNotAvailable = new JLabel();
+                listOfProductsAreNotAvailable.setBounds(30, 720, 65, 30);
+                listOfProductsAreNotAvailable.setText("PRODUCT NOT LISTED");
+                this.add(listOfProductsAreNotAvailable);
+            } else {
+                listOfProductsForDeleteJComboBox.setBounds(30, 650, 200, 30);
+                listOfProductsForDeleteJComboBox.addActionListener(this);
+                this.add(listOfProductsForDeleteJComboBox);
 
-        JButton button = new JButton();
-        button.setText("delete product");
-        button.setBounds(320, 655, 150, 40);
-        Product productChoice = adminPanelModel.findProduct(adminPanelModel.allProducts(), requestForDeleteOrUpdate);
-        adminPanelModel.deleteProduct(this, button, productChoice);
-        this.add(button);
-    }
-    */
+                JButton button = new JButton();
+                button.setText("delete product");
+                button.setBounds(320, 650, 150, 40);
+                adminPanelModel.deleteProduct(this, button, listOfProductsForDeleteJComboBox);
+                this.add(button);
+            }
+        }
 
+        JLabel addQuantityProductsLabel = new JLabel();
+        addQuantityProductsLabel.setText("ADD PRODUCT PRODUCTS");
+        addQuantityProductsLabel.setBounds(30, 760, 250, 40);
+        this.add(addQuantityProductsLabel);
 
-    void setLayout() {
+        listOfProductsToAddQuantity = new JComboBox<>();
+        if (products.size() != 0) {
+            for (Product theProduct : products) {
+                this.listOfProductsToAddQuantity.addItem("No." + theProduct.getProductId() + " | "
+                        + theProduct.getProductName() + " [ "
+                        + theProduct.getQuantity() + " ] ");
+            }
+            if (listOfProductsToAddQuantity.getSelectedIndex() == -1) {
+                JLabel listOfProductsAreNotAvailable = new JLabel();
+                listOfProductsAreNotAvailable.setBounds(30, 800, 65, 30);
+                listOfProductsAreNotAvailable.setText("PRODUCT NOT LISTED");
+                this.add(listOfProductsAreNotAvailable);
+            } else {
+                listOfProductsToAddQuantity.setBounds(30, 800, 150, 30);
+                listOfProductsToAddQuantity.addActionListener(this);
+                this.add(listOfProductsToAddQuantity);
+
+                JLabel addQuantity = new JLabel();
+                addQuantity.setText("Add Quantity");
+                addQuantity.setBounds(200, 760, 250, 30);
+                this.add(addQuantity);
+
+                addQuantityProductField = new JTextField();
+                addQuantityProductField.setBounds(200, 800, 90, 30);
+                addQuantityProductField.setText("0");
+                this.add(addQuantityProductField);
+
+                JButton buttonPlus = new JButton();
+                buttonPlus.setText("+");
+                buttonPlus.setBounds(320, 800, 70, 30);
+                buttonPlus.setFocusable(false);
+                adminPanelModel.addProductQuantity(this, listOfProductsToAddQuantity, buttonPlus);
+                this.add(buttonPlus);
+
+                JButton buttonMinus = new JButton();
+                buttonMinus.setText("-");
+                buttonMinus.setBounds(400, 800, 70, 30);
+                buttonMinus.setFocusable(false);
+                adminPanelModel.subtractProductQuantity(this, listOfProductsToAddQuantity, buttonMinus);
+                this.add(buttonMinus);
+            }
+
+        }
+
         this.setLayout(null);
-    }
-
-    void phaseOneProperties() {
         this.setTitle("Application Form");
-        this.setSize(500, 1000);
+        this.setSize(500, 1200);
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public Management getManagement() {
-        return management;
-    }
-
-    public void setManagement(Management management) {
-        this.management = management;
-    }
-
-    public JTextField getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(JTextField firstName) {
-        this.firstName = firstName;
-    }
-
-    public JTextField getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(JTextField lastName) {
-        this.lastName = lastName;
-    }
-
-    public JTextField getEmail() {
-        return email;
-    }
-
-    public void setEmail(JTextField email) {
-        this.email = email;
-    }
-
-    public JTextField getPassword() {
-        return password;
-    }
-
-    public void setPassword(JTextField password) {
-        this.password = password;
-    }
-
-    public List<Management> getManagements() {
-        return managements;
-    }
-
-    public void setManagements(List<Management> managements) {
-        this.managements = managements;
-    }
-
-    public List<Client> getClients() {
-        return clients;
-    }
-
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public JTextField getProductName() {
-        return productName;
-    }
-
-    public void setProductName(JTextField productName) {
-        this.productName = productName;
-    }
-
-    public JTextField getManufacture() {
-        return manufacture;
-    }
-
-    public void setManufacture(JTextField manufacture) {
-        this.manufacture = manufacture;
-    }
-
-    public JTextField getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(JTextField quantity) {
-        this.quantity = quantity;
-    }
-
-    public JTextField getCountry() {
-        return country;
-    }
-
-    public void setCountry(JTextField country) {
-        this.country = country;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public List<Requests> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(List<Requests> requests) {
-        this.requests = requests;
-    }
-
-    public JComboBox getRequestForDeleteOrUpdate() {
-        return requestForDeleteOrUpdate;
-    }
-
-    public void setRequestForDelete(JComboBox requestForDeleteOrUpdate) {
-        this.requestForDeleteOrUpdate = requestForDeleteOrUpdate;
-    }
-
-    public JComboBox getProductForDelete() {
-        return productForDelete;
-    }
-
-    public void setProductForDelete(JComboBox productForDelete) {
-        this.productForDelete = productForDelete;
-    }
-
-    public void setRequestForDeleteOrUpdate(JComboBox requestForDeleteOrUpdate) {
-        this.requestForDeleteOrUpdate = requestForDeleteOrUpdate;
+    @Override
+    public void actionPerformed(ActionEvent e) {
     }
 }

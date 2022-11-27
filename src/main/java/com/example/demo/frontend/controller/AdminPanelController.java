@@ -15,25 +15,20 @@ public interface AdminPanelController {
     void deleteAccount(AdminPanelView adminPanelView, JButton button);
 
     List<Management> listOfManagers();
-    String[] listOfAdmins(List<Management> managements);
 
     List<Client> allClients();
-    String[] listOfClients(List<Client> clients);
 
     List<Product> allProducts();
-    String[] listOfProducts(List<Product> products);
 
     List<Requests> allRequests();
-    String[] listOfRequest(List<Requests> requests);
 
     void createProduct(AdminPanelView adminPanelView, JButton button);
 
-    void deleteRequest(AdminPanelView adminPanelView, JButton button, Requests requests);
-    Requests findRequest(List<Requests> requests, JComboBox jComboBox);
+    void deleteRequest(AdminPanelView adminPanelView, JButton button, JComboBox requests);
 
-    void approved(AdminPanelView adminPanelView, Requests requests, JButton button, List<Product> product);
-    Product findProduct(List<Product> products, JComboBox jComboBox);
-    void deleteProduct(AdminPanelView adminPanelView, JButton button, Product product);
+    void approved(AdminPanelView adminPanelView, JComboBox jComboBox, JButton button);
+    void deleteProduct(AdminPanelView adminPanelView, JButton button, JComboBox selectedProduct);
 
-
+    void addProductQuantity(AdminPanelView adminPanelView, JComboBox selectedProduct, JButton button);
+    void subtractProductQuantity(AdminPanelView adminPanelView, JComboBox selectedProduct, JButton button);
 }
