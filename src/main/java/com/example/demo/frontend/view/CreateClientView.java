@@ -14,8 +14,9 @@ import java.awt.event.MouseListener;
 public class CreateClientView extends JFrame implements MouseListener {
     private JTextField firstName;
     private JTextField lastName;
-    private JTextField password;
     private JTextField email;
+    private JTextField password;
+
 
     private final CreateClientModel createClientModel = new CreateClientModel();
 
@@ -51,15 +52,17 @@ public class CreateClientView extends JFrame implements MouseListener {
         lastName.setBounds(150, 110, 150, 20);
         this.add(lastName);
 
-        password = new JTextField();
-        password.setText("...");
-        password.setBounds(150, 160, 150, 20);
-        this.add(password);
+        setEmail(new JTextField());
+        getEmail().setText("...");
+        getEmail().setBounds(150, 160, 150, 20);
+        this.add(getEmail());
 
-        email = new JTextField();
-        email.setText("...");
-        email.setBounds(150, 210, 150, 20);
-        this.add(email);
+        setPassword(new JTextField());
+        getPassword().setText("...");
+        getPassword().setBounds(150, 210, 150, 20);
+        this.add(getPassword());
+
+
 
         JButton backButton = new JButton();
         backButton.setText("back");
