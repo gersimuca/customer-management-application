@@ -9,11 +9,8 @@ import javax.persistence.*;
 import java.util.List;
 
 public class RequestRepository {
-    private static EntityManagerFactory openConnectionEntityManagerFactory(){
-        return Persistence.createEntityManagerFactory("cma-prod");
-    }
     public void createRequest(Client client , Requests request) {
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
@@ -31,7 +28,7 @@ public class RequestRepository {
     }
 
     public List<Requests> getAllRequest() {
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
@@ -47,7 +44,7 @@ public class RequestRepository {
     }
 
     public List<Requests> getAllRequest(Client client) {
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
@@ -63,7 +60,7 @@ public class RequestRepository {
     }
 
     public void deleteRequest(long id){
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
@@ -77,7 +74,7 @@ public class RequestRepository {
     }
 
     public void updateRequest(Requests requests){
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
@@ -90,7 +87,7 @@ public class RequestRepository {
     }
 
     public Requests findRequest(Requests request){
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("cma-prod");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 

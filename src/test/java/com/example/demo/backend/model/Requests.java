@@ -24,11 +24,4 @@ public class Requests {
     @Column(name = "status")
     private String status = "pending".toUpperCase();
 
-    public Requests(String productName, Integer quantity) {
-        this.productName = productName;
-        this.quantity = quantity;
-    }
-
-    public Requests() {
-    }
 }

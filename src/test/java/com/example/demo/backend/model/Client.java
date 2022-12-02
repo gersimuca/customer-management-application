@@ -35,13 +35,4 @@ public class Client {
     @JoinColumn(name = "fk_request")
     List<Requests> requests = new ArrayList<>();
 
-    public Client(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Client() {
-    }
 }
