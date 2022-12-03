@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @SpringBootApplication
 @RestController
 public class DemoApplication {
@@ -20,7 +21,6 @@ public class DemoApplication {
 
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(DemoApplication.class);
 		builder.headless(false);
-		SpringApplication.run(DemoApplication.class, args);
 
 		new IndexView();
 	}
