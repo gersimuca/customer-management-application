@@ -4,8 +4,6 @@ This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/
 
 Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/spring).
 
-### CI/CD with Auto DevOps
-
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
-
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
+This is an sample of of the admin who can managed the client request from his end to a client request to other end.
+The project have a lists of products whitch can be created from staff members and the client can make request to buy them.
+Staff can manage product and request.
