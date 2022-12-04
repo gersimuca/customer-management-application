@@ -9,7 +9,6 @@ import com.example.demo.frontend.view.IndexView;
 import com.example.demo.frontend.view.responses.EmailExistError;
 
 import javax.persistence.PersistenceException;
-import javax.persistence.RollbackException;
 import javax.swing.*;
 
 public class CreateAdminModel implements CreateAdminController {

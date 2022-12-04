@@ -9,7 +9,6 @@ import com.example.demo.backend.repository.ProductRepository;
 import com.example.demo.backend.repository.RequestRepository;
 import com.example.demo.frontend.controller.AdminPanelController;
 import com.example.demo.frontend.view.AdminPanelView;
-import com.example.demo.frontend.view.ClientPanelView;
 import com.example.demo.frontend.view.IndexView;
 import com.example.demo.frontend.view.responses.*;
 

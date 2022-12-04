@@ -1,136 +1,105 @@
 package com.example.demo.backend.repository;
 
-
 import com.example.demo.backend.model.Client;
 import com.example.demo.backend.model.Management;
 import com.example.demo.backend.model.Product;
+import com.example.demo.backend.model.Requests;
 
 import javax.persistence.*;
 import java.util.List;
 
-public class ManagementRepository {
+public class RequestRepository {
     private static EntityManagerFactory openConnectionEntityManagerFactory(){
         return Persistence.createEntityManagerFactory("cma-prod");
     }
-    public List<Management> getAllManagement() {
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        entityTransaction.begin();
-        Query query = entityManager.createQuery("SELECT m FROM Management m", Management.class);
-        List<Management> managements = query.getResultList();
-        entityTransaction.commit();
-
-        entityManager.close();
-        entityManagerFactory.close();
-        return managements;
-    }
-
-    public void createManagementUser(Management management) {
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        entityTransaction.begin();
-        entityManager.persist(management);
-        entityTransaction.commit();
-
-        entityManager.close();
-        entityManagerFactory.close();
-    }
-
-    public Management updateManagementUser(Management management) {
-        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        entityTransaction.begin();
-        entityManager.merge(management);
-        entityManager.getTransaction().commit();
-
-        entityManager.close();
-        entityManagerFactory.close();
-
-        return management;
-    }
-
-    public void deleteManagementUser(Long id) {
+    public void createRequest(Client client , Requests request) {
         EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
 
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.find(Management.class, id));
+
+        Client dbClient = entityManager.find(Client.class, client.getId_client());
+        dbClient.getRequests().add(request);
+        entityManager.persist(request);
+
         entityManager.getTransaction().commit();
 
         entityManager.close();
         entityManagerFactory.close();
     }
 
-    public Management login(String email, String password) {
+    public List<Requests> getAllRequest() {
         EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-        List<Management> managements;
-        Management management = null;
-
-        Query query = entityManager.createQuery("SELECT m FROM Management m WHERE m.email = :email AND m.password = :password", Management.class);
-        query.setParameter("email", email);
-        query.setParameter("password", password);
-
-        managements = query.getResultList();
-
-        for (Management samples : managements) {
-            if (samples.getEmail().equals(email) && samples.getPassword().equals(password)) {
-                management = samples;
-                break;
-            }
-        }
-
+        List<Requests> requests;
+        Query query = entityManager.createQuery("SELECT m FROM Requests m", Requests.class);
+        requests = query.getResultList();
         entityTransaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
-
-        return management;
+        return requests;
     }
 
-
-    public List<Client> getAllCustomers(){
+    public List<Requests> getAllRequest(Client client) {
         EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-
-        Query query = entityManager.createQuery("SELECT m FROM Client m", Client.class);
-        List<Client> customers = query.getResultList();
+        List<Requests> requests;
+        Query query = entityManager.createNativeQuery("SELECT * FROM requests WHERE requests.fk_request = " + client.getId_client(), Requests.class);
+        requests = query.getResultList();
         entityTransaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
-        return customers;
+        return requests;
     }
 
-    public List<Product> getAllProducts(){
+    public void deleteRequest(long id){
         EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         entityTransaction.begin();
-        List<Product> products;
-        Query query = entityManager.createQuery("SELECT m FROM Product m", Product.class);
-        products = query.getResultList();
-        entityTransaction.commit();
+        Requests requests = entityManager.find(Requests.class, id);
+        entityManager.remove(requests);
+        entityManager.getTransaction().commit();
 
         entityManager.close();
         entityManagerFactory.close();
-        return products;
     }
 
+    public void updateRequest(Requests requests){
+        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        entityManager.merge(requests);
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+    }
+
+    public Requests findRequest(Requests request){
+        EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        entityTransaction.begin();
+        Requests requests = entityManager.find(Requests.class, request.getId_request());
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return requests;
+    }
 }

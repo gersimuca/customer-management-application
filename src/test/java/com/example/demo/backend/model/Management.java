@@ -28,15 +28,4 @@ public class Management {
 
     @Column(name = "password")
     private String password;
-
-    public Management(Long id, String firstName, String lastName, String email, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Management() {
-    }
 }

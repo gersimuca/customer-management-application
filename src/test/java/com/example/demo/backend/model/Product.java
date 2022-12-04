@@ -31,14 +31,5 @@ public class Product {
     @Column(name = "country_of_origin")
     private String countryOfOrigin;
 
-    public Product(String productName, String manufacturer, String quantity, String countryOfOrigin) {
-        this.productName = productName;
-        this.manufacturer = manufacturer;
-        this.quantity = quantity;
-        this.countryOfOrigin = countryOfOrigin;
-    }
-
-    public Product() {
-    }
 }
 

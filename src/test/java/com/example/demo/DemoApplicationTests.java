@@ -1,28 +1,32 @@
 package com.example.demo;
 
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class DemoApplicationTests {
 
-	@Test
-	public void contextLoads() {
+	@AfterAll
+	private static EntityManagerFactory openConnectionEntityManagerFactory(){
+		return Persistence.createEntityManagerFactory("cma-prod");
 	}
 
-	@Autowired
-	private TestRestTemplate restTemplate;
-
 	@Test
-	public void homeResponse() {
-		String body = this.restTemplate.getForObject("/", String.class);
-		assertThat(body).isEqualTo("Spring is here!");
+	public void testConnection() {
+		EntityManagerFactory entityManagerFactory = openConnectionEntityManagerFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityTransaction.commit();
+		entityManager.close();
+		entityManagerFactory.close();
 	}
+
 }
