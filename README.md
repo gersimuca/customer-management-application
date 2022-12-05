@@ -9,3 +9,5 @@ This is an sample of of the admin who can managed the client request from his en
 The project have a lists of products whitch can be created from staff members and the client can make request to buy them.
 
 Staff can manage product and request.
+
+
