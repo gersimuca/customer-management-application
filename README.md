@@ -1,13 +1,8 @@
-### Java Spring template project
+###  Customer Management Application
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+Connects all clients on the Staff managment and see their request & automated system to refuse the request is it is beyond capabilitiesof the system to fulfilled.
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/spring).
+Central secure database structure that organizes, stores and retrieves real-time information
 
-This is an sample of of the admin who can managed the client request from his end to a client request to other end.
-
-The project have a lists of products whitch can be created from staff members and the client can make request to buy them.
-
-Staff can manage product and request.
-
+Client feedback system (Feedback from the client about the product).
 
