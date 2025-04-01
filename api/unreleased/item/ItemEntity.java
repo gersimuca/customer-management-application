@@ -1,6 +1,6 @@
-package com.gersimuca.cma.unreleased.item;
+package com.gersimuca.erp.unreleased.item;
 
-import com.gersimuca.cma.unreleased.offer.OfferEntity;
+import com.gersimuca.erp.unreleased.offer.OfferEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

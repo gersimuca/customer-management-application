@@ -1,7 +1,7 @@
-package com.gersimuca.cma.unreleased.media;
+package com.gersimuca.erp.unreleased.media;
 
-import com.gersimuca.cma.unreleased.lead.LeadEntity;
-import com.gersimuca.cma.unreleased.offer.OfferEntity;
+import com.gersimuca.erp.unreleased.lead.LeadEntity;
+import com.gersimuca.erp.unreleased.offer.OfferEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

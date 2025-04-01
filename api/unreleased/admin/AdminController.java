@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.admin;
+package com.gersimuca.erp.unreleased.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

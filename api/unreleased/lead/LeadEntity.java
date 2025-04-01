@@ -1,11 +1,11 @@
-package com.gersimuca.cma.unreleased.lead;
+package com.gersimuca.erp.unreleased.lead;
 
-import com.gersimuca.cma.unreleased.admin.AdminEntity;
-import com.gersimuca.cma.unreleased.company.CompanyEntity;
-import com.gersimuca.cma.unreleased.media.MediaEntity;
-import com.gersimuca.cma.unreleased.offer.OfferEntity;
-import com.gersimuca.cma.unreleased.people.PeopleEntity;
-import com.gersimuca.cma.unreleased.product.ProductEntity;
+import com.gersimuca.erp.unreleased.admin.AdminEntity;
+import com.gersimuca.erp.unreleased.company.CompanyEntity;
+import com.gersimuca.erp.unreleased.media.MediaEntity;
+import com.gersimuca.erp.unreleased.offer.OfferEntity;
+import com.gersimuca.erp.unreleased.people.PeopleEntity;
+import com.gersimuca.erp.unreleased.product.ProductEntity;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;

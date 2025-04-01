@@ -1,6 +1,6 @@
-package com.gersimuca.cma.unreleased.admin;
+package com.gersimuca.erp.unreleased.admin;
 
-import com.gersimuca.cma.common.annotation.DataTransferObject;
+import com.gersimuca.erp.common.annotation.DataTransferObject;
 import java.util.Date;
 
 @DataTransferObject

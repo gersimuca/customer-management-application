@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.client;
+package com.gersimuca.erp.unreleased.client;
 
 public enum ClientType {
   COMPANY,

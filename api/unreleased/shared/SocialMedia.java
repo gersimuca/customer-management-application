@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.shared;
+package com.gersimuca.erp.unreleased.shared;
 
 import jakarta.persistence.Embeddable;
 

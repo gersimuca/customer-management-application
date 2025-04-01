@@ -77,6 +77,8 @@ server:
     path: /user/error
     whitelabel:
       enabled: true
+  http2:
+    enabled: true
 
 logging:
   level:
