@@ -1,9 +1,9 @@
-package com.gersimuca.cma.unreleased.product;
+package com.gersimuca.erp.unreleased.product;
 
-import com.gersimuca.cma.unreleased.productcategory.ProductCategoryEntity;
-import com.gersimuca.cma.unreleased.shared.CustomField;
-import com.gersimuca.cma.unreleased.shared.File;
-import com.gersimuca.cma.unreleased.shared.Image;
+import com.gersimuca.erp.unreleased.productcategory.ProductCategoryEntity;
+import com.gersimuca.erp.unreleased.shared.CustomField;
+import com.gersimuca.erp.unreleased.shared.File;
+import com.gersimuca.erp.unreleased.shared.Image;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;

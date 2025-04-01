@@ -1,6 +1,6 @@
-package com.gersimuca.cma.unreleased.request;
+package com.gersimuca.erp.unreleased.request;
 
-import com.gersimuca.cma.feature.user.UserEntity;
+import com.gersimuca.erp.feature.user.UserEntity;
 import jakarta.persistence.*;
 import java.util.UUID;
 import lombok.*;

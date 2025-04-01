@@ -1,11 +1,11 @@
-package com.gersimuca.cma.unreleased.people;
+package com.gersimuca.erp.unreleased.people;
 
-import com.gersimuca.cma.unreleased.company.CompanyEntity;
-import com.gersimuca.cma.unreleased.shared.CustomField;
-import com.gersimuca.cma.unreleased.shared.File;
-import com.gersimuca.cma.unreleased.shared.Image;
-import com.gersimuca.cma.unreleased.shared.Location;
-import com.gersimuca.cma.unreleased.shared.SocialMedia;
+import com.gersimuca.erp.unreleased.company.CompanyEntity;
+import com.gersimuca.erp.unreleased.shared.CustomField;
+import com.gersimuca.erp.unreleased.shared.File;
+import com.gersimuca.erp.unreleased.shared.Image;
+import com.gersimuca.erp.unreleased.shared.Location;
+import com.gersimuca.erp.unreleased.shared.SocialMedia;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;

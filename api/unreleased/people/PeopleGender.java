@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.people;
+package com.gersimuca.erp.unreleased.people;
 
 public enum PeopleGender {
   male,

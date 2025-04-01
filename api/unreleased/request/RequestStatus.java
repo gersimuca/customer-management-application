@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.request;
+package com.gersimuca.erp.unreleased.request;
 
 public enum RequestStatus {
   CANCELED,

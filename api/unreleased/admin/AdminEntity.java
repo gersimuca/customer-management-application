@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.admin;
+package com.gersimuca.erp.unreleased.admin;
 
 import jakarta.persistence.*;
 import java.util.Date;

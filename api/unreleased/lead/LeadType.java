@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.lead;
+package com.gersimuca.erp.unreleased.lead;
 
 public enum LeadType {
   COMPANY,

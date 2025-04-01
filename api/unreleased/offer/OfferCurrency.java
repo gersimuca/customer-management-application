@@ -1,4 +1,4 @@
-package com.gersimuca.cma.unreleased.offer;
+package com.gersimuca.erp.unreleased.offer;
 
 public enum OfferCurrency {
   NA,

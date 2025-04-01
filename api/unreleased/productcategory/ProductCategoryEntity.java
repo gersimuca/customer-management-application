@@ -1,7 +1,7 @@
-package com.gersimuca.cma.unreleased.productcategory;
+package com.gersimuca.erp.unreleased.productcategory;
 
-import com.gersimuca.cma.unreleased.shared.File;
-import com.gersimuca.cma.unreleased.shared.Image;
+import com.gersimuca.erp.unreleased.shared.File;
+import com.gersimuca.erp.unreleased.shared.Image;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
