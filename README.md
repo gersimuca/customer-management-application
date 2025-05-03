@@ -91,4 +91,4 @@ the [erp-local-sso](./docker/sso/import/erp-realm.json).
 
 The stash logging in live environments can be enabled by setting the correct values for the Openshift environment
 properties, as per the below table.
-The configuration is done in [logback.xml](src/main/resources/logback.xml).
+The configuration is done in [logback.xml](src/main/resources/logback.xml). 
