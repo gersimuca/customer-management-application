@@ -1,5 +1,6 @@
 package com.gersimuca.erp.configuration;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionHandler;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -8,9 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutor;
 
 @Data
-@EnableAsync
+@EnableAsync(proxyTargetClass = true)
 @Configuration
 @ConfigurationProperties(prefix = "async")
 @Slf4j
@@ -24,7 +26,7 @@ public class AsyncConfiguration {
   private String rejectedExecutionHandlerPolicy;
 
   @Bean(name = "asyncTaskExecutor")
-  public ThreadPoolTaskExecutor taskExecutor() {
+  public Executor taskExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(corePoolSize);
     executor.setMaxPoolSize(maxPoolSize);
@@ -35,7 +37,7 @@ public class AsyncConfiguration {
     executor.setRejectedExecutionHandler(
         getRejectedExecutionHandler(rejectedExecutionHandlerPolicy));
     executor.initialize();
-    return executor;
+    return new DelegatingSecurityContextExecutor(executor);
   }
 
   private RejectedExecutionHandler getRejectedExecutionHandler(

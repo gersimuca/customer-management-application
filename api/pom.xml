@@ -31,6 +31,7 @@
         <archunit-junit5.version>1.4.0</archunit-junit5.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <msal4j.version>1.19.1</msal4j.version>
+        <spring-cloud.version>2024.0.1</spring-cloud.version>
         <!-- Plugins -->
         <fmt-maven-plugin.version>2.25</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
@@ -40,6 +41,7 @@
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
         <openapi-generator-maven-plugin.version>7.12.0</openapi-generator-maven-plugin.version>
+        <mock-server-version>5.15.0</mock-server-version>
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.11</jacoco.version>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -54,31 +56,61 @@
         <tag>HEAD</tag>
     </scm>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- Spring Boot Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+       <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-data-jpa</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-security</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-validation</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-actuator</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>io.micrometer</groupId>
+           <artifactId>micrometer-registry-prometheus</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-openfeign</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-openfeign-core</artifactId>
+       </dependency>
+
+       <!--   CACHE     -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
 
         <!-- Spring Boot OAuth2 Client Dependency -->
@@ -167,6 +199,15 @@
             <version>${codehaus-janino.version}</version>
         </dependency>
 
+        <!-- Sanitization -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.19.1</version>
+        </dependency>
+
+
+
         <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -182,6 +223,13 @@
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5</artifactId>
             <version>${archunit-junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Mock server -->
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>${mock-server-version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -209,7 +257,7 @@
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>${openapi-generator-maven-plugin.version}</version>
                 <executions>
-                    <!-- Generate API server -->
+                    <!-- Generate External API server -->
                     <execution>
                         <id>generate-api-server</id>
                         <goals>
