@@ -1,0 +1,28 @@
+Table users {
+    user_id bigint [pk]
+    username varchar(8) [not null, Note: 'The U-Number of the user']
+    given_name varchar(512) [not null]
+    family_name varchar(512) [not null]
+    email varchar(1024) [not null]
+    preferred_language varchar(10) [not null, default: 'en-us']
+    is_active boolean [not null, default: false]
+    last_updated_user_id bigint [not null]
+    last_updated_at timestamp [not null]
+    created_user_id bigint [not null]
+    created_at timestamp [not null]
+}
+
+Table cron_job {
+    cron_job_id bigint [pk]
+    name varchar(512)
+    scheduled_time varchar(512) [not null]
+    last_updated_user_id bigint [not null]
+    last_updated_at timestamp [not null]
+    created_user_id bigint [not null]
+    created_at timestamp [not null]
+}
+
+Ref: users.created_user_id - users.user_id
+Ref: users.last_updated_user_id - users.user_id
+Ref: cron_job.created_user_id - users.user_id
+Ref: cron_job.last_updated_user_id - users.user_id
