@@ -1,10 +1,10 @@
 name: "CI Build for Develop Branch"
 
 on:
-  push:
-    branches: [ "developer" ]
   pull_request:
-    branches: [ "developer" ]
+    branches: [ "develop" ]
+  push:
+    branches: [ "develop" ]
 
 jobs:
   build:
@@ -29,5 +29,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: [BE] Quality
+      - name: BE Quality
         run: mvn clean install -P coverage
