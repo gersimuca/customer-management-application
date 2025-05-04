@@ -1,5 +1,6 @@
 package com.gersimuca.erp.feature.user;
 
+import static com.gersimuca.erp.common.AuthorizationExpressions.IS_AUTHORIZED;
 import static org.springframework.http.ResponseEntity.ok;
 
 import com.gersimuca.erp.api.UsersApi;
@@ -9,6 +10,7 @@ import com.gersimuca.erp.model.UserResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -22,6 +24,7 @@ public class UserController implements UsersApi {
   private final UserMapper mapper;
 
   @Override
+  @PreAuthorize(IS_AUTHORIZED)
   public ResponseEntity<UserResponse> createUser() {
     final Authentication authentication = AuthenticationProvider.getAuthenticationFromContext();
     final UserDto userDto = mapper.mapToDto((Jwt) authentication.getPrincipal());
@@ -29,12 +32,14 @@ public class UserController implements UsersApi {
   }
 
   @Override
+  @PreAuthorize(IS_AUTHORIZED)
   public ResponseEntity<UserResponse> getCurrentUser() {
     final String username = AuthenticationProvider.getPreferredUsernameFromContext();
     return ok(new UserResponse().user(mapper.mapToModel(service.mustLoadByUsername(username))));
   }
 
   @Override
+  @PreAuthorize(IS_AUTHORIZED)
   public ResponseEntity<RolesResponse> getCurrentUserRoles() {
     final Authentication authentication = AuthenticationProvider.getAuthenticationFromContext();
     final List<String> roles =

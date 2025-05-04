@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.cache;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
