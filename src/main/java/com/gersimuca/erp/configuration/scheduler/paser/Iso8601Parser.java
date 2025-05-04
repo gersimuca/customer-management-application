@@ -4,12 +4,8 @@ import com.gersimuca.erp.configuration.scheduler.generator.PeriodicCronGenerator
 import com.gersimuca.erp.configuration.scheduler.generator.ScheduledCronGenerator;
 import java.time.Instant;
 import java.time.ZoneOffset;
-import java.util.logging.Logger;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class Iso8601Parser implements TimeExpressionParser {
-  private static final Logger LOGGER = Logger.getLogger(Iso8601Parser.class.getName());
   public static final String FORMAT_REGEX = "\\d\\d:\\d\\d:\\d\\d";
 
   @Override

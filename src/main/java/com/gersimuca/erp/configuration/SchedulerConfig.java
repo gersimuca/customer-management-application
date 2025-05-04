@@ -76,7 +76,7 @@ public class SchedulerConfig implements SchedulingConfigurer {
                     })));
   }
 
-  @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
+  @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.DAYS)
   void updateTriggerTasks() {
     Map<String, String> delayMapForTasks = service.mapTimeExpressionsToTasks();
     triggerMap.forEach(
