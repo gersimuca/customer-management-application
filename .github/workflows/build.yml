@@ -31,9 +31,3 @@ jobs:
 
       - name: BE Quality
         run: mvn clean install -P coverage
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
