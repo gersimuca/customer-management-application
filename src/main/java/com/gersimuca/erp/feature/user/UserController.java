@@ -31,7 +31,7 @@ public class UserController implements UsersApi {
   @Override
   public ResponseEntity<UserResponse> getCurrentUser() {
     final String username = AuthenticationProvider.getPreferredUsernameFromContext();
-    return ok(new UserResponse().user(mapper.mapToModel(service.getCurrentUser(username))));
+    return ok(new UserResponse().user(mapper.mapToModel(service.mustLoadByUsername(username))));
   }
 
   @Override
