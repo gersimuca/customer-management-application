@@ -206,8 +206,6 @@
             <version>1.19.1</version>
         </dependency>
 
-
-
         <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -225,12 +223,26 @@
             <version>${archunit-junit5.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.instancio</groupId>
+            <artifactId>instancio-junit</artifactId>
+            <version>5.2.1</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Mock server -->
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-netty</artifactId>
             <version>${mock-server-version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Model Training -->
+        <!-- Deeplearning4j (DL4J) -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>1.0.0-beta7</version>
         </dependency>
     </dependencies>
 

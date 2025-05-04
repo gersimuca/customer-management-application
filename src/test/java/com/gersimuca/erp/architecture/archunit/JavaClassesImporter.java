@@ -1,16 +1,13 @@
 package com.gersimuca.erp.architecture.archunit;
 
-import static lombok.AccessLevel.PRIVATE;
-
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = PRIVATE)
 public class JavaClassesImporter {
+
   public static JavaClasses get() {
-    return get("com.gersimuca");
+    return get("de.dlh.lht.engdci");
   }
 
   public static JavaClasses get(String... packages) {
