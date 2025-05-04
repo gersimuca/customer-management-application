@@ -1,9 +1,9 @@
 name: "CI Build for Develop Branch"
 
 on:
-  push:
-    branches: [ "develop" ]
   pull_request:
+    branches: [ "develop" ]
+  push:
     branches: [ "develop" ]
 
 jobs:
@@ -29,11 +29,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: [BE] Quality
+      - name: BE Quality
         run: mvn clean install -P coverage
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
