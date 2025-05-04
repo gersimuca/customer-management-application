@@ -13,7 +13,6 @@ import com.gersimuca.erp.common.exception.EntityNotFoundException;
 import com.gersimuca.erp.common.exception.ErrorSeverity;
 import com.gersimuca.erp.feature.user.UserEntity;
 import java.util.Objects;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

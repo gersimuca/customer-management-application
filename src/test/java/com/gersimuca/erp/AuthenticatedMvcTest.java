@@ -12,8 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 @Target(TYPE)
 @Retention(RUNTIME)
 @WithMockJwtToken(
-        username = "U123456",
-        authorities = {"ADMIN", "USER", "APP_ERP"})
+    username = "U123456",
+    authorities = {"ADMIN", "USER", "APP_ERP"})
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 public @interface AuthenticatedMvcTest {}
