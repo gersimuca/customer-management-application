@@ -16,19 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component("auditorProvider")
 @RequiredArgsConstructor
-public class AuditorProvider implements AuditorAware<UserEntity> {
+public class AuditorProvider implements AuditorAware<Long> {
+  private static final UserEntity SYSTEM_USER = UserEntity.builder().userId(1L).build();
+
   private final UserRepository userRepository;
 
   @Override
   @NonNull
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public Optional<UserEntity> getCurrentAuditor() {
+  public Optional<Long> getCurrentAuditor() {
     var authentication = AuthenticationProvider.getAuthenticationFromContext();
     if (authentication == null) {
-      return userRepository.findByUsername("System");
+      return getUserId("System");
     }
     var username = getUsername(authentication);
-    return userRepository.findByUsername(username);
+    return getUserId(username);
   }
 
   /**
@@ -40,7 +42,14 @@ public class AuditorProvider implements AuditorAware<UserEntity> {
   private String getUsername(final Authentication authentication) {
     if (authentication.getPrincipal() instanceof Jwt jwt) {
       return jwt.getClaimAsString("preferred_username");
+    } else if (authentication.getPrincipal().equals("anonymousUser")) {
+      return "System";
     }
     throw new AuthenticationNotSupportedException();
+  }
+
+  private Optional<Long> getUserId(final String username) {
+    UserEntity userEntity = userRepository.findByUsername(username).orElse(SYSTEM_USER);
+    return Optional.ofNullable(userEntity.getUserId());
   }
 }

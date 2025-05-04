@@ -1,0 +1,3 @@
+[submodule "src/main/resources/resource-planning-api-contract"]
+	path = src/main/resources/resource-planning-api-contract
+	url = ../resource-planning-api-contract.git

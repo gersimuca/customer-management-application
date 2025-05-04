@@ -12,11 +12,6 @@ public interface UserMapper {
 
   UserModel mapToModel(UserDto userDto);
 
-  UserDto mapToDto(UserModel userModel);
-
-  @Mapping(target = "isActive", ignore = true)
-  UserEntity mapToEntity(UserDto userDto);
-
   @Mapping(target = "userId", ignore = true)
   @Mapping(target = "preferredLanguage", ignore = true)
   @Mapping(source = "token", target = "givenName", qualifiedBy = JwtMapper.GivenNameMapper.class)
