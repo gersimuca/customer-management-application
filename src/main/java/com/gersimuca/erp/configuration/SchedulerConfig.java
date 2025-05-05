@@ -8,7 +8,7 @@ import com.gersimuca.erp.configuration.scheduler.paser.TimeExpressionParser;
 import com.gersimuca.erp.feature.cronjob.CronJobService;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ public class SchedulerConfig implements SchedulingConfigurer {
 
   private final CronJobService service;
   // map for accessing the job triggers
-  private final Map<JobType, DynamicScheduledTask> triggerMap = new HashMap<>();
+  private final Map<JobType, DynamicScheduledTask> triggerMap = new EnumMap<>(JobType.class);
   // list to iterate over job types
   private final Collection<JobType> jobTypes = Arrays.stream(JobType.values()).toList();
 

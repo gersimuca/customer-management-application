@@ -1,23 +1,27 @@
 package com.gersimuca.erp.feature.cronjob;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.gersimuca.erp.configuration.scheduler.config.JobType;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.scheduling.TaskScheduler;
 
 class CronJobServiceTest {
   @Mock private CronJobRepository repository;
   @Mock private CronJobMapper mapper;
-  @Mock private TaskScheduler taskScheduler;
 
   @InjectMocks private CronJobService service;
 
@@ -33,17 +37,49 @@ class CronJobServiceTest {
     closeable.close();
   }
 
-  @Test
-  void mapTimeExpressionsToTasks() {
+  @ParameterizedTest
+  @ValueSource(strings = {"Job1", "Job2", "Job3", "Job4", "Job5"})
+  void mapTimeExpressionsToTasks(final String jobName) {
     List<CronJobEntity> entities = CronJobTestData.createCronJobEntities();
-
     when(repository.findAll()).thenReturn(entities);
-
     Map<String, String> result = service.mapTimeExpressionsToTasks();
-
     assertEquals(entities.size(), result.size());
-    assertEquals("0 * * * *", result.get("Job1"));
-    assertEquals("0 * * * *", result.get("Job2"));
-    verify(repository).findAll();
+    assertTrue(result.containsKey(jobName));
+    assertEquals(
+        entities.stream()
+            .filter(entity -> entity.getName().equals(jobName))
+            .map(CronJobEntity::getScheduledTime)
+            .findFirst()
+            .orElse(null),
+        result.get(jobName));
+    verify(repository, times(1)).findAll();
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"Job1", "Job2", "Job3", "Job4", "Job5"})
+  void getTimeExpressions(final String jobName) {
+    List<CronJobEntity> cronJobEntities = CronJobTestData.createCronJobEntities();
+    List<CronJobDto> cronJobDtos = CronJobTestData.createCronJobDtos();
+    when(repository.findByNameIn(Arrays.stream(JobType.values()).map(Enum::name).toList()))
+        .thenReturn(cronJobEntities);
+    when(mapper.mapToListDto(anyList())).thenReturn(cronJobDtos);
+
+    List<CronJobDto> result = service.getTimeExpressions();
+
+    assertEquals(cronJobDtos.size(), result.size());
+    assertTrue(result.stream().anyMatch(dto -> dto.getName().equals(jobName)));
+    assertEquals(
+        cronJobDtos.stream()
+            .filter(dto -> dto.getName().equals(jobName))
+            .map(CronJobDto::getScheduledTime)
+            .findFirst()
+            .orElse(null),
+        result.stream()
+            .filter(dto -> dto.getName().equals(jobName))
+            .map(CronJobDto::getScheduledTime)
+            .findFirst()
+            .orElse(null));
+    verify(repository, times(1))
+        .findByNameIn(Arrays.stream(JobType.values()).map(Enum::name).toList());
   }
 }
