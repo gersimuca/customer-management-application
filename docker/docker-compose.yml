@@ -41,7 +41,7 @@ services:
     ports:
       - "9090:9090"
   grafana:
-    image: grafana/grafana:10.4.18
+    image: grafana/grafana:11.6.1
     container_name: grafana
     ports:
       - "3000:3000"
