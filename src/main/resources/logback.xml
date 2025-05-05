@@ -6,7 +6,7 @@
     <if condition='property("ERP_LOGGING_ENABLED").contains("true")'>
         <then>
             <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-                <destination>${LHT_LOGGING_REMOTE_HOST}:${LHT_LOGGING_REMOTE_PORT}</destination>
+                <destination>${ERP_LOGGING_REMOTE_HOST}:${ERP_LOGGING_REMOTE_PORT}</destination>
                 <encoder class="net.logstash.logback.encoder.LogstashEncoder">
                     <!--
                     A configurable subset was taken from the JBoss lht-platform-base-images lht-logstash.cli:

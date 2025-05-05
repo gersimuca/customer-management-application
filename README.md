@@ -92,3 +92,17 @@ the [erp-local-sso](./docker/sso/import/erp-realm.json).
 The stash logging in live environments can be enabled by setting the correct values for the Openshift environment
 properties, as per the below table.
 The configuration is done in [logback.xml](src/main/resources/logback.xml).
+
+## SonarQube Analysis
+
+The project uses the `jacoco` plugin for code coverage and integrates with SonarQube for static code analysis.
+Make sure your local SonarQube server is running at http://localhost:9000.
+You need to create your own SONAR_TOKEN in your SonarQube account settings.
+To perform a local analysis and send the report to SonarQube, run the following command:
+
+```bash
+mvn clean install -Pcoverage sonar:sonar \
+  -Dsonar.projectKey=ERP \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=SONAR_TOKEN
+

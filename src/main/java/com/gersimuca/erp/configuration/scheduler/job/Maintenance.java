@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class Maintenance extends Job {
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
+  private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
   public Maintenance(CronJobService service) {
     super(service);
