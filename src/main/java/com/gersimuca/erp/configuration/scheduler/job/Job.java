@@ -14,30 +14,29 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public abstract class Job implements Runnable {
 
-  private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
-
   protected final CronJobService service;
 
-  public void performPre() {
+  public void performPre(SimpleDateFormat dateFormat) {
     LoggerUtils.info(
-        log, "--- Start -- {} {}", this.getClass().getName(), DATE_FORMAT.format(new Date()));
+        log, "--- Start -- {} {}", this.getClass().getName(), dateFormat.format(new Date()));
   }
 
-  public void performJob() {
+  public void performJob(SimpleDateFormat dateFormat) {
     LoggerUtils.info(
-        log, "Job executed {} - {}", this.getClass().getName(), DATE_FORMAT.format(new Date()));
+        log, "Job executed {} - {}", this.getClass().getName(), dateFormat.format(new Date()));
   }
 
-  public void performPost() {
+  public void performPost(SimpleDateFormat dateFormat) {
     LoggerUtils.info(
-        log, "--- End -- {} {}", this.getClass().getName(), DATE_FORMAT.format(new Date()));
+        log, "--- End -- {} {}", this.getClass().getName(), dateFormat.format(new Date()));
   }
 
   @Override
   @Transactional
   public void run() {
-    performPre();
-    performJob();
-    performPost();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    performPre(dateFormat);
+    performJob(dateFormat);
+    performPost(dateFormat);
   }
 }
