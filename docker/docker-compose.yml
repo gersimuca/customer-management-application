@@ -50,6 +50,10 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
 
   sonarqube:
     image: sonarqube:lts
