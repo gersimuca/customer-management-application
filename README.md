@@ -101,7 +101,7 @@ You need to create your own SONAR_TOKEN in your SonarQube account settings.
 To perform a local analysis and send the report to SonarQube, run the following command:
 
 ```bash
-mvn clean install -Pcoverage sonar:sonar \
+mvn clean install -P coverage sonar:sonar \
   -Dsonar.projectKey=ERP \
   -Dsonar.host.url=http://localhost:9000 \
   -Dsonar.login=SONAR_TOKEN
