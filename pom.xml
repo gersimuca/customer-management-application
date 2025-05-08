@@ -28,7 +28,7 @@
         <swagger.annotations.version>2.2.30</swagger.annotations.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <hibernate.jpa.modelgen.version>6.6.13.Final</hibernate.jpa.modelgen.version>
-        <archunit-junit5.version>1.4.0</archunit-junit5.version>
+        <archunit-junit5.version>1.4.1</archunit-junit5.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <msal4j.version>1.19.1</msal4j.version>
         <spring-cloud.version>2024.0.1</spring-cloud.version>
