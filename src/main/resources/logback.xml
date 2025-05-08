@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- Environment variables are set in Openshift, make sure we have the correct values there if you want to enable LHT stash logging -->
+    <!-- Environment variables are set in Openshift, make sure we have the correct values there if you want to enable ERP stash logging -->
     <property name="ERP_LOGGING_ENABLED" value="${ERP_LOGGING_ENABLED}" />
 
     <if condition='property("ERP_LOGGING_ENABLED").contains("true")'>
@@ -8,11 +8,6 @@
             <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
                 <destination>${ERP_LOGGING_REMOTE_HOST}:${ERP_LOGGING_REMOTE_PORT}</destination>
                 <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                    <!--
-                    A configurable subset was taken from:
-                    # The formatter to convert a log event to a json object string, that will then be
-                    # transmitted to logstash. ERP.logging expects some fields to have non-standard.
-                    -->
                     <fieldNames>
                         <message>log-message</message>
                     </fieldNames>

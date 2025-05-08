@@ -93,6 +93,38 @@ The stash logging in live environments can be enabled by setting the correct val
 properties, as per the below table.
 The configuration is done in [logback.xml](src/main/resources/logback.xml).
 
+| Variable                  | Example value | Description                                          |
+| ------------------------- | ------------- | ---------------------------------------------------- |
+| `ERP_LOGGING_ENABLED`     | `true`        | Toggles TCP JSON logging to Logstash                 |
+| `ERP_LOGGING_REMOTE_HOST` | `localhost`   | Hostname or IP where Logstash is listening           |
+| `ERP_LOGGING_REMOTE_PORT` | `15000`       | Published port mapped to Logstash TCP input          |
+| `HOSTNAME`                | `erp-local`   | Identifier for this application instance             |
+| `APP_ID`                  | `erp-backend` | Logical application ID                               |
+| `ERP_LOGGING_NAMESPACE`   | `local`       | Environment namespace (e.g., `local`, `dev`, `prod`) |
+| `ERP_LOGGING_STAGE`       | `dev`         | Deployment stage                                     |
+
+#### Setting up Kibana Data View
+
+After you start your ELK stack with Docker Compose (including Elasticsearch, Logstash, and Kibana), follow these steps once to register the logs index in Kibana:
+
+1. Open your browser to `http://localhost:5601` and click **Stack Management** (gear icon).
+2. Select **Data Views** from the left menu.
+3. Click **Create data view**.
+4. In **Name**, enter:
+
+   ```text
+   erp-app-logs-*
+   ```
+5. In **Index pattern**, also enter:
+
+   ```text
+   erp-app-logs-*
+   ```
+6. Choose **@timestamp** for the **Time field**.
+7. Click **Create data view**.
+
+Now navigate to **Discover**, select **erp-app-logs-**\* in the index list and set the time range (e.g., Last 24 hours). Your application logs will appear in JSON format, searchable and filterable.
+
 ## SonarQube Analysis
 
 The project uses the `jacoco` plugin for code coverage and integrates with SonarQube for static code analysis.
