@@ -50,5 +50,28 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+
+  sonarqube:
+    image: sonarqube:lts
+    container_name: erp-sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/api/system/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   grafana-storage:
+  sonarqube_data:
+  sonarqube_extensions:
