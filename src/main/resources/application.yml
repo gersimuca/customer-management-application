@@ -38,7 +38,7 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
     table: flyway_schema_history
-    locations: db/migration,db/importMigration
+    locations: ${FLYWAY_LOCATION:db/migration,db/importMigration}
     validate-on-migrate: true
 
 sso:

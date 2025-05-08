@@ -71,7 +71,8 @@
         "erp": [
           "user",
           "admin",
-          "readonly"
+          "readonly",
+          "app_erp"
         ]
       }
     }

@@ -13,7 +13,6 @@ import com.gersimuca.erp.common.exception.EntityNotFoundException;
 import com.gersimuca.erp.common.exception.ErrorSeverity;
 import com.gersimuca.erp.feature.user.UserEntity;
 import java.util.Objects;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +32,7 @@ class GeneralExceptionHandlerITest {
   void handleBaseException() throws Exception {
     final HttpStatus notFound = HttpStatus.NOT_FOUND;
     JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-    ReflectionTestUtils.setField(converter, "clientId", "engdci");
+    ReflectionTestUtils.setField(converter, "clientId", "erp");
     final EntityNotFoundException entityNotFoundException =
         new EntityNotFoundException(UserEntity.class, "U159785");
     mvc.perform(
@@ -54,7 +53,6 @@ class GeneralExceptionHandlerITest {
 
   @WithMockUser(username = "iron.man")
   @Test
-  @Disabled
   void handleAccessDeniedException() throws Exception {
     final HttpStatus forbidden = HttpStatus.FORBIDDEN;
     final BaseException baseException =
@@ -69,7 +67,7 @@ class GeneralExceptionHandlerITest {
   @Test
   void handleConstraintViolationException() throws Exception {
     JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-    ReflectionTestUtils.setField(converter, "clientId", "engdci");
+    ReflectionTestUtils.setField(converter, "clientId", "erp");
     mvc.perform(
             post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
