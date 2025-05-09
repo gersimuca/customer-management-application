@@ -1,6 +1,7 @@
 package com.gersimuca.erp.configuration;
 
 import com.gersimuca.erp.common.exception.BaseException;
+import com.gersimuca.erp.common.exception.EncryptionException;
 import com.gersimuca.erp.common.exception.ErrorSeverity;
 import com.gersimuca.erp.common.util.LoggerUtils;
 import com.gersimuca.erp.model.ApiError;
@@ -115,6 +116,16 @@ public class GeneralExceptionHandler {
     final HttpStatus conflictHttpStatus = HttpStatus.CONFLICT;
     final ApiError apiErrorResponse = buildApiErrorResponse(exception, conflictHttpStatus);
     return ResponseEntity.status(conflictHttpStatus).body(apiErrorResponse);
+  }
+
+  @ExceptionHandler(EncryptionException.class)
+  public ResponseEntity<ApiError> handleEncryptionException(
+      final EncryptionException exception, final WebRequest request) {
+    LoggerUtils.exception(
+        log, exception, exception.getErrorSeverity(), request.getDescription(false));
+    HttpStatus status = exception.getHttpResponseStatus();
+    ApiError error = buildApiErrorResponse(exception, status);
+    return ResponseEntity.status(status).body(error);
   }
 
   private ApiError buildApiErrorResponse(

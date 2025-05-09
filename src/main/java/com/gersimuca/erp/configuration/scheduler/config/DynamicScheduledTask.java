@@ -51,7 +51,8 @@ public class DynamicScheduledTask implements DynamicSchedule, Trigger {
   public void cron(String cronExpression) {
     if ((cronExpression != null && !cronExpression.equals(this.cronExpression))
         || this.delayInterval > 0) {
-      log.info(
+      LoggerUtils.info(
+          log,
           "restarting task. Old Cron: {}, New Cron: {}. Will delete DelayInterval {} ms. ",
           this.cronExpression,
           cronExpression,
