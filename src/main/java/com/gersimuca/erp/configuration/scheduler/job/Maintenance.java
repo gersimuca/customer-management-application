@@ -11,20 +11,20 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class Maintenance extends Job {
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
   public Maintenance(CronJobService service) {
     super(service);
   }
 
-  public void execute() {
+  public void execute(SimpleDateFormat dateFormat) {
     LoggerUtils.info(
-        log, "Executing Job {} - {}", DATE_FORMAT.format(new Date()), this.getClass().getName());
+        log, "Executing Job {} - {}", dateFormat.format(new Date()), this.getClass().getName());
   }
 
   @Async
   @Override
-  public void performJob() {
-    execute();
+  public void performJob(SimpleDateFormat dateFormat) {
+    super.performJob(dateFormat);
+    execute(dateFormat);
   }
 }

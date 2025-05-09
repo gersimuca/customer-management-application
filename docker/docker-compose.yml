@@ -24,7 +24,7 @@ services:
       - "1433:1433"
   local-erp-sso:
     container_name: erp-sso
-    image: quay.io/keycloak/keycloak:25.0.2
+    image: quay.io/keycloak/keycloak:25.0.6
     volumes:
       - ./sso/import:/opt/keycloak/data/import
     environment:
@@ -34,14 +34,14 @@ services:
       - "8180:8180"
     command: [ "start-dev", "--http-relative-path=/auth", "--import-realm", "--http-port=8180" ]
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.3.1
     container_name: prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:12.0.0
     container_name: grafana
     ports:
       - "3000:3000"
@@ -50,5 +50,57 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+
+  sonarqube:
+    image: sonarqube:lts
+    container_name: erp-sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/api/system/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    container_name: erp-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    container_name: erp-logstash
+    ports:
+      - "15000:5000"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    container_name: erp-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
 volumes:
   grafana-storage:
+  sonarqube_data:
+  sonarqube_extensions:
