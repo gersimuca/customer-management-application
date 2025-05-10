@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
@@ -22,6 +23,7 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamicInsert
+@ToString
 public class CronJobEntity extends AuditedEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
