@@ -83,7 +83,12 @@ server:
 logging:
   level:
     root: ${LOG_LEVEL:INFO}
-
+    org:
+      hibernate:
+        SQL: DEBUG
+        orm:
+          jdbc:
+            bind: TRACE
 
 async:
   core-pool-size: 5
