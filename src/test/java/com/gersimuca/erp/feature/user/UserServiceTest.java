@@ -45,7 +45,6 @@ class UserServiceTest {
   void mustLoadByUsernameExisting() {
     final String existingUsername = IRON_MAN_ENTITY.getUsername();
     when(repository.findByUsername(existingUsername)).thenReturn(Optional.of(IRON_MAN_ENTITY));
-
     service.mustLoadByUsername(existingUsername);
     verify(repository).findByUsername(existingUsername);
   }
