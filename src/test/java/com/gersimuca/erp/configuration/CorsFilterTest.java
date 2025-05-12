@@ -56,4 +56,28 @@ class CorsFilterTest {
                     "x-requested-with, authorization, content-type"))
         .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true"));
   }
+
+  @Test
+  void testCorsFilter_NoAuthorizationHeader() throws Exception {
+    mockMvc
+        .perform(
+            options("/api/users")
+                .header(HttpHeaders.ORIGIN, "http://localhost:4200")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET"))
+        .andExpect(status().isOk())
+        .andExpect(
+            header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:4200"))
+        .andExpect(
+            header()
+                .string(
+                    HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS,
+                    "POST, PUT, PATCH, GET, OPTIONS, DELETE"))
+        .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_MAX_AGE, "3600"))
+        .andExpect(
+            header()
+                .string(
+                    HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS,
+                    "x-requested-with, authorization, content-type"))
+        .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true"));
+  }
 }
