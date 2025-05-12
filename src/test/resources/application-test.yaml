@@ -26,3 +26,22 @@ cors:
 
 sso:
   client-id: erp
+
+coca-offer-management:
+  name: coca-offer-management
+  url: http://localhost:8082/
+
+cdms-engine-types:
+  name: cdms-api
+  url: http://localhost:8082/
+
+feign:
+  client:
+    coca:
+      client-id: core_calculation
+      username: admin
+      password: admin
+    cdms:
+      client-id: cdms
+      username: admin
+      password: admin

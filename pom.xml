@@ -24,18 +24,18 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>21</java.version>
         <!-- Dependencies -->
-        <springdoc-openapi-webmvc-ui.version>2.8.6</springdoc-openapi-webmvc-ui.version>
+        <springdoc-openapi-webmvc-ui.version>2.8.8</springdoc-openapi-webmvc-ui.version>
         <swagger.annotations.version>2.2.30</swagger.annotations.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <hibernate.jpa.modelgen.version>6.6.13.Final</hibernate.jpa.modelgen.version>
-        <archunit-junit5.version>1.4.0</archunit-junit5.version>
+        <archunit-junit5.version>1.4.1</archunit-junit5.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <msal4j.version>1.19.1</msal4j.version>
+        <msal4j.version>1.20.1</msal4j.version>
         <spring-cloud.version>2024.0.1</spring-cloud.version>
         <!-- Plugins -->
-        <fmt-maven-plugin.version>2.25</fmt-maven-plugin.version>
+        <fmt-maven-plugin.version>2.27</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-        <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
+        <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
         <codehaus-janino.version>3.1.12</codehaus-janino.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
@@ -226,7 +226,7 @@
         <dependency>
             <groupId>org.instancio</groupId>
             <artifactId>instancio-junit</artifactId>
-            <version>5.2.1</version>
+            <version>5.4.1</version>
             <scope>test</scope>
         </dependency>
         <!-- Mock server -->
@@ -242,12 +242,17 @@
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
-            <version>1.0.0-beta7</version>
+            <version>1.0.0-M2.1</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
             <!-- Code Formatting -->
             <plugin>
                 <groupId>com.spotify.fmt</groupId>
