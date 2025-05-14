@@ -30,17 +30,17 @@
         <hibernate.jpa.modelgen.version>6.6.13.Final</hibernate.jpa.modelgen.version>
         <archunit-junit5.version>1.4.1</archunit-junit5.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <msal4j.version>1.19.1</msal4j.version>
+        <msal4j.version>1.20.1</msal4j.version>
         <spring-cloud.version>2024.0.1</spring-cloud.version>
         <!-- Plugins -->
         <fmt-maven-plugin.version>2.27</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-        <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
+        <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
         <codehaus-janino.version>3.1.12</codehaus-janino.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
-        <openapi-generator-maven-plugin.version>7.12.0</openapi-generator-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>7.13.0</openapi-generator-maven-plugin.version>
         <mock-server-version>5.15.0</mock-server-version>
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.11</jacoco.version>
@@ -156,7 +156,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.11.0</version>
+            <version>1.13.1</version>
         </dependency>
 
         <!-- Open API -->
@@ -203,7 +203,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.19.1</version>
+            <version>1.20.1</version>
         </dependency>
 
         <!-- Testing -->
@@ -242,7 +242,7 @@
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
-            <version>1.0.0-beta7</version>
+            <version>1.0.0-M2.1</version>
         </dependency>
     </dependencies>
 
