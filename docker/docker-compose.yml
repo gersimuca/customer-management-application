@@ -81,7 +81,7 @@ services:
       - "9200:9200"
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.12.2
+    image: docker.elastic.co/logstash/logstash:8.18.1
     container_name: erp-logstash
     ports:
       - "15000:5000"
