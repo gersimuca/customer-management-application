@@ -2,6 +2,7 @@ package com.gersimuca.erp.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.actuate.cache.CachesEndpoint;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.info.InfoEndpoint;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;
@@ -56,6 +57,7 @@ public class SecurityConfig {
         HealthEndpoint.class,
         PrometheusScrapeEndpoint.class,
         MetricsEndpoint.class,
-        InfoEndpoint.class);
+        InfoEndpoint.class,
+        CachesEndpoint.class);
   }
 }
