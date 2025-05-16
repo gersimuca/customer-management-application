@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.async;
 
 import com.gersimuca.erp.common.exception.TaskRejectionHandler;
 import java.util.HashMap;
