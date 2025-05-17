@@ -34,7 +34,7 @@ services:
       - "8180:8180"
     command: [ "start-dev", "--http-relative-path=/auth", "--import-realm", "--http-port=8180" ]
   prometheus:
-    image: prom/prometheus:v3.3.1
+    image: prom/prometheus:v3.4.0
     container_name: prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -72,7 +72,7 @@ services:
       retries: 5
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.1
     container_name: erp-elasticsearch
     environment:
       - discovery.type=single-node
