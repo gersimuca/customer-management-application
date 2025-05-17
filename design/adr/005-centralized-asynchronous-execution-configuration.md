@@ -74,4 +74,3 @@ We introduced a **centralized async execution strategy** using Spring's `@Enable
 
 * Consider adding a **metrics integration** (e.g., Micrometer) to monitor task execution stats and thread pool usage.
 * Allow **dynamic updates** of executor settings if runtime reconfiguration is needed.
-* Promote `RejectionPolicy` to a proper enum if using stricter naming constraints is preferred.
