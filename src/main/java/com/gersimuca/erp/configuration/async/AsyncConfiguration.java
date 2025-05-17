@@ -29,6 +29,7 @@ public class AsyncConfiguration {
   private Integer keepAliveSeconds;
   private Boolean waitForTasksToCompleteOnShutdown;
   private String rejectedExecutionHandlerPolicy;
+  private Integer phase;
 
   @Bean(name = "asyncTaskExecutor")
   public ThreadPoolTaskExecutor taskExecutor() {
@@ -41,6 +42,8 @@ public class AsyncConfiguration {
     executor.setWaitForTasksToCompleteOnShutdown(getWaitForTasksToCompleteOnShutdown());
     executor.setRejectedExecutionHandler(
         getRejectedExecutionHandler(getRejectedExecutionHandlerPolicy()));
+    executor.setPhase(getPhase());
+    executor.setTaskDecorator(new MappedDiagnosticContextTaskDecorator());
     executor.initialize();
     return executor;
   }
