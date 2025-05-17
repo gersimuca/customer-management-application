@@ -15,7 +15,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class MockitoTest {
+class MockitoTest {
   @Mock List<String> mockList;
 
   @Spy List<String> spyList = new ArrayList<>();
