@@ -16,10 +16,11 @@ public class AsyncExecutorShutdown {
 
   @PreDestroy
   public void shutdown() {
-    for (ThreadPoolTaskExecutor executor : threadPoolTaskExecutors) {
-      String prefix = executor.getThreadNamePrefix();
-      LoggerUtils.info(log, "Shutting down executor with prefix: {}", prefix);
-      executor.shutdown();
-    }
+    threadPoolTaskExecutors.forEach(
+        executor -> {
+          String prefix = executor.getThreadNamePrefix();
+          LoggerUtils.info(log, "Shutting down executor with prefix: {}", prefix);
+          executor.shutdown();
+        });
   }
 }
