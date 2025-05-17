@@ -3,7 +3,6 @@ package com.gersimuca.erp.configuration.async;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
-import com.gersimuca.erp.common.exception.TaskRejectionHandler;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import org.junit.jupiter.api.Test;
@@ -23,6 +22,6 @@ class RejectionPolicyTest {
   @Test
   void unknownPolicyDefaults() {
     RejectedExecutionHandler handler = RejectionPolicy.getHandler("invalid");
-    assertEquals(TaskRejectionHandler.class, handler.getClass());
+    assertEquals(ThreadPoolExecutor.AbortPolicy.class, handler.getClass());
   }
 }
