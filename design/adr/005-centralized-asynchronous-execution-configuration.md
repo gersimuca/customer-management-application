@@ -46,7 +46,7 @@ We introduced a **centralized async execution strategy** using Spring's `@Enable
 ### 5. **`RejectionPolicy`**
 
 * Enum-like class that maps string values to known `RejectedExecutionHandler` implementations.
-* Falls back to a custom `TaskRejectionHandler` on unrecognized input.
+* Falls back to a `ThreadPoolExecutor.AbortPolicy` on unrecognized input.
 
 ---
 
