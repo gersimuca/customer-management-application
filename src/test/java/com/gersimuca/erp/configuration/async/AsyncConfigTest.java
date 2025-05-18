@@ -11,26 +11,26 @@ import java.util.concurrent.Executor;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 
-class AsyncConfigurerConfigTest {
+class AsyncConfigTest {
 
   @Test
   void defaultExecutorIsInjected() {
     Executor mockExec = mock(Executor.class);
-    AsyncConfigurerConfig config = new AsyncConfigurerConfig(mockExec);
+    AsyncConfig config = new AsyncConfig(mockExec);
     assertSame(mockExec, config.getAsyncExecutor());
   }
 
   @Test
   void uncaughtExceptionHandlerNotNull()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    Method method = AsyncConfigurerConfig.class.getMethod("getAsyncUncaughtExceptionHandler");
-    assertNotNull(method.invoke(new AsyncConfigurerConfig(mock(Executor.class))));
+    Method method = AsyncConfig.class.getMethod("getAsyncUncaughtExceptionHandler");
+    assertNotNull(method.invoke(new AsyncConfig(mock(Executor.class))));
   }
 
   @Test
   void uncaughtExceptionHandler_handlesExceptionGracefully() throws NoSuchMethodException {
     Executor mockExecutor = mock(Executor.class);
-    AsyncConfigurerConfig config = new AsyncConfigurerConfig(mockExecutor);
+    AsyncConfig config = new AsyncConfig(mockExecutor);
 
     Method method = DummyService.class.getMethod("failingAsyncMethod", String.class);
     Object[] params = {"sample-input"};

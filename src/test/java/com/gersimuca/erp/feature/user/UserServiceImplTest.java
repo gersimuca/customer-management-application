@@ -22,18 +22,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class UserServiceTest {
+class UserServiceImplTest {
 
   @Mock private UserRepository repository;
   @Mock private UserMapper mapper;
   @Mock private Validator validator;
 
-  @InjectMocks private UserService service;
+  @InjectMocks private UserServiceImpl service;
 
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    service = new UserService(mapper, repository, validator);
+    service = new UserServiceImpl(mapper, repository, validator);
 
     when(repository.findAll()).thenReturn(List.of(IRON_MAN_ENTITY));
     when(repository.findById(IRON_MAN_ENTITY.getUserId())).thenReturn(Optional.of(IRON_MAN_ENTITY));
