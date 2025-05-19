@@ -79,6 +79,7 @@ server:
       enabled: true
   http2:
     enabled: true
+  shutdown: graceful
 
 logging:
   level:

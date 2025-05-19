@@ -50,7 +50,6 @@ public class LoggingAspect {
         joinPoint.getSignature().getName(),
         getDuration(),
         exception.getMessage());
-    clearTimer();
   }
 
   private String getDuration() {

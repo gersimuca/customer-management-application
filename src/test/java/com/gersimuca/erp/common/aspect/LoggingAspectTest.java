@@ -117,7 +117,7 @@ class LoggingAspectTest {
     Field tlField = LoggingAspect.class.getDeclaredField("startTime");
     tlField.setAccessible(true);
     ThreadLocal<?> tl = (ThreadLocal<?>) tlField.get(aspect);
-    assertNull(tl.get(), "startTime should have been cleared");
+    assertNotNull(tl.get(), "startTime should not been cleared");
   }
 
   @ParameterizedTest
