@@ -2,6 +2,7 @@ package com.gersimuca.erp.configuration.async;
 
 import com.gersimuca.erp.common.util.LoggerUtils;
 import java.util.concurrent.Executor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,12 +11,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class AsyncConfigurerConfig implements AsyncConfigurer {
-  private final Executor executor;
-
-  public AsyncConfigurerConfig(@Qualifier("asyncSecurityContexExecutor") Executor executor) {
-    this.executor = executor;
-  }
+@RequiredArgsConstructor
+public class AsyncConfig implements AsyncConfigurer {
+  private final @Qualifier("asyncSecurityContexExecutor") Executor executor;
 
   @Override
   public Executor getAsyncExecutor() {

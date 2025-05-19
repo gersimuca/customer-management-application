@@ -19,11 +19,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class CronJobServiceTest {
+class CronJobServiceImplTest {
   @Mock private CronJobRepository repository;
   @Mock private CronJobMapper mapper;
 
-  @InjectMocks private CronJobService service;
+  @InjectMocks private CronJobServiceImpl service;
 
   private AutoCloseable closeable;
 

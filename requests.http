@@ -36,34 +36,6 @@ Authorization: Bearer {{$auth.token("token")}}
     assertResponseBodyPropertyIsNotEmpty("roles")
 %}
 
-### Upload Document for RAG
-# @no-cookie-jar
-POST {{Api-URL}}/api/rag/upload
-Content-Type: text/plain
-Authorization: Bearer {{$auth.token("token")}}
-
-This is the sample document text that I want to upload for RAG processing.
-
-> {%
-    import {assertResponseStatus} from './rest-client.util.js'
-
-    assertResponseStatus(200)
-%}
-
-### Query RAG
-# @no-cookie-jar
-POST {{Api-URL}}/api/rag/query
-Content-Type: text/plain
-Authorization: Bearer {{$auth.token("token")}}
-
-What is the summary of the uploaded document?
-
-> {%
-    import {assertResponseStatus} from './rest-client.util.js'
-
-    assertResponseStatus(200)
-%}
-
 ### Swagger UI Check
 # @no-cookie-jar
 GET {{Api-URL}}/api/swagger-ui/index.html

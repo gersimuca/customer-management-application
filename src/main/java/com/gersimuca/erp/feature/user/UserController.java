@@ -9,6 +9,7 @@ import com.gersimuca.erp.model.RolesResponse;
 import com.gersimuca.erp.model.UserResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController implements UsersApi {
 
+  @Qualifier("userServiceImpl")
   private final UserService service;
+
   private final UserMapper mapper;
 
   @Override
