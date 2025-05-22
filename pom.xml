@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -31,7 +31,7 @@
         <archunit-junit5.version>1.4.1</archunit-junit5.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <msal4j.version>1.20.1</msal4j.version>
-        <spring-cloud.version>2024.0.1</spring-cloud.version>
+        <spring-cloud.version>2025.0.0-RC1</spring-cloud.version>
         <!-- Plugins -->
         <fmt-maven-plugin.version>2.27</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
@@ -105,6 +105,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
         </dependency>
 
        <!--   CACHE     -->
@@ -303,6 +307,37 @@
                     </execution>
                 </executions>
             </plugin>
+
+<!--            &lt;!&ndash; Generation of GraphQL API server and clients, mirroring OpenAPI layout &ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>io.github.kobylynskyi</groupId>-->
+<!--                <artifactId>graphql-codegen-maven-plugin</artifactId>-->
+<!--                <version>5.10.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>generate-graphql-server</id>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; Path to your GraphQL schema &ndash;&gt;-->
+<!--                            <schemaPaths>-->
+<!--                                <param>${project.basedir}/src/main/resources/graphql/schema.graphqls</param>-->
+<!--                            </schemaPaths>-->
+<!--                            <outputDir>${project.basedir}/src/gen/java/main</outputDir>-->
+
+<!--                            <packageName>com.gersimuca.erp.graphql</packageName>-->
+<!--                            <modelPackageName>com.gersimuca.erp.graphql.model</modelPackageName>-->
+<!--                            <apiPackageName>com.gersimuca.erp.graphql.api</apiPackageName>-->
+
+<!--                            <generateApis>true</generateApis>-->
+<!--                            <generateModels>true</generateModels>-->
+<!--                            <generateParameterizedFieldsResolvers>true</generateParameterizedFieldsResolvers>-->
+<!--                            <generateClient>true</generateClient>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
