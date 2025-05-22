@@ -40,6 +40,9 @@ spring:
     table: flyway_schema_history
     locations: ${FLYWAY_LOCATION:db/migration,db/importMigration}
     validate-on-migrate: true
+  graphql:
+    graphiql:
+      enabled: true
 
 sso:
   client-id: ${SSO_CLIENT_ID:erp}
@@ -99,3 +102,4 @@ async:
   wait-for-tasks-to-complete-on-shutdown: true
   rejected-execution-handler-policy: abort # Options: abort, callerruns, discard, discardoldest
   phase: 10
+
