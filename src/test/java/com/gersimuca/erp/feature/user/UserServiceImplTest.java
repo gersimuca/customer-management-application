@@ -96,6 +96,7 @@ class UserServiceImplTest {
   void createUserWhenUserAlreadyExists() {
     final String existingUsername = IRON_MAN_DTO.getUsername();
     when(repository.existsByUsername(existingUsername)).thenReturn(true);
+
     assertThrows(EntityAlreadyExistsException.class, () -> service.createUser(IRON_MAN_DTO));
     verify(repository, never()).save(ArgumentMatchers.any(UserEntity.class));
   }
