@@ -1,6 +1,7 @@
 package com.gersimuca.erp.feature.cronjob;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
@@ -26,6 +27,13 @@ class CronJobServiceImplTest {
   @InjectMocks private CronJobServiceImpl service;
 
   private AutoCloseable closeable;
+
+  @BeforeEach
+  void contextLoads() {
+    assertNotNull(repository, "Repository should not be null");
+    assertNotNull(mapper, "Mapper should not be null");
+    assertNotNull(service, "Service should not be null");
+  }
 
   @BeforeEach
   void setUp() {

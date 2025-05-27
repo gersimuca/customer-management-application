@@ -64,9 +64,16 @@ public class LoggingAspect {
     Long seconds = duration.minusMinutes(minutes).getSeconds();
     Long milliseconds = duration.minusMinutes(minutes).minusSeconds(seconds).toMillis();
     StringBuilder sb = new StringBuilder();
-    if (minutes > 0) sb.append(minutes).append(" m ");
-    if (seconds > 0 || minutes > 0) sb.append(seconds).append(" s ");
-    sb.append(milliseconds).append(" ms");
+
+    if (minutes > 0) {
+      sb.append(minutes).append("m");
+    }
+
+    if (seconds > 0 || minutes > 0) {
+      sb.append(seconds).append("s");
+    }
+
+    sb.append(milliseconds).append("ms");
     return sb.toString().trim();
   }
 

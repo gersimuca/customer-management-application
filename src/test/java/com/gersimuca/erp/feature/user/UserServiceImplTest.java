@@ -3,6 +3,7 @@ package com.gersimuca.erp.feature.user;
 import static com.gersimuca.erp.feature.user.UserTestData.IRON_MAN_DTO;
 import static com.gersimuca.erp.feature.user.UserTestData.IRON_MAN_ENTITY;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -29,6 +30,14 @@ class UserServiceImplTest {
   @Mock private Validator validator;
 
   @InjectMocks private UserServiceImpl service;
+
+  @BeforeEach
+  void contextLoads() {
+    assertNotNull(repository);
+    assertNotNull(mapper);
+    assertNotNull(validator);
+    assertNotNull(service);
+  }
 
   @BeforeEach
   void setUp() {

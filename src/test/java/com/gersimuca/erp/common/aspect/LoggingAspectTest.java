@@ -36,6 +36,12 @@ class LoggingAspectTest {
     loggerUtilsMock = mockStatic(LoggerUtils.class);
   }
 
+  @BeforeEach
+  void contextLoads() {
+    assertNotNull(aspect, "Aspect should not be null");
+    assertNotNull(loggerUtilsMock, "LoggerUtils mock should not be null");
+  }
+
   @AfterEach
   void tearDown() {
     ReflectionTestUtils.invokeMethod(aspect, "clearTimer");
@@ -138,10 +144,10 @@ class LoggingAspectTest {
 
   static Stream<Arguments> durationProvider() {
     return Stream.of(
-        Arguments.of(Duration.ofMillis(0), "0 ms"),
-        Arguments.of(Duration.ofMillis(345), "345 ms"),
-        Arguments.of(Duration.ofSeconds(1), "1 s 0 ms"),
-        Arguments.of(Duration.ofSeconds(40), "40 s 0 ms"),
-        Arguments.of(Duration.ofMinutes(1).plusSeconds(2).plusMillis(345), "1 m 2 s 345 ms"));
+        Arguments.of(Duration.ofMillis(0), "0ms"),
+        Arguments.of(Duration.ofMillis(345), "345ms"),
+        Arguments.of(Duration.ofSeconds(1), "1s0ms"),
+        Arguments.of(Duration.ofSeconds(40), "40s0ms"),
+        Arguments.of(Duration.ofMinutes(1).plusSeconds(2).plusMillis(345), "1m2s345ms"));
   }
 }
