@@ -52,7 +52,7 @@ class MdcInterceptorTest {
   }
 
   @Test
-  public void testAfterCompletionRemovesRequestId() {
+  void testAfterCompletionRemovesRequestId() {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
 

@@ -15,7 +15,7 @@ import org.mockserver.model.MediaType;
 import org.mockserver.model.StringBody;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MockServerTest {
+class MockServerTest {
   private MockServerClient mockServerClient;
   private ObjectMapper objectMapper;
 
