@@ -26,7 +26,7 @@ class CronJobServiceImplTest {
 
   @InjectMocks private CronJobServiceImpl service;
 
-  private AutoCloseable closeable;
+  @Mock private AutoCloseable closeable;
 
   @BeforeEach
   void contextLoads() {

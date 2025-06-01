@@ -1,5 +1,6 @@
 package com.gersimuca.erp.configuration;
 
+import com.gersimuca.erp.configuration.interceptor.MdcInterceptor;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

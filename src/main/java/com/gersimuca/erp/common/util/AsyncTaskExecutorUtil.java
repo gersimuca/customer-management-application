@@ -25,9 +25,12 @@ public class AsyncTaskExecutorUtil {
               })
           .join();
     } catch (CompletionException ex) {
-      throw ex.getCause() instanceof RuntimeException
-          ? (RuntimeException) ex.getCause()
-          : new RuntimeException(ex);
+      Throwable cause = ex.getCause();
+      if (cause instanceof RuntimeException runtimeException) {
+        throw runtimeException;
+      } else {
+        throw new RuntimeException(ex);
+      }
     }
   }
 
@@ -42,9 +45,12 @@ public class AsyncTaskExecutorUtil {
               })
           .join();
     } catch (CompletionException ex) {
-      throw ex.getCause() instanceof RuntimeException
-          ? (RuntimeException) ex.getCause()
-          : new RuntimeException(ex);
+      Throwable cause = ex.getCause();
+      if (cause instanceof RuntimeException runtimeException) {
+        throw runtimeException;
+      } else {
+        throw new RuntimeException(ex);
+      }
     }
   }
 }
