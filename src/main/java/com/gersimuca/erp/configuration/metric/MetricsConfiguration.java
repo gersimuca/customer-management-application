@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.metric;
 
 import io.micrometer.core.instrument.Meter;
 import io.micrometer.core.instrument.MeterRegistry;
