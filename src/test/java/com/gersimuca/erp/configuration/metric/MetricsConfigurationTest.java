@@ -19,7 +19,7 @@ class MetricsConfigurationTest {
     config.metrics().customize(registry);
 
     Counter counter = registry.counter(metricName);
-    assertThat(counter.getId().getName()).isEqualTo("erp_" + metricName);
+    assertThat(counter.getId().getName()).isEqualTo(String.format("erp_%s", metricName));
   }
 
   @ParameterizedTest
@@ -31,7 +31,7 @@ class MetricsConfigurationTest {
     config.metrics().customize(registry);
 
     Gauge gauge = Gauge.builder(metricName, () -> 1.0).register(registry);
-    assertThat(gauge.getId().getName()).isEqualTo("erp_" + metricName);
+    assertThat(gauge.getId().getName()).isEqualTo(String.format("erp_%s", metricName));
   }
 
   @ParameterizedTest
@@ -43,6 +43,6 @@ class MetricsConfigurationTest {
     config.metrics().customize(registry);
 
     Counter counter = registry.counter(metricName);
-    assertThat(counter.getId().getName()).isEqualTo("erp_" + metricName);
+    assertThat(counter.getId().getName()).isEqualTo(String.format("erp_%s", metricName));
   }
 }
