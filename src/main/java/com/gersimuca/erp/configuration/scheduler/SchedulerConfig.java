@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.scheduler;
 
 import com.gersimuca.erp.configuration.scheduler.config.DynamicScheduledTask;
 import com.gersimuca.erp.configuration.scheduler.config.JobType;
