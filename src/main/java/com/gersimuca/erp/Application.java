@@ -16,4 +16,3 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 }
-// This is the main entry point for the ERP application.
