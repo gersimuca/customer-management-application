@@ -2,7 +2,33 @@
 
 ## Getting Started
 
-To start your own new application clone this repository.
+To start your own new application, **clone the repository with all submodules**:
+
+```bash
+git clone --recurse-submodules https://github.com/gersimuca/resource-planning.git
+```
+
+> If you already cloned the repository without `--recurse-submodules`, initialize submodules with:
+
+```bash
+git submodule update --init --recursive
+```
+
+### Pull latest changes including submodules
+
+```bash
+git pull --recurse-submodules
+```
+
+Or update submodules separately:
+
+```bash
+git submodule update --remote --merge
+```
+
+> Submodules are separate repositories embedded in this project (e.g., `user-interface`). Cloning without them may cause the application to fail.
+
+---
 
 ### Authorization
 
@@ -50,7 +76,7 @@ In OpenShift the environment variables are provided via the `DeploymentConfig`.
 | `SSO_JWK_SET_URI`      | URL to the SSO certificate endpoint.                                                  | `http://localhost:8180/auth/realms/ERP/protocol/openid-connect/certs`                         |
 | `CORS_ALLOWED_ORIGINS` | Comma separated allowed CORS origin URLs.                                             | `http://localhost:4200`                                                                       |
 | `LOG_LEVEL`            | Sets the \*Spring\* root log level.                                                   |                                                                                               | |
-| `SSO_JWT_TOKEN_URI`    | SSO Token URI.                                                                        | `https://sso-kons.app.lhtcloud.com/auth/realms/ERP/protocol/openid-connect/token`             |
+| `SSO_JWT_TOKEN_URI`    | SSO Token URI.                                                                        | `http://localhost:8180/auth/realms/ERP/protocol/openid-connect/token`                         |
 | `FLYWAY_LOCATION`      | Flyway folders to be imported                                                         | `db/migration,db/importMigration`                                                             |
 
 ## Development
