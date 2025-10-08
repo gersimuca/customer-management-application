@@ -4,13 +4,14 @@ services:
     image: mcr.microsoft.com/mssql-tools:latest
     container_name: erp-init-db
     volumes:
-      - ./init-db.sql:/init-db.sql
+      - ./mssql/init-db.sql:/init-db.sql
     env_file:
-      - sqlserver.env
+      - mssql/sqlserver.env
     command: /bin/bash -c '/opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P $$MSSQL_SA_PASSWORD -i init-db.sql'
     depends_on:
       sqlserver:
         condition: service_healthy
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04
     healthcheck:
@@ -19,9 +20,10 @@ services:
       retries: 10
     container_name: erp-mssql
     env_file:
-      - sqlserver.env
+      - mssql/sqlserver.env
     ports:
       - "1433:1433"
+
   local-erp-sso:
     container_name: erp-sso
     image: quay.io/keycloak/keycloak:26.2.5
@@ -33,13 +35,15 @@ services:
     ports:
       - "8180:8180"
     command: [ "start-dev", "--http-relative-path=/auth", "--import-realm", "--http-port=8180" ]
+
   prometheus:
     image: prom/prometheus:v3.4.1
     container_name: prometheus
-    volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
   grafana:
     image: grafana/grafana:12.0.1
     container_name: grafana
@@ -48,10 +52,6 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SECURITY_ADMIN_USER=admin
-    volumes:
-      - grafana-storage:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
 
@@ -62,9 +62,6 @@ services:
       - "9000:9000"
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9000/api/system/health" ]
       interval: 10s
@@ -79,6 +76,11 @@ services:
       - xpack.security.enabled=false
     ports:
       - "9200:9200"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep '\"status\":\"green\"'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   logstash:
     image: docker.elastic.co/logstash/logstash:9.0.2
@@ -86,9 +88,10 @@ services:
     ports:
       - "15000:5000"
     volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
   kibana:
     image: docker.elastic.co/kibana/kibana:9.0.2
@@ -99,8 +102,3 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-
-volumes:
-  grafana-storage:
-  sonarqube_data:
-  sonarqube_extensions:

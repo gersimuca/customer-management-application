@@ -26,7 +26,7 @@ Or update submodules separately:
 git submodule update --remote --merge
 ```
 
-> Submodules are separate repositories embedded in this project (e.g., `user-interface`). Cloning without them may cause the application to fail.
+> Submodules are separate repositories embedded in this project (e.g., `resource-planning-ui-service`). Cloning without them may cause the application to fail.
 
 ---
 
@@ -90,7 +90,7 @@ command:
 - `docker compose -f docker\docker-compose.yml up -d` (Windows)
 
 If you want to use a *Local SSO* instance, please refer to the Git
-repository [erp-local-sso](./docker/sso/import/erp-realm.json) and
+repository [erp-local-sso](./docker/sso/import/ERP-realm.json) and
 follow the instructions.
 
 ### Starting the service
@@ -110,7 +110,7 @@ an automated script that starts the service and initializes the local SQL Server
 
 Note that this requires Node.js to be installed and configured correctly on your local development machine. The
 parameter `use-local-sso` starts the service using
-the [erp-local-sso](./docker/sso/import/erp-realm.json).
+the [erp-local-sso](./docker/sso/import/ERP-realm.json).
 
 
 ### Logging
