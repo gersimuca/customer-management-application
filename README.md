@@ -2,7 +2,33 @@
 
 ## Getting Started
 
-To start your own new application clone this repository.
+To start your own new application, **clone the repository with all submodules**:
+
+```bash
+git clone --recurse-submodules https://github.com/gersimuca/resource-planning.git
+```
+
+> If you already cloned the repository without `--recurse-submodules`, initialize submodules with:
+
+```bash
+git submodule update --init --recursive
+```
+
+### Pull latest changes including submodules
+
+```bash
+git pull --recurse-submodules
+```
+
+Or update submodules separately:
+
+```bash
+git submodule update --remote --merge
+```
+
+> Submodules are separate repositories embedded in this project (e.g., `resource-planning-ui-service`). Cloning without them may cause the application to fail.
+
+---
 
 ### Authorization
 
@@ -50,7 +76,7 @@ In OpenShift the environment variables are provided via the `DeploymentConfig`.
 | `SSO_JWK_SET_URI`      | URL to the SSO certificate endpoint.                                                  | `http://localhost:8180/auth/realms/ERP/protocol/openid-connect/certs`                         |
 | `CORS_ALLOWED_ORIGINS` | Comma separated allowed CORS origin URLs.                                             | `http://localhost:4200`                                                                       |
 | `LOG_LEVEL`            | Sets the \*Spring\* root log level.                                                   |                                                                                               | |
-| `SSO_JWT_TOKEN_URI`    | SSO Token URI.                                                                        | `https://sso-kons.app.lhtcloud.com/auth/realms/ERP/protocol/openid-connect/token`             |
+| `SSO_JWT_TOKEN_URI`    | SSO Token URI.                                                                        | `http://localhost:8180/auth/realms/ERP/protocol/openid-connect/token`                         |
 | `FLYWAY_LOCATION`      | Flyway folders to be imported                                                         | `db/migration,db/importMigration`                                                             |
 
 ## Development
@@ -64,7 +90,7 @@ command:
 - `docker compose -f docker\docker-compose.yml up -d` (Windows)
 
 If you want to use a *Local SSO* instance, please refer to the Git
-repository [erp-local-sso](./docker/sso/import/erp-realm.json) and
+repository [erp-local-sso](./docker/sso/import/ERP-realm.json) and
 follow the instructions.
 
 ### Starting the service
@@ -84,7 +110,7 @@ an automated script that starts the service and initializes the local SQL Server
 
 Note that this requires Node.js to be installed and configured correctly on your local development machine. The
 parameter `use-local-sso` starts the service using
-the [erp-local-sso](./docker/sso/import/erp-realm.json).
+the [erp-local-sso](./docker/sso/import/ERP-realm.json).
 
 
 ### Logging
