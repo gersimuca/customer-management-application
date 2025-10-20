@@ -37,7 +37,7 @@ services:
     command: [ "start-dev", "--http-relative-path=/auth", "--import-realm", "--http-port=8180" ]
 
   prometheus:
-    image: prom/prometheus:v3.4.1
+    image: prom/prometheus:v3.7.1
     container_name: prometheus
     ports:
       - "9090:9090"
