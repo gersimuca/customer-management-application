@@ -27,7 +27,7 @@
         <springdoc-openapi-webmvc-ui.version>2.8.9</springdoc-openapi-webmvc-ui.version>
         <swagger.annotations.version>2.2.34</swagger.annotations.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <hibernate.jpa.modelgen.version>7.0.2.Final</hibernate.jpa.modelgen.version>
+        <hibernate.jpa.modelgen.version>7.0.3.Final</hibernate.jpa.modelgen.version>
         <archunit-junit5.version>1.4.1</archunit-junit5.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <msal4j.version>1.21.0</msal4j.version>
@@ -40,7 +40,7 @@
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
-        <openapi-generator-maven-plugin.version>7.14.0</openapi-generator-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>7.16.0</openapi-generator-maven-plugin.version>
         <mock-server-version>5.15.0</mock-server-version>
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.11</jacoco.version>
