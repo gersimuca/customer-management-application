@@ -83,7 +83,7 @@ services:
       retries: 10
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:9.0.2
+    image: docker.elastic.co/logstash/logstash:9.1.5
     container_name: erp-logstash
     ports:
       - "15000:5000"
