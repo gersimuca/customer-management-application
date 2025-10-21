@@ -45,7 +45,7 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   grafana:
-    image: grafana/grafana:12.0.2
+    image: grafana/grafana:12.0.1
     container_name: grafana
     ports:
       - "3000:3000"
@@ -86,7 +86,7 @@ services:
     image: docker.elastic.co/logstash/logstash:9.0.2
     container_name: erp-logstash
     ports:
-      - "15000:5000"
+      - "15000:15000"
     volumes:
       - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
     depends_on:
@@ -102,3 +102,34 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+
+  zookeeper:
+    container_name: erp-zookeeper
+    image: confluentinc/cp-zookeeper:7.6.6
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/zookeeper_jaas.conf"
+    volumes:
+      - ./zookeeper/zookeeper_server_jaas.conf:/etc/kafka/zookeeper_jaas.conf
+    ports:
+      - 2181:2181
+
+  kafka:
+    container_name: erp-kafka
+    image: confluentinc/cp-kafka:7.6.6
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: SASL_PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://localhost:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: SASL_PLAINTEXT
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+    ports:
+      - "9092:9092"

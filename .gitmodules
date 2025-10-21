@@ -1,6 +1,6 @@
 [submodule "src/main/resources/resource-planning-api-contract"]
 	path = src/main/resources/resource-planning-api-contract
-	url = ../resource-planning-api-contract.git
+	url = https://github.com/gersimuca/resource-planning-api-contract.git
 [submodule "resource-planning-ui-service"]
 	path = resource-planning-ui-service
-	url = https://github.com/gersimuca/resource-planning-ui-service
+	url = https://github.com/gersimuca/resource-planning-ui-service.git

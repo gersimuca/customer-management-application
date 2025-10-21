@@ -22,7 +22,7 @@
         <!-- Application -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <!-- Dependencies -->
         <springdoc-openapi-webmvc-ui.version>2.8.13</springdoc-openapi-webmvc-ui.version>
         <swagger.annotations.version>2.2.39</swagger.annotations.version>
@@ -33,7 +33,7 @@
         <msal4j.version>1.23.1</msal4j.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <!-- Plugins -->
-        <fmt-maven-plugin.version>2.27</fmt-maven-plugin.version>
+        <fmt-maven-plugin.version>2.28</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
         <codehaus-janino.version>3.1.12</codehaus-janino.version>
