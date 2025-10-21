@@ -38,7 +38,7 @@
         <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
         <codehaus-janino.version>3.1.12</codehaus-janino.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
-        <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
+        <maven-scm-plugin.version>2.2.1</maven-scm-plugin.version>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
         <openapi-generator-maven-plugin.version>7.16.0</openapi-generator-maven-plugin.version>
         <mock-server-version>5.15.0</mock-server-version>
