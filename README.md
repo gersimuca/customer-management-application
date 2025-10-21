@@ -32,7 +32,7 @@ git submodule update --remote --merge
 
 ### Authorization
 
-Authorization is done using the OpenID connect support of *Spring* security and the LHT *Keycloak*.
+Authorization is done using the OpenID connect support of *Spring* security and the ERP *Keycloak*.
 The `erp-api-service` uses a configured `erp` client that has multiple users.
 
 Check out the `requests.http` file where you can authenticate as one of the two and fire up requests against the API.
