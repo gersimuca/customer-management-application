@@ -33,7 +33,7 @@
         <msal4j.version>1.23.1</msal4j.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <!-- Plugins -->
-        <fmt-maven-plugin.version>2.28</fmt-maven-plugin.version>
+        <fmt-maven-plugin.version>2.29</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
         <codehaus-janino.version>3.1.12</codehaus-janino.version>
