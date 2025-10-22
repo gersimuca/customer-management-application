@@ -117,7 +117,7 @@ services:
 
   kafka:
     container_name: erp-kafka
-    image: confluentinc/cp-kafka:7.6.6
+    image: confluentinc/cp-kafka:8.1.0
     depends_on:
       - zookeeper
     environment:
