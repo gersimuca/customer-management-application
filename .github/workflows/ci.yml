@@ -59,4 +59,4 @@ jobs:
 
       - name: Stop Docker Compose Services
         if: always()
-        run: docker-compose -f docker/docker-compose.yml down
+        run: docker compose -f docker/docker-compose.yml down
