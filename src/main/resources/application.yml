@@ -40,6 +40,7 @@ spring:
     table: flyway_schema_history
     locations: ${FLYWAY_LOCATION:db/migration,db/importMigration}
     validate-on-migrate: true
+    clean-disabled: true
   graphql:
     graphiql:
       enabled: true
@@ -51,10 +52,16 @@ cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
 
 management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+            server:
+                requests: true
   endpoints:
     web:
       exposure:
-        include: health, prometheus
+        include: health, prometheus, info, loggers, threaddump
       base-path: /status
     access:
       default: read_only
@@ -64,6 +71,12 @@ management:
         enabled: true
       access:
     prometheus:
+      access: read_only
+    info:
+      access: read_only
+    loggers:
+      access: read_only
+    threaddump:
       access: read_only
   server:
     port: 8090

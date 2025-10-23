@@ -1,0 +1,290 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": false,
+  "id": null,
+  "title": "ERP API Service Dashboard",
+  "uid": "erp-api-service-dashboard",
+  "tags": [
+    "erp-api-service"
+  ],
+  "schemaVersion": 36,
+  "version": 5,
+  "refresh": "10s",
+  "timezone": "",
+  "panels": [
+    {
+      "title": "JVM Heap Used (MB)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "erp_jvm_memory_used_bytes{area=\"heap\"} / 1024 / 1024",
+          "legendFormat": "{{id}} - Heap Used (MB)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "JVM Non-Heap Used (MB)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "erp_jvm_memory_used_bytes{area=\"nonheap\"} / 1024 / 1024",
+          "legendFormat": "{{id}} - Non-Heap Used (MB)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "System CPU Load (%)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "erp_system_cpu_usage * 100",
+          "legendFormat": "CPU %",
+          "refId": "A"
+        }
+      ],
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                80
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "name": "CPU > 80%",
+        "noDataState": "no_data",
+        "notifications": []
+      }
+    },
+    {
+      "title": "JVM Threads Live",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "erp_jvm_threads_live_threads",
+          "legendFormat": "Live Threads",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "HTTP Request Rate (req/s)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_count[1m])",
+          "legendFormat": "{{method}} {{uri}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "HTTP Request Duration (p95, ms)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[1m])) by (le, uri)) * 1000",
+          "legendFormat": "p95 - {{uri}}",
+          "refId": "A"
+        }
+      ],
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                500
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "name": "HTTP p95 > 500ms",
+        "noDataState": "no_data",
+        "notifications": []
+      }
+    },
+    {
+      "title": "JVM GC Pause Duration (ms)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "rate(jvm_gc_pause_seconds_sum[5m]) * 1000",
+          "legendFormat": "GC Pause (ms)",
+          "refId": "A"
+        }
+      ],
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                500
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "name": "GC Pause > 500ms",
+        "noDataState": "no_data",
+        "notifications": []
+      }
+    },
+    {
+      "title": "JVM GC Pause Count",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "rate(jvm_gc_pause_seconds_count[5m])",
+          "legendFormat": "GC Count",
+          "refId": "A"
+        }
+      ],
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                50
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "name": "GC Count > 50",
+        "noDataState": "no_data",
+        "notifications": []
+      }
+    }
+  ]
+}
