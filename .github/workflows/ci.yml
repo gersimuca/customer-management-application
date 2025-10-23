@@ -2,9 +2,9 @@ name: "CI Build for Develop Branch"
 
 on:
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "*" ]
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "master", "main" ]
 
 jobs:
   build:
@@ -29,5 +29,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Start Docker Compose Services
+        run: docker-compose -f docker/docker-compose.yml up -d
+
+      - name: Wait for all services to be healthy
+        run: |
+          set -e
+
+          # List of all container names
+          services=("erp-mssql" "erp-init-db" "erp-sso" "prometheus" "grafana" "erp-sonarqube" "erp-elasticsearch" "erp-logstash" "erp-kibana" "erp-zookeeper" "erp-kafka")
+
+          for service in "${services[@]}"; do
+            echo "Waiting for $service to be healthy..."
+            retries=0
+            until [ "$(docker inspect --format='{{.State.Health.Status}}' $service 2>/dev/null || echo "unhealthy")" == "healthy" ]; do
+              retries=$((retries+1))
+              if [ $retries -gt 30 ]; then
+                echo "$service failed to become healthy after $retries attempts."
+                docker logs $service
+                exit 1
+              fi
+              sleep 5
+            done
+            echo "$service is healthy!"
+          done
+
       - name: BE Quality
         run: mvn clean install -P coverage
+
+      - name: Stop Docker Compose Services
+        if: always()
+        run: docker-compose -f docker/docker-compose.yml down
