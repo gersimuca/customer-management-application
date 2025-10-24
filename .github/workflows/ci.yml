@@ -37,7 +37,7 @@ jobs:
           set -e
 
           # List of all container names
-          services=("erp-mssql" "erp-init-db" "erp-sso" "prometheus" "grafana" "erp-sonarqube" "erp-elasticsearch" "erp-logstash" "erp-kibana" "erp-zookeeper" "erp-kafka")
+          services=("erp-mssql" "erp-sso" "prometheus" "grafana" "erp-sonarqube" "erp-elasticsearch" "erp-logstash" "erp-kibana" "erp-zookeeper" "erp-kafka")
 
           for service in "${services[@]}"; do
             echo "Waiting for $service to be healthy..."
