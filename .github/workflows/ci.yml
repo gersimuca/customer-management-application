@@ -2,9 +2,9 @@ name: "CI Build for Develop Branch"
 
 on:
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "*" ]
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "master", "main" ]
 
 jobs:
   build:
