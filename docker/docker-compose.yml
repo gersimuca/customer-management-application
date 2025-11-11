@@ -119,7 +119,7 @@ services:
       timeout: 5s
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:9.0.2
+    image: docker.elastic.co/kibana/kibana:9.2.1
     container_name: erp-kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
