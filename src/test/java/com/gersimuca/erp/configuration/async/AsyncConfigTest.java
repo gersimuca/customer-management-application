@@ -17,14 +17,19 @@ class AsyncConfigTest {
   void defaultExecutorIsInjected() {
     Executor mockExec = mock(Executor.class);
     AsyncConfig config = new AsyncConfig(mockExec);
-    assertSame(mockExec, config.getAsyncExecutor());
+    assertSame(
+        mockExec,
+        config.getAsyncExecutor(),
+        "AsyncConfig did not return the executor instance that was injected");
   }
 
   @Test
   void uncaughtExceptionHandlerNotNull()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     Method method = AsyncConfig.class.getMethod("getAsyncUncaughtExceptionHandler");
-    assertNotNull(method.invoke(new AsyncConfig(mock(Executor.class))));
+    assertNotNull(
+        method.invoke(new AsyncConfig(mock(Executor.class))),
+        "AsyncUncaughtExceptionHandler should not be null");
   }
 
   @Test
@@ -37,13 +42,15 @@ class AsyncConfigTest {
     Throwable simulatedException = new RuntimeException("Simulated async error");
 
     AsyncUncaughtExceptionHandler handler = config.getAsyncUncaughtExceptionHandler();
-    assertNotNull(handler, "Handler should not be null");
+    assertNotNull(handler, "AsyncUncaughtExceptionHandler should not be null");
 
     assertDoesNotThrow(() -> handler.handleUncaughtException(simulatedException, method, params));
   }
 
   // Fake class to simulate a target method for testing
   static class DummyService {
-    public void failingAsyncMethod(String input) {}
+    public void failingAsyncMethod(String input) {
+      // no-op; just for reflection test
+    }
   }
 }
