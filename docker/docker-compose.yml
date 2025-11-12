@@ -26,7 +26,7 @@ services:
 
   local-erp-sso:
     container_name: erp-sso
-    image: quay.io/keycloak/keycloak:26.2.5
+    image: quay.io/keycloak/keycloak:26.4.4
     volumes:
       - ./sso/import:/opt/keycloak/data/import
     environment:
@@ -42,7 +42,7 @@ services:
       timeout: 5s
 
   prometheus:
-    image: prom/prometheus:v3.4.1
+    image: prom/prometheus:v3.7.3
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -89,7 +89,7 @@ services:
 
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.2.1
     container_name: erp-elasticsearch
     environment:
       - discovery.type=single-node
@@ -103,7 +103,7 @@ services:
       timeout: 5s
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:9.0.2
+    image: docker.elastic.co/logstash/logstash:9.2.1
     container_name: erp-logstash
     ports:
       - "15000:15000"
@@ -119,7 +119,7 @@ services:
       timeout: 5s
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:9.0.2
+    image: docker.elastic.co/kibana/kibana:9.2.1
     container_name: erp-kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
