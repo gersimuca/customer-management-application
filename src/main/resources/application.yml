@@ -18,9 +18,18 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: ${DB_JDBC_DRIVER}
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
   jpa:
     open-in-view: false
     properties:
+      hibernate:
+        jpa:
+          compliance:
+            transaction: true
+            global_id_generation: true
+            query_language: true
+            fetch_plan: true
       jakarta:
         persistence:
           sharedCache:
@@ -81,8 +90,8 @@ management:
   server:
     port: 8090
 
-
 server:
+  forward-headers-strategy: native
   servlet:
     context-path: /api
   compression:
@@ -98,10 +107,20 @@ server:
   shutdown: graceful
 
 logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: ${LOG_LEVEL:INFO}
+    org.springframework.transaction.support.TransactionSynchronizationManager: DEBUG
+    org.springframework.transaction: DEBUG
     org:
+      springframework:
+        core:
+          task: TRACE
       hibernate:
+        stat: DEBUG
+        engine:
+          transaction: DEBUG
         SQL: DEBUG
         orm:
           jdbc:

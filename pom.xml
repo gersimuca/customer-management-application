@@ -354,22 +354,56 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+<!--                    <encoding>UTF-8</encoding>-->
+<!--                    <fork>true</fork>-->
+
+<!--                    &lt;!&ndash; ErrorProne + NullAway compiler args &ndash;&gt;-->
+<!--                    <compilerArgs>-->
+<!--                        <arg>-XDcompilePolicy=simple</arg>-->
+<!--                        <arg>&#45;&#45;should-stop=ifError=FLOW</arg>-->
+<!--                        <arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:OnlyNullMarked</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>-->
+<!--                        <arg>-J&#45;&#45;add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>-->
+<!--                    </compilerArgs>-->
+
                     <annotationProcessorPaths>
+                        <!-- Lombok -->
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
+                        <!-- MapStruct -->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
                         </path>
+                        <!-- Hibernate JPA Metamodel Generator -->
                         <path>
                             <groupId>org.hibernate</groupId>
                             <artifactId>hibernate-jpamodelgen</artifactId>
                             <version>${hibernate.jpa.modelgen.version}</version>
                         </path>
+                        <!-- Error Prone + NullAway -->
+<!--                        <path>-->
+<!--                            <groupId>com.google.errorprone</groupId>-->
+<!--                            <artifactId>error_prone_core</artifactId>-->
+<!--                            <version>2.43.0</version>-->
+<!--                        </path>-->
+<!--                        <path>-->
+<!--                            <groupId>com.uber.nullaway</groupId>-->
+<!--                            <artifactId>nullaway</artifactId>-->
+<!--                            <version>0.12.2</version>-->
+<!--                        </path>-->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
