@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>3.5.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -24,23 +24,23 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>25</java.version>
         <!-- Dependencies -->
-        <springdoc-openapi-webmvc-ui.version>2.8.13</springdoc-openapi-webmvc-ui.version>
-        <swagger.annotations.version>2.2.39</swagger.annotations.version>
+        <springdoc-openapi-webmvc-ui.version>2.8.14</springdoc-openapi-webmvc-ui.version>
+        <swagger.annotations.version>2.2.41</swagger.annotations.version>
         <mapstruct.version>1.6.3</mapstruct.version>
-        <hibernate.jpa.modelgen.version>7.1.4.Final</hibernate.jpa.modelgen.version>
+        <hibernate.jpa.modelgen.version>7.1.10.Final</hibernate.jpa.modelgen.version>
         <archunit-junit5.version>1.4.1</archunit-junit5.version>
-        <jackson-databind-nullable.version>0.2.7</jackson-databind-nullable.version>
+        <jackson-databind-nullable.version>0.2.8</jackson-databind-nullable.version>
         <msal4j.version>1.23.1</msal4j.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <!-- Plugins -->
         <fmt-maven-plugin.version>2.29</fmt-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-        <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
+        <logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
         <codehaus-janino.version>3.1.12</codehaus-janino.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-scm-plugin.version>2.2.1</maven-scm-plugin.version>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
-        <openapi-generator-maven-plugin.version>7.16.0</openapi-generator-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>7.17.0</openapi-generator-maven-plugin.version>
         <mock-server-version>5.15.0</mock-server-version>
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.11</jacoco.version>
