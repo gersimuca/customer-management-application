@@ -4,6 +4,15 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${SSO_JWK_SET_URI:http://localhost:8180/auth/realms/ERP/protocol/openid-connect/certs}
+      client:
+        registration:
+          nagerdate-technical-user:
+            client-id: ${NAGERDATE_CLIENT_ID:erp}
+            authorization-grant-type: ${NAGERDATE_AUTHORIZATION_GRANT_TYPE:password}
+            provider: ${NAGERDATE_PROVIDER:nagerdate}
+        provider:
+          nagerdate:
+            token-uri: ${NAGERDATE_SSO_JWT_TOKEN_URI:http://localhost:8180/auth/realms/ERP/protocol/openid-connect/token}
   jackson:
     default-property-inclusion: non_null
     serialization:
@@ -111,6 +120,13 @@ logging:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: ${LOG_LEVEL:INFO}
+    org.springframework.security: TRACE
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.keycloak.adapters: DEBUG
+    org.springframework.security.oauth2.client: TRACE
+    org.springframework.security.oauth2.client.web: TRACE
+    org.springframework.security.oauth2.core.endpoint: TRACE
+    org.springframework.security.oauth2.client.registration: TRACE
     org.springframework.transaction.support.TransactionSynchronizationManager: DEBUG
     org.springframework.transaction: DEBUG
     org:
@@ -135,3 +151,12 @@ async:
   rejected-execution-handler-policy: abort # Options: abort, callerruns, discard, discardoldest
   phase: 10
 
+# Feign client configurations
+feign:
+  client:
+    nagerdate:
+      registration-id: ${NAGERDATE_REGISTRATION_ID:nagerdate_technical_user}
+      client-id: ${NAGERDATE_CLIENT_ID:erp}
+      url: ${NAGERDATE_API_URL:https://date.nager.at}
+      username: ${NAGERDATE_USERNAME:erp_adm}
+      password: ${NAGERDATE_PASSWORD:secret}

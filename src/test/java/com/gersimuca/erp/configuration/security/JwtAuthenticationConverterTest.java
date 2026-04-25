@@ -1,6 +1,6 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.security;
 
-import static com.gersimuca.erp.configuration.JwtTestData.JWT;
+import static com.gersimuca.erp.configuration.jpa.JwtTestData.JWT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;

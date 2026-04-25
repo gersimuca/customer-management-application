@@ -29,7 +29,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %X{requestId} %msg%n</pattern>
+            <pattern>%d{ISO8601} [%thread] [[requestId=%X{requestId}] [username=%X{username}] [clientIp=%X{clientIp}]] %-6level %logger{36} %c{2} [%C{1}.%M:%L] - %msg%n%ex{full}</pattern>
         </encoder>
     </appender>
 

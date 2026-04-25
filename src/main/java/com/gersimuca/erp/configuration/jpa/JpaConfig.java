@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.jpa;
 
 import com.gersimuca.erp.common.repository.BaseRepositoryImpl;
 import com.gersimuca.erp.feature.user.UserRepository;

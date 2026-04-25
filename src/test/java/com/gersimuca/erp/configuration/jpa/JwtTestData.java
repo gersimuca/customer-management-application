@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.jpa;
 
 import ch.qos.logback.core.testUtil.RandomUtil;
 import java.time.Instant;

@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.web;
 
 import com.gersimuca.erp.configuration.interceptor.MdcInterceptor;
 import lombok.AllArgsConstructor;

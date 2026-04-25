@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration.external;
+package com.gersimuca.erp.api.oauth2;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Token {
+@ToString
+public class TokenResponse {
   @JsonProperty("access_token")
   private String accessToken;
 
