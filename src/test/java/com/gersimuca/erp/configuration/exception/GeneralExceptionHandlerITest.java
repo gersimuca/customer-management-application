@@ -1,5 +1,6 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.exception;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -7,17 +8,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gersimuca.erp.AuthenticatedMvcTest;
 import com.gersimuca.erp.common.exception.BaseException;
 import com.gersimuca.erp.common.exception.EntityNotFoundException;
 import com.gersimuca.erp.common.exception.ErrorSeverity;
+import com.gersimuca.erp.configuration.jpa.JwtTestData;
+import com.gersimuca.erp.configuration.security.JwtAuthenticationConverter;
 import com.gersimuca.erp.feature.user.UserEntity;
 import java.util.Objects;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -81,5 +89,37 @@ class GeneralExceptionHandlerITest {
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.status", is(HttpStatus.BAD_REQUEST.value())))
         .andExpect(jsonPath("$.code", is(HttpStatus.BAD_REQUEST.getReasonPhrase())));
+  }
+
+  /**
+   * @author gersimuca
+   */
+  @Nested
+  class JsonNullableDeserializationTest {
+    static class Sample {
+      public JsonNullable<String> field;
+    }
+
+    @Test
+    void shouldDeserializePresentValue() throws Exception {
+      ObjectMapper mapper =
+          new Jackson2ObjectMapperBuilder().modules(new JsonNullableModule()).build();
+
+      Sample result = mapper.readValue("{\"field\":\"hello\"}", Sample.class);
+
+      assertThat(result.field.isPresent()).isTrue();
+      assertThat(result.field.get()).isEqualTo("hello");
+    }
+
+    @Test
+    void shouldDeserializeNullAsPresentNull() throws Exception {
+      ObjectMapper mapper =
+          new Jackson2ObjectMapperBuilder().modules(new JsonNullableModule()).build();
+
+      Sample result = mapper.readValue("{\"field\":null}", Sample.class);
+
+      assertThat(result.field.isPresent()).isTrue();
+      assertThat(result.field.get()).isNull();
+    }
   }
 }

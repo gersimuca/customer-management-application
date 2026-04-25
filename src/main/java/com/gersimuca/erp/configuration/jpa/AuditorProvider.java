@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.jpa;
 
 import com.gersimuca.erp.common.AuthenticationProvider;
 import com.gersimuca.erp.common.exception.AuthenticationNotSupportedException;

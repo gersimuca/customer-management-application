@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.security;
 
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;

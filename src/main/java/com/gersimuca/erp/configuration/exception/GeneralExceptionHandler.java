@@ -1,4 +1,4 @@
-package com.gersimuca.erp.configuration;
+package com.gersimuca.erp.configuration.exception;
 
 import com.gersimuca.erp.common.exception.BaseException;
 import com.gersimuca.erp.common.exception.EncryptionException;
