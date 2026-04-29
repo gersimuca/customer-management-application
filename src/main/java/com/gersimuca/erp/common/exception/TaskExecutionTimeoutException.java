@@ -2,6 +2,7 @@ package com.gersimuca.erp.common.exception;
 
 import static java.lang.String.format;
 
+import com.gersimuca.erp.model.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 public class TaskExecutionTimeoutException extends BaseException {
@@ -18,7 +19,8 @@ public class TaskExecutionTimeoutException extends BaseException {
             "Task '%s' in service '%s' exceeded timeout of %d %s",
             taskName, serviceClass.getSimpleName(), timeout, timeUnit),
         RESPONSE_STATUS,
-        ERROR_SEVERITY);
+        ERROR_SEVERITY,
+        ErrorCode.INTERNAL_ERROR);
     this.taskName = taskName;
     this.timeout = timeout;
     this.timeUnit = timeUnit;

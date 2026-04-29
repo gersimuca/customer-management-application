@@ -1,6 +1,8 @@
 package com.gersimuca.erp.api.config;
 
 import feign.Logger;
+import feign.Request;
+import feign.Retryer;
 import feign.slf4j.Slf4jLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,28 +19,16 @@ public class FeignConfig {
 
   @Bean
   public Logger feignLogger() {
-    return new Slf4jLogger("Feign");
+    return new Slf4jLogger(FeignLoggers.NAGERDATE_SERVICE.name());
   }
-  //
-  //  @Bean
-  //  public feign.Request.Options options() {
-  //    return new feign.Request.Options(
-  //            5000,
-  //            15000);
-  //  }
-  //
-  //  @Bean
-  //  public Retryer feignRetryer() {
-  //    return new Retryer.Default(100, 500, 3);
-  //  }
-  //
-  ////  @Bean
-  ////  public Encoder feignFormEncoder() {
-  ////    return new SpringEncoder(HttpMessageConverters::new);
-  ////  }
-  //
-  //  @Bean
-  //  public Decoder feignDecoder() {
-  //    return new OptionalDecoder(new SpringDecoder(HttpMessageConverters::new));
-  //  }
+
+  @Bean
+  public Request.Options requestOptions() {
+    return new Request.Options(5000, 15000);
+  }
+
+  @Bean
+  public Retryer retryer() {
+    return Retryer.NEVER_RETRY;
+  }
 }

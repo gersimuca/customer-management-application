@@ -1,138 +1,137 @@
 package com.gersimuca.erp.configuration.exception;
 
-import com.gersimuca.erp.common.exception.BaseException;
-import com.gersimuca.erp.common.exception.EncryptionException;
-import com.gersimuca.erp.common.exception.ErrorSeverity;
+import com.gersimuca.erp.common.exception.*;
 import com.gersimuca.erp.common.util.LoggerUtils;
-import com.gersimuca.erp.model.ApiError;
+import com.gersimuca.erp.model.ErrorCode;
+import com.gersimuca.erp.model.ProblemDetail;
+import com.gersimuca.erp.model.ProblemValidationError;
 import jakarta.validation.ConstraintViolationException;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.NonUniqueObjectException;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class GeneralExceptionHandler {
-
   @ExceptionHandler(BaseException.class)
-  public ResponseEntity<ApiError> handleBaseException(
-      final BaseException exception, final WebRequest request) {
-    LoggerUtils.exception(
-        log, exception, exception.getErrorSeverity(), request.getDescription(false));
-    final HttpStatus errorHttpStatus = exception.getHttpResponseStatus();
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, errorHttpStatus);
-    return ResponseEntity.status(errorHttpStatus).body(apiErrorResponse);
+  public ResponseEntity<ProblemDetail> handleBaseException(
+      final BaseException ex, final WebRequest request) {
+    LoggerUtils.exception(log, ex, ex.getErrorSeverity(), request.getDescription(false));
+    return build(ex, ex.getHttpResponseStatus(), ex.getErrorCode(), request, List.of());
   }
 
   @ExceptionHandler(AccessDeniedException.class)
-  public ResponseEntity<ApiError> handleAccessDeniedException(
-      final AccessDeniedException exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus forbiddenHttpStatus = HttpStatus.FORBIDDEN;
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, forbiddenHttpStatus);
-    return ResponseEntity.status(forbiddenHttpStatus).body(apiErrorResponse);
-  }
-
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<ApiError> handleConstraintViolationException(
-      final ConstraintViolationException exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus badRequestHttpStatus = HttpStatus.BAD_REQUEST;
-
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, badRequestHttpStatus);
-    return ResponseEntity.status(badRequestHttpStatus).body(apiErrorResponse);
-  }
-
-  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<ApiError> handleMethodArgumentTypeMismatchException(
-      final MethodArgumentTypeMismatchException exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus badRequestHttpStatus = HttpStatus.BAD_REQUEST;
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, badRequestHttpStatus);
-    return ResponseEntity.status(badRequestHttpStatus).body(apiErrorResponse);
-  }
-
-  @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<ApiError> handleHttpMessageNotReadableException(
-      final Exception exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus badRequestHttpStatus = HttpStatus.BAD_REQUEST;
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, badRequestHttpStatus);
-    return ResponseEntity.status(badRequestHttpStatus).body(apiErrorResponse);
+  public ResponseEntity<ProblemDetail> handleAccessDenied(
+      final Exception ex, final WebRequest request) {
+    return build(ex, HttpStatus.FORBIDDEN, ErrorCode.ACCESS_DENIED, request, List.of());
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ApiError> handleMethodArgumentNotValidException(
-      final MethodArgumentNotValidException exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus internalServerErrorHttpStatus = HttpStatus.BAD_REQUEST;
-    final ApiError apiErrorResponse =
-        buildApiErrorResponse(exception, internalServerErrorHttpStatus);
-    return ResponseEntity.status(internalServerErrorHttpStatus).body(apiErrorResponse);
+  public ResponseEntity<ProblemDetail> handleValidation(
+      MethodArgumentNotValidException ex, WebRequest request) {
+
+    final List<ProblemValidationError> errors =
+        ex.getBindingResult().getFieldErrors().stream()
+            .map(
+                err ->
+                    new ProblemValidationError()
+                        .field(err.getField())
+                        .issue(err.getDefaultMessage())
+                        .rejectedValue(err.getRejectedValue()))
+            .toList();
+
+    return build(ex, HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, request, errors);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ApiError> handleException(
-      final Exception exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.ERROR, request.getDescription(false));
-    final HttpStatus internalServerErrorHttpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-    final ApiError apiErrorResponse =
-        buildApiErrorResponse(exception, internalServerErrorHttpStatus);
-    return ResponseEntity.status(internalServerErrorHttpStatus).body(apiErrorResponse);
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ProblemDetail> handleConstraintViolation(
+      final ConstraintViolationException ex, final WebRequest request) {
+
+    final List<ProblemValidationError> errors =
+        ex.getConstraintViolations().stream()
+            .map(
+                v ->
+                    new ProblemValidationError()
+                        .field(v.getPropertyPath().toString())
+                        .issue(v.getMessage())
+                        .rejectedValue(v.getInvalidValue()))
+            .toList();
+
+    return build(ex, HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, request, errors);
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ProblemDetail> handleTypeMismatch(
+      final Exception ex, final WebRequest request) {
+    return build(
+        ex, HttpStatus.BAD_REQUEST, ErrorCode.INVALID_REQUEST, request, new LinkedList<>());
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ProblemDetail> handleBadJson(final Exception ex, final WebRequest request) {
+    return build(
+        ex, HttpStatus.BAD_REQUEST, ErrorCode.INVALID_REQUEST, request, new LinkedList<>());
   }
 
   @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
-  public ResponseEntity<ApiError> handleObjectOptimisticLockingFailureException(
-      final ObjectOptimisticLockingFailureException exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus conflictHttpStatus = HttpStatus.CONFLICT;
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, conflictHttpStatus);
-    return ResponseEntity.status(conflictHttpStatus).body(apiErrorResponse);
+  public ResponseEntity<ProblemDetail> handleOptimisticLock(
+      final Exception ex, final WebRequest request) {
+    return build(ex, HttpStatus.CONFLICT, ErrorCode.OPTIMISTIC_LOCK, request, new LinkedList<>());
   }
 
   @ExceptionHandler(NonUniqueObjectException.class)
-  public ResponseEntity<ApiError> handleNonUniqueObjectException(
-      final NonUniqueObjectException exception, final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus conflictHttpStatus = HttpStatus.CONFLICT;
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, conflictHttpStatus);
-    return ResponseEntity.status(conflictHttpStatus).body(apiErrorResponse);
+  public ResponseEntity<ProblemDetail> handleNonUnique(
+      final Exception ex, final WebRequest request) {
+    return build(ex, HttpStatus.CONFLICT, ErrorCode.CONFLICT, request, new LinkedList<>());
   }
 
-  @ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)
-  public ResponseEntity<ApiError> handleConstraintViolationException(
-      final org.hibernate.exception.ConstraintViolationException exception,
-      final WebRequest request) {
-    LoggerUtils.exception(log, exception, ErrorSeverity.WARN, request.getDescription(false));
-    final HttpStatus conflictHttpStatus = HttpStatus.CONFLICT;
-    final ApiError apiErrorResponse = buildApiErrorResponse(exception, conflictHttpStatus);
-    return ResponseEntity.status(conflictHttpStatus).body(apiErrorResponse);
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ProblemDetail> handleGeneric(final Exception ex, final WebRequest request) {
+    return build(
+        ex,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_ERROR,
+        request,
+        new LinkedList<>());
   }
 
-  @ExceptionHandler(EncryptionException.class)
-  public ResponseEntity<ApiError> handleEncryptionException(
-      final EncryptionException exception, final WebRequest request) {
-    LoggerUtils.exception(
-        log, exception, exception.getErrorSeverity(), request.getDescription(false));
-    HttpStatus status = exception.getHttpResponseStatus();
-    ApiError error = buildApiErrorResponse(exception, status);
-    return ResponseEntity.status(status).body(error);
-  }
+  private ResponseEntity<ProblemDetail> build(
+      final Exception ex,
+      final HttpStatus status,
+      final ErrorCode code,
+      final WebRequest request,
+      final List<ProblemValidationError> errors) {
 
-  private ApiError buildApiErrorResponse(
-      final Exception exception, final HttpStatus httpResponseStatus) {
-    return new ApiError()
-        .status(httpResponseStatus.value())
-        .code(httpResponseStatus.getReasonPhrase())
-        .description(exception.getMessage());
+    final ProblemDetail problem = new ProblemDetail();
+
+    problem.setStatus(status.value());
+    problem.setType(ProblemTypes.of(code));
+    problem.setTitle(status.getReasonPhrase());
+    problem.setDetail(ex.getMessage());
+
+    final String path = ((ServletWebRequest) request).getRequest().getRequestURI();
+
+    problem.setInstance(URI.create(path));
+    problem.setCode(code);
+    problem.setTraceId(MDC.get("traceId"));
+    problem.setTimestamp(OffsetDateTime.now());
+    problem.setErrors(errors);
+
+    return ResponseEntity.status(status).body(problem);
   }
 }

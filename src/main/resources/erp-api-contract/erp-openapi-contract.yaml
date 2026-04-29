@@ -13,6 +13,8 @@ security:
 tags:
   - name: user
     description: User resource.
+  - name: country
+    description: Country resource.
 paths:
   /users:
     post:
@@ -24,13 +26,17 @@ paths:
         "200":
           $ref: '#/components/responses/UserDetailsResponse'
         "400":
-          $ref: '#/components/responses/BadRequest'
+          $ref: './responses/common/BadRequest.yaml'
         "401":
-          $ref: '#/components/responses/Unauthorized'
+          $ref: './responses/common/Unauthorized.yaml'
+        "403":
+          $ref: './responses/common/Forbidden.yaml'
+        "404":
+          $ref: './responses/common/NotFound.yaml'
         "409":
-          $ref: '#/components/responses/Conflict'
+          $ref: './responses/common/Conflict.yaml'
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './responses/common/InternalServerError.yaml'
   /users/current-user:
     get:
       tags:
@@ -41,15 +47,17 @@ paths:
         "200":
           $ref: '#/components/responses/UserDetailsResponse'
         "400":
-          $ref: '#/components/responses/BadRequest'
+          $ref: './responses/common/BadRequest.yaml'
         "401":
-          $ref: '#/components/responses/Unauthorized'
+          $ref: './responses/common/Unauthorized.yaml'
         "403":
-          $ref: '#/components/responses/Forbidden'
+          $ref: './responses/common/Forbidden.yaml'
         "404":
-          $ref: '#/components/responses/NotFound'
+          $ref: './responses/common/NotFound.yaml'
+        "409":
+          $ref: './responses/common/Conflict.yaml'
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './responses/common/InternalServerError.yaml'
   /users/current-user/roles:
     get:
       tags:
@@ -60,32 +68,40 @@ paths:
         "200":
           $ref: '#/components/responses/ListRolesResponse'
         "400":
-          $ref: '#/components/responses/BadRequest'
+          $ref: './responses/common/BadRequest.yaml'
         "401":
-          $ref: '#/components/responses/Unauthorized'
+          $ref: './responses/common/Unauthorized.yaml'
         "403":
-          $ref: '#/components/responses/Forbidden'
+          $ref: './responses/common/Forbidden.yaml'
         "404":
-          $ref: '#/components/responses/NotFound'
+          $ref: './responses/common/NotFound.yaml'
+        "409":
+          $ref: './responses/common/Conflict.yaml'
         "500":
-          $ref: '#/components/responses/InternalServerError'
+          $ref: './responses/common/InternalServerError.yaml'
+  /countries:
+    get:
+      tags:
+        - country
+      description: Get all the countries available.
+      operationId: getCountriesAvailable
+      responses:
+        "200":
+          $ref: './responses/country/CountriesResponse.yaml'
+        "400":
+          $ref: './responses/common/BadRequest.yaml'
+        "401":
+          $ref: './responses/common/Unauthorized.yaml'
+        "403":
+          $ref: './responses/common/Forbidden.yaml'
+        "404":
+          $ref: './responses/common/NotFound.yaml'
+        "409":
+          $ref: './responses/common/Conflict.yaml'
+        "500":
+          $ref: './responses/common/InternalServerError.yaml'
 components:
   schemas:
-    ApiError:
-      required:
-        - code
-        - description
-        - status
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        code:
-          type: string
-        description:
-          type: string
-      description: General error response model.
     UserResponse:
       type: object
       properties:
@@ -117,21 +133,6 @@ components:
           items:
             type: string
       description: List of roles.
-    NotificationResponse:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/NotificationModel'
-    NotificationModel:
-      type: object
-      properties:
-        notificationId:
-          type: integer
-          format: int64
-        message:
-          type: string
-      description: Notification model.
-
   responses:
     UserDetailsResponse:
       description: Successfully retrieved user details.
@@ -150,37 +151,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiError'
-    Unauthorized:
-      description: Authentication is required and has failed or has not been provided.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiError'
-    Forbidden:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiError'
-    NotFound:
-      description: The requested resource could not be found. This might be due to an incorrect URL or a non-existing resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiError'
-    Conflict:
-      description: The request could not be completed due to a conflict with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiError'
-    InternalServerError:
-      description: An error occurred on the server side. The request was valid but an unexpected condition was encountered.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApiError'
+            $ref: './schemas/common/ProblemDetail.yaml'
   securitySchemes:
     BEARER_JWT:
       type: http

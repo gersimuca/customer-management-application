@@ -1,0 +1,12 @@
+type: string
+description: Stable machine-readable error code.
+nullable: false
+enum:
+  - INTERNAL_ERROR
+  - VALIDATION_ERROR
+  - ACCESS_DENIED
+  - RESOURCE_NOT_FOUND
+  - CONFLICT
+  - OPTIMISTIC_LOCK
+  - INVALID_REQUEST
+  - ENCRYPTION_ERROR

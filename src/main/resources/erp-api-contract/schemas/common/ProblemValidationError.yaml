@@ -1,0 +1,19 @@
+type: object
+description: Detailed validation error information.
+
+required:
+  - field
+  - issue
+  - rejectedValue
+
+properties:
+  field:
+    type: string
+    example: email
+
+  issue:
+    type: string
+    example: must be a valid email address
+
+  rejectedValue:
+    nullable: true

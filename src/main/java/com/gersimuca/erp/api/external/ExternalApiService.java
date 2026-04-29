@@ -1,5 +1,7 @@
 package com.gersimuca.erp.api.external;
 
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
+
 import feign.FeignException;
 import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +24,18 @@ public class ExternalApiService<C> {
    * @param <R> Response type
    * @return response body
    */
-  protected <R> R execute(Supplier<ResponseEntity<R>> apiCall) {
+  protected <R> ResponseEntity<R> execute(Supplier<ResponseEntity<R>> apiCall) {
     try {
-      ResponseEntity<R> response = apiCall.get();
-      if (response == null || !response.getStatusCode().is2xxSuccessful()) {
-        throw new IllegalStateException(
-            "API call failed with status: "
-                + (response != null ? response.getStatusCode() : "null response"));
+      final ResponseEntity<R> response = apiCall.get();
+      if (!response.getStatusCode().is2xxSuccessful()) {
+        throw new IllegalStateException("API call failed with status: " + response.getStatusCode());
       }
-      return response.getBody();
+      var contentType = response.getHeaders().getContentType();
+      if (contentType == null || !contentType.includes(APPLICATION_JSON)) {
+        throw new IllegalStateException(
+            "Invalid Content-Type from API: " + contentType + " (expected application/json)");
+      }
+      return response;
     } catch (FeignException fe) {
       throw new IllegalStateException("External API call failed: " + fe.contentUTF8(), fe);
     } catch (Exception ex) {

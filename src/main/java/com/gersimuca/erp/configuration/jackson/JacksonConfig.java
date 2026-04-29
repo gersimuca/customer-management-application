@@ -10,6 +10,6 @@ public class JacksonConfig {
 
   @Bean
   public Jackson2ObjectMapperBuilderCustomizer jsonNullableCustomizer() {
-    return builder -> builder.modules(new JsonNullableModule());
+    return builder -> builder.modulesToInstall(new JsonNullableModule());
   }
 }
