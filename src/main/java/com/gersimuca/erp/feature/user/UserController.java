@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -52,5 +53,10 @@ public class UserController implements UsersApi {
     final List<String> roles =
         authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     return ok(new RolesResponse().roles(roles));
+  }
+
+  @GetMapping("/users/data")
+  public ResponseEntity<?> getData() {
+    return ok(service.countryAvailableCountries());
   }
 }

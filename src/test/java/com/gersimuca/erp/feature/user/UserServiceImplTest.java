@@ -11,6 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.gersimuca.erp.api.ApiFacade;
 import com.gersimuca.erp.common.exception.EntityAlreadyExistsException;
 import com.gersimuca.erp.common.exception.EntityNotFoundException;
 import jakarta.validation.Validator;
@@ -28,6 +29,7 @@ class UserServiceImplTest {
   @Mock private UserRepository repository;
   @Mock private UserMapper mapper;
   @Mock private Validator validator;
+  @Mock private ApiFacade apiFacade;
 
   @InjectMocks private UserServiceImpl service;
 
@@ -42,7 +44,7 @@ class UserServiceImplTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    service = new UserServiceImpl(mapper, repository, validator);
+    service = new UserServiceImpl(mapper, repository, validator, apiFacade);
 
     when(repository.findAll()).thenReturn(List.of(IRON_MAN_ENTITY));
     when(repository.findById(IRON_MAN_ENTITY.getUserId())).thenReturn(Optional.of(IRON_MAN_ENTITY));

@@ -133,6 +133,21 @@ components:
           items:
             type: string
       description: List of roles.
+    NotificationResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/NotificationModel'
+    NotificationModel:
+      type: object
+      properties:
+        notificationId:
+          type: integer
+          format: int64
+        message:
+          type: string
+      description: Notification model.
+
   responses:
     UserDetailsResponse:
       description: Successfully retrieved user details.
