@@ -1,13 +1,10 @@
 package com.gersimuca.erp.feature.user;
 
-import com.gersimuca.erp.api.ApiFacade;
 import com.gersimuca.erp.common.exception.EntityAlreadyExistsException;
 import com.gersimuca.erp.common.exception.EntityNotFoundException;
 import com.gersimuca.erp.common.util.LoggerUtils;
 import com.gersimuca.erp.common.util.ValidationUtil;
-import com.gersimuca.model.external.nagerdate.CountryV3Dto;
 import jakarta.validation.Validator;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +17,6 @@ public class UserServiceImpl implements UserService {
   private final UserMapper mapper;
   private final UserRepository repository;
   private final Validator validator;
-  private final ApiFacade apiFacade;
 
   @Override
   public UserDto mustLoadByUsername(final String username) {
@@ -56,10 +52,5 @@ public class UserServiceImpl implements UserService {
 
   public boolean existsByUsername(final String username) {
     return repository.existsByUsername(username);
-  }
-
-  @Override
-  public List<CountryV3Dto> countryAvailableCountries() {
-    return apiFacade.countryAvailableCountries();
   }
 }
