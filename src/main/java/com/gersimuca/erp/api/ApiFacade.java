@@ -12,6 +12,6 @@ public class ApiFacade {
   private final NagerdateService nagerdateService;
 
   public List<CountryV3Dto> countryAvailableCountries() {
-    return nagerdateService.countryAvailableCountries();
+    return nagerdateService.apiV3AvailableCountriesGet().getBody();
   }
 }

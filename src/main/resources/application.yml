@@ -160,3 +160,21 @@ feign:
       url: ${NAGERDATE_API_URL:https://date.nager.at}
       username: ${NAGERDATE_USERNAME:erp_adm}
       password: ${NAGERDATE_PASSWORD:secret}
+
+otel:
+  service:
+    name: erp-customer-manager
+
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+
+  exporter:
+    otlp:
+      endpoint: http://localhost:4317
+      protocol: grpc
+
+  propagators: tracecontext,baggage

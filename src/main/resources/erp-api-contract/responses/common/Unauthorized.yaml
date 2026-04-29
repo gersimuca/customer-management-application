@@ -1,0 +1,5 @@
+description: Authentication is required and has failed or has not been provided.
+content:
+  application/json:
+    schema:
+      $ref: '../../schemas/common/ProblemDetail.yaml'

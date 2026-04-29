@@ -17,7 +17,10 @@ public class MdcInterceptor implements HandlerInterceptor {
       @NonNull HttpServletResponse response,
       @NonNull Object handler) {
 
-    MDC.put("requestId", UUID.randomUUID().toString().toUpperCase());
+    final String traceId = UUID.randomUUID().toString().toUpperCase();
+    MDC.put("traceId", traceId);
+    MDC.put("clientIp", request.getRemoteAddr());
+    response.setHeader("X-Request-Id", traceId);
     return true;
   }
 
@@ -27,6 +30,6 @@ public class MdcInterceptor implements HandlerInterceptor {
       @NonNull HttpServletResponse response,
       @NonNull Object handler,
       Exception ex) {
-    MDC.remove("requestId");
+    MDC.clear();
   }
 }

@@ -1,0 +1,5 @@
+description: An error occurred on the server side. The request was valid but an unexpected condition was encountered.
+content:
+  application/json:
+    schema:
+      $ref: '../../schemas/common/ProblemDetail.yaml'

@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,9 +14,11 @@ import com.gersimuca.erp.AuthenticatedMvcTest;
 import com.gersimuca.erp.common.exception.BaseException;
 import com.gersimuca.erp.common.exception.EntityNotFoundException;
 import com.gersimuca.erp.common.exception.ErrorSeverity;
+import com.gersimuca.erp.common.exception.ProblemTypes;
 import com.gersimuca.erp.configuration.jpa.JwtTestData;
 import com.gersimuca.erp.configuration.security.JwtAuthenticationConverter;
 import com.gersimuca.erp.feature.user.UserEntity;
+import com.gersimuca.erp.model.ErrorCode;
 import java.util.Objects;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -38,46 +41,67 @@ class GeneralExceptionHandlerITest {
 
   @Test
   void handleBaseException() throws Exception {
-    final HttpStatus notFound = HttpStatus.NOT_FOUND;
+
+    HttpStatus notFound = HttpStatus.NOT_FOUND;
+
     JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
     ReflectionTestUtils.setField(converter, "clientId", "erp");
-    final EntityNotFoundException entityNotFoundException =
-        new EntityNotFoundException(UserEntity.class, "U159785");
+
+    EntityNotFoundException ex = new EntityNotFoundException(UserEntity.class, "U159785");
+
+    final String path = "/users/current-user";
     mvc.perform(
-            get("/users/current-user")
+            get(path)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(
                     jwt()
                         .jwt(JwtTestData.JWT_NOT_EXISTING_USERNAME)
                         .authorities()
                         .authorities(
-                            jwt -> Objects.requireNonNull(converter.convert(jwt)).getAuthorities()))
-                .contentType(MediaType.APPLICATION_JSON))
+                            jwt ->
+                                Objects.requireNonNull(converter.convert(jwt)).getAuthorities())))
+        .andDo(print())
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$.status", is(notFound.value())))
-        .andExpect(jsonPath("$.code", is(notFound.getReasonPhrase())))
-        .andExpect(jsonPath("$.description", is(entityNotFoundException.getMessage())));
+        .andExpect(jsonPath("$.title", is(notFound.getReasonPhrase())))
+        .andExpect(jsonPath("$.code", is(ex.getErrorCode().getValue())))
+        .andExpect(jsonPath("$.detail", is(ex.getMessage())))
+        .andExpect(jsonPath("$.type", is(ProblemTypes.of(ex.getErrorCode()).toString())))
+        .andExpect(jsonPath("$.instance", is(path)))
+        .andExpect(jsonPath("$.traceId").exists())
+        .andExpect(jsonPath("$.timestamp").exists())
+        .andExpect(jsonPath("$.errors").exists())
+        .andExpect(jsonPath("$.errors").isArray());
   }
 
   @WithMockUser(username = "iron.man")
   @Test
   void handleAccessDeniedException() throws Exception {
     final HttpStatus forbidden = HttpStatus.FORBIDDEN;
-    final BaseException baseException =
-        new BaseException("Access Denied", forbidden, ErrorSeverity.WARN);
-    mvc.perform(get("/users/current-user"))
+    final BaseException ex =
+        new BaseException("Access Denied", forbidden, ErrorSeverity.WARN, ErrorCode.ACCESS_DENIED);
+    final String path = "/users/current-user";
+    mvc.perform(get(path))
         .andExpect(status().isForbidden())
         .andExpect(jsonPath("$.status", is(forbidden.value())))
-        .andExpect(jsonPath("$.code", is(forbidden.getReasonPhrase())))
-        .andExpect(jsonPath("$.description", is(baseException.getMessage())));
+        .andExpect(jsonPath("$.title", is(forbidden.getReasonPhrase())))
+        .andExpect(jsonPath("$.code", is(ex.getErrorCode().getValue())))
+        .andExpect(jsonPath("$.detail", is(ex.getMessage())))
+        .andExpect(jsonPath("$.type", is(ProblemTypes.of(ex.getErrorCode()).toString())))
+        .andExpect(jsonPath("$.instance", is(path)))
+        .andExpect(jsonPath("$.traceId").exists())
+        .andExpect(jsonPath("$.timestamp").exists())
+        .andExpect(jsonPath("$.errors").exists())
+        .andExpect(jsonPath("$.errors").isArray());
   }
 
   @Test
   void handleConstraintViolationException() throws Exception {
     JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
     ReflectionTestUtils.setField(converter, "clientId", "erp");
+    String path = "/users";
     mvc.perform(
-            post("/users")
+            post(path)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(
                     jwt()
@@ -88,7 +112,17 @@ class GeneralExceptionHandlerITest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.status", is(HttpStatus.BAD_REQUEST.value())))
-        .andExpect(jsonPath("$.code", is(HttpStatus.BAD_REQUEST.getReasonPhrase())));
+        .andExpect(jsonPath("$.title", is(HttpStatus.BAD_REQUEST.getReasonPhrase())))
+        .andExpect(jsonPath("$.code", is(ErrorCode.VALIDATION_ERROR.name())))
+        .andExpect(jsonPath("$.type", is(ProblemTypes.of(ErrorCode.VALIDATION_ERROR).toString())))
+        .andExpect(jsonPath("$.instance", is(path)))
+        .andExpect(jsonPath("$.traceId").exists())
+        .andExpect(jsonPath("$.timestamp").exists())
+        .andExpect(jsonPath("$.errors").exists())
+        .andExpect(jsonPath("$.errors").isArray())
+        .andExpect(jsonPath("$.errors[0].field", is("username")))
+        .andExpect(jsonPath("$.errors[0].issue", is("Username is mandatory")))
+        .andExpect(jsonPath("$.errors[0].rejectedValue", is("")));
   }
 
   /**

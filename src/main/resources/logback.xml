@@ -14,7 +14,7 @@
                     <customFields>
                         {
                         "host": "${HOSTNAME}",
-                        "gmappid": "${APP_ID}",
+                        "appid": "${APP_ID}",
                         "namespace": "${ERP_LOGGING_NAMESPACE}",
                         "stage": "${ERP_LOGGING_STAGE}"
                         }
@@ -29,7 +29,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{ISO8601} [%thread] [[requestId=%X{requestId}] [username=%X{username}] [clientIp=%X{clientIp}]] %-6level %logger{36} %c{2} [%C{1}.%M:%L] - %msg%n%ex{full}</pattern>
+            <pattern>%d{ISO8601} [%thread] [[traceId=%X{traceId}] [clientIp=%X{clientIp}]] %-6level %logger{36} %c{2} [%C{1}.%M:%L] - %msg%n%ex{full}</pattern>
         </encoder>
     </appender>
 
