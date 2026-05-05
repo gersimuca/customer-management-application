@@ -23,7 +23,7 @@ paths:
       description: Create a new user.
       operationId: createUser
       responses:
-        "200":
+        "201":
           $ref: '#/components/responses/UserDetailsResponse'
         "400":
           $ref: './responses/common/BadRequest.yaml'
@@ -110,7 +110,7 @@ components:
     UserModel:
       type: object
       properties:
-        userId:
+        businessKey:
           type: integer
           format: int64
         username:
@@ -125,6 +125,7 @@ components:
           type: string
           example: en-US
       description: User model.
+
     RolesResponse:
       type: object
       properties:

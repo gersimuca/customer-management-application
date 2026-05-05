@@ -1,6 +1,7 @@
 package com.gersimuca.erp.feature.user;
 
 import static com.gersimuca.erp.common.AuthorizationExpressions.IS_AUTHORIZED;
+import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
 import com.gersimuca.erp.api.UsersApi;
@@ -8,6 +9,7 @@ import com.gersimuca.erp.common.AuthenticationProvider;
 import com.gersimuca.erp.feature.country.CountryService;
 import com.gersimuca.erp.model.RolesResponse;
 import com.gersimuca.erp.model.UserResponse;
+import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,7 +38,13 @@ public class UserController implements UsersApi {
   public ResponseEntity<UserResponse> createUser() {
     final Authentication authentication = AuthenticationProvider.getAuthenticationFromContext();
     final UserDto userDto = mapper.mapToDto((Jwt) authentication.getPrincipal());
-    return ok(new UserResponse().user(mapper.mapToModel(userService.createUser(userDto))));
+    final UserDto createdUser = userService.createUser(userDto);
+    final URI location =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{businessKey}")
+            .buildAndExpand(createdUser.getBusinessKey())
+            .toUri();
+    return created(location).body(new UserResponse().user(mapper.mapToModel(createdUser)));
   }
 
   @Override

@@ -10,6 +10,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,9 +45,11 @@ class UserControllerITest {
                         .authorities(
                             jwt ->
                                 Objects.requireNonNull(converter.convert(jwt)).getAuthorities())))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
+        .andExpect(header().exists("Location"))
         .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-        .andExpect(jsonPath("$.user.username", is("U1234567")));
+        .andExpect(jsonPath("$.user.username", is("U1234567")))
+        .andExpect(jsonPath("$.user.businessKey").isNumber());
   }
 
   @Test
