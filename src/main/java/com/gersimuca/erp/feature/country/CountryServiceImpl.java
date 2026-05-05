@@ -39,7 +39,7 @@ public class CountryServiceImpl implements CountryService {
                 .collect(
                     Collectors.toUnmodifiableMap(
                         CountryEntity::getCountryCode, Function.identity())));
-    Collection<CountryEntity> entities = new LinkedList<>();
+    final Collection<CountryEntity> entities = new LinkedList<>();
     countryDtos.forEach(
         dto -> {
           final CountryEntity entity =

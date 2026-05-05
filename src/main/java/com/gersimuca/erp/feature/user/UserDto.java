@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-  private Long userId;
+  private Long businessKey;
 
   @NotBlank(message = "Username is mandatory")
   @Size(max = 8, message = "Username must be at most 8 characters")

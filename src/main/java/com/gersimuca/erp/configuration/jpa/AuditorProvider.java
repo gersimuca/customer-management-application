@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("auditorProvider")
 @RequiredArgsConstructor
 public class AuditorProvider implements AuditorAware<Long> {
-  private static final UserEntity SYSTEM_USER = UserEntity.builder().userId(1L).build();
 
   private final UserRepository userRepository;
 
@@ -49,7 +48,6 @@ public class AuditorProvider implements AuditorAware<Long> {
   }
 
   private Optional<Long> getUserId(final String username) {
-    UserEntity userEntity = userRepository.findByUsername(username).orElse(SYSTEM_USER);
-    return Optional.ofNullable(userEntity.getUserId());
+    return userRepository.findByUsername(username).map(UserEntity::getUserId);
   }
 }

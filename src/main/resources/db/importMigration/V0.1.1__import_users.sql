@@ -1,2 +1,2 @@
-INSERT INTO users (family_name, given_name, email, username)
-values ('System', 'System', 'System', 'System');
+INSERT INTO users (business_key, family_name, given_name, email, username)
+values (1, 'System', 'System', 'System', 'System');

@@ -3,6 +3,7 @@ drop table if exists users;
 create table users
 (
     user_id              bigint identity (1,1),
+    business_key         bigint NOT NULL UNIQUE,
     username             varchar(8)    not null unique,
     given_name           varchar(512)  not null,
     family_name          varchar(512)  not null,
