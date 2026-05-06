@@ -14,4 +14,5 @@ This document lists all architectural decisions for the `erp-customer-manager` p
 | 008 | Enforce Null Safety                              | Pending | [008-enforce-null-safety](008-enforce-null-safety.md)                                                           |
 | 009 | Apache Pekko Concurrency                         | Pending  | [009-apache-pekko-concurrency](009-apache-pekko-concurrency.md)                                                 |
 | 010 | Snowflake-Based Business Key Generation Strategy | Accepted | [010-snowflake-based-business-key-generation-strategy](010-snowflake-based-business-key-generation-strategy.md) |
+| 011 | Opentelemetry Observability                      | Accepted | [011-opentelemetry-distributed-observability](011-opentelemetry-distributed-observability.md) |
 ---
