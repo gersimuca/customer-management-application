@@ -1,0 +1,51 @@
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        jwk_set_uri: http://localhost:8180/auth/realms/ERP/protocol/openid-connect/certs
+
+datasource:
+  jdbc:
+    url: jdbc:sqlserver://localhost:1433;database=erp_db;encrypt=false;trustServerCertificate=false;
+    driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  credentials:
+    username: erp_db_user
+    password: secretL0calPassword
+
+flyway:
+  locations:
+    - database/mssql/migration
+    - database/mssql/importMigration
+
+redis:
+  cache:
+    key_prefix: "erp:"
+
+  credentials:
+    username: erpapp
+    password: StrongAppPassword
+
+sso:
+  client_id: erp
+
+cors:
+  allowed_origins:
+    - http://localhost:4200
+
+logging:
+  level:
+    root: INFO
+
+nagerdate:
+  client_id: erp
+  authorization_grant_type: password
+  provider: nagerdate
+  token_uri: http://localhost:8180/auth/realms/ERP/protocol/openid-connect/token
+
+  api:
+    url: https://date.nager.at
+
+  credentials:
+    username: erp_adm
+    password: secret

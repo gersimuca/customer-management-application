@@ -1,0 +1,11 @@
+- name: Base directories
+  file:
+    path: "{{ app_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Generate env file
+  template:
+    src: env.j2
+    dest: "{{ app_root }}/.env"
+    mode: "0644"
