@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,8 +32,8 @@ public class MachineRegistryEntity {
   private String serviceName;
 
   @Column(name = "allocated_at", nullable = false, updatable = false)
-  private OffsetDateTime allocatedAt;
+  private Instant allocatedAt;
 
   @Column(name = "last_heartbeat")
-  private OffsetDateTime lastHeartbeat;
+  private Instant lastHeartbeat;
 }

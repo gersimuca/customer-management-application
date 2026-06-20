@@ -1,0 +1,7 @@
+project_root: "{{ playbook_dir }}/../.."
+ansible_root: "{{ project_root }}/ansible"
+
+runtime_root: "{{ ansible_root }}/.runtime"
+app_root: "{{ runtime_root }}/erp"
+
+current_dir: "{{ app_root }}"

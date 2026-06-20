@@ -29,6 +29,206 @@ git submodule update --remote --merge
 > Submodules are separate repositories embedded in this project (e.g., `resource-planning-ui-service`). Cloning without them may cause the application to fail.
 
 ---
+## Local Environment Setup (Required)
+
+Before starting the application locally, initialize the local environment using the provided Ansible setup.
+
+This setup:
+
+* prepares the local ERP environment
+* generates the required `.env` file
+* creates local runtime configuration
+* prepares dependencies for local execution
+
+### 1. Install Ansible
+
+#### macOS
+
+Install using Homebrew:
+
+```bash
+brew install ansible
+```
+
+Verify installation:
+
+```bash
+ansible --version
+```
+
+---
+
+#### Ubuntu / Pop!_OS / Debian
+
+```bash
+sudo apt update
+sudo apt install ansible -y
+```
+
+Verify installation:
+
+```bash
+ansible --version
+```
+
+---
+
+#### Windows (Recommended: WSL)
+
+Install WSL:
+
+```powershell
+wsl --install
+```
+
+Open Ubuntu and install Ansible:
+
+```bash
+sudo apt update
+sudo apt install ansible -y
+```
+
+Verify installation:
+
+```bash
+ansible --version
+```
+
+---
+
+### 2. Generate local configuration
+
+Run the local Ansible playbook:
+
+```bash
+ansible-playbook \
+  -i ansible/inventories/local/hosts.yml \
+  ansible/playbooks/local.yml
+```
+
+This command automatically generates the local `.env` configuration.
+
+Verify the file exists:
+
+macOS / Linux:
+
+```bash
+ls ansible/.runtime/erp/.env
+```
+
+Windows PowerShell:
+
+```powershell
+Get-ChildItem ansible\.runtime\erp\.env
+```
+
+Inspect generated values:
+
+```bash
+cat ansible/.runtime/erp/.env
+```
+
+---
+
+### 3. Load generated environment variables
+
+Before starting the application, load the generated `.env`.
+
+macOS / Linux:
+
+```bash
+set -a
+source ansible/.runtime/erp/.env
+set +a
+```
+
+Windows PowerShell:
+
+```powershell
+Get-Content ansible\.runtime\erp\.env | foreach {
+  if ($_ -match '^(.*?)=(.*)$') {
+    [Environment]::SetEnvironmentVariable($matches[1], $matches[2], "Process")
+  }
+}
+```
+
+---
+
+### 4. Start local infrastructure
+
+It is recommended to develop against the local SQL Server instance.
+
+macOS / Linux:
+
+```bash
+docker compose -f docker/docker-compose.yml up -d
+```
+
+Windows:
+
+```powershell
+docker compose -f docker\docker-compose.yml up -d
+```
+
+If you want to use a Local SSO instance, refer to:
+
+```text
+docker/sso/import/ERP-realm.json
+```
+
+---
+
+### 5. Start the Spring Boot application
+
+#### IntelliJ (recommended for development)
+
+Create a Run Configuration and make sure environment variables are loaded before starting.
+
+#### Maven
+
+```bash
+./mvnw spring-boot:run
+```
+
+or
+
+```bash
+mvn spring-boot:run
+```
+
+#### Gradle
+
+```bash
+./gradlew bootRun
+```
+
+Application startup should display:
+
+```text
+Started Application in X seconds
+```
+
+---
+
+### Optional: Automated start script (testing only)
+
+If you only want to start the backend quickly for testing:
+
+macOS / Linux:
+
+```bash
+node scripts/start.js [use-local-sso]
+```
+
+Windows:
+
+```powershell
+node scripts\start.js [use-local-sso]
+```
+
+Requires Node.js installed locally.
+
+---
 
 ### Authorization
 

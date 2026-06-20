@@ -9,6 +9,6 @@ public class AuthenticationNotSupportedException extends BaseException {
         "Authentication not supported.",
         HttpStatus.UNAUTHORIZED,
         ErrorSeverity.ERROR,
-        ErrorCode.ACCESS_DENIED);
+        ErrorCode.AUTHENTICATION_FAILED);
   }
 }
