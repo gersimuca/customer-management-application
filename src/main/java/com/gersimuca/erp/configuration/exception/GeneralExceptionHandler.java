@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.NonUniqueObjectException;
 import org.slf4j.MDC;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -28,6 +29,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Slf4j
 @RestControllerAdvice
 public class GeneralExceptionHandler {
+  // BASE EXCEPTION
   @ExceptionHandler(BaseException.class)
   public ResponseEntity<ProblemDetail> handleBaseException(
       final BaseException ex, final WebRequest request) {
@@ -35,12 +37,14 @@ public class GeneralExceptionHandler {
     return build(ex, ex.getHttpResponseStatus(), ex.getErrorCode(), request, List.of());
   }
 
+  // AUTHORIZATION
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ProblemDetail> handleAccessDenied(
       final Exception ex, final WebRequest request) {
     return build(ex, HttpStatus.FORBIDDEN, ErrorCode.ACCESS_DENIED, request, List.of());
   }
 
+  // VALIDATION (Bean validation)
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ProblemDetail> handleValidation(
       MethodArgumentNotValidException ex, WebRequest request) {
@@ -55,9 +59,10 @@ public class GeneralExceptionHandler {
                         .rejectedValue(err.getRejectedValue()))
             .toList();
 
-    return build(ex, HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, request, errors);
+    return build(ex, HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_FAILED, request, errors);
   }
 
+  // CONSTRAINT VIOLATIONS
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<ProblemDetail> handleConstraintViolation(
       final ConstraintViolationException ex, final WebRequest request) {
@@ -72,14 +77,7 @@ public class GeneralExceptionHandler {
                         .rejectedValue(v.getInvalidValue()))
             .toList();
 
-    return build(ex, HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, request, errors);
-  }
-
-  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<ProblemDetail> handleTypeMismatch(
-      final Exception ex, final WebRequest request) {
-    return build(
-        ex, HttpStatus.BAD_REQUEST, ErrorCode.INVALID_REQUEST, request, new LinkedList<>());
+    return build(ex, HttpStatus.BAD_REQUEST, ErrorCode.INVALID_REQUEST, request, errors);
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -88,20 +86,38 @@ public class GeneralExceptionHandler {
         ex, HttpStatus.BAD_REQUEST, ErrorCode.INVALID_REQUEST, request, new LinkedList<>());
   }
 
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ProblemDetail> handleTypeMismatch(
+      final Exception ex, final WebRequest request) {
+    return build(
+        ex, HttpStatus.BAD_REQUEST, ErrorCode.MALFORMED_REQUEST, request, new LinkedList<>());
+  }
+
+  // CONCURRENCY
   @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
   public ResponseEntity<ProblemDetail> handleOptimisticLock(
       final Exception ex, final WebRequest request) {
-    return build(ex, HttpStatus.CONFLICT, ErrorCode.OPTIMISTIC_LOCK, request, new LinkedList<>());
+    return build(
+        ex, HttpStatus.CONFLICT, ErrorCode.OPTIMISTIC_LOCK_CONFLICT, request, new LinkedList<>());
   }
 
+  // DUPLICATE / DB CONFLICTS
   @ExceptionHandler(NonUniqueObjectException.class)
   public ResponseEntity<ProblemDetail> handleNonUnique(
       final Exception ex, final WebRequest request) {
-    return build(ex, HttpStatus.CONFLICT, ErrorCode.CONFLICT, request, new LinkedList<>());
+    return build(ex, HttpStatus.CONFLICT, ErrorCode.RESOURCE_CONFLICT, request, new LinkedList<>());
+  }
+
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity<ProblemDetail> handleDuplicateKey(
+      final Exception ex, final WebRequest request) {
+
+    return build(ex, HttpStatus.CONFLICT, ErrorCode.DUPLICATE_RESOURCE, request, List.of());
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ProblemDetail> handleGeneric(final Exception ex, final WebRequest request) {
+    LoggerUtils.error(log, "Unhandled exception", ex);
     return build(
         ex,
         HttpStatus.INTERNAL_SERVER_ERROR,

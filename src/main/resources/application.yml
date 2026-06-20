@@ -56,39 +56,59 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
     table: flyway_schema_history
-    locations: ${FLYWAY_LOCATION:db/migration,db/importMigration}
+    locations: ${FLYWAY_LOCATION:database/mssql/migration,database/mssql/importMigration}
     validate-on-migrate: true
     clean-disabled: true
   graphql:
     graphiql:
       enabled: true
 
+  cache:
+    type: redis
+    redis:
+      key-prefix: ${REDIS_KEY_PREFIX:erp:}
+      use-key-prefix: true
+      time-to-live: 10m
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+      username: ${REDIS_USERNAME:erpapp}
+      password: ${REDIS_PASSWORD:StrongAppPassword}
+      timeout: 2s
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 1
 sso:
   client-id: ${SSO_CLIENT_ID:erp}
 
 cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:}
 
 management:
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http:
-            server:
-                requests: true
+  server:
+    port: 8090
   endpoints:
     web:
       exposure:
-        include: health, prometheus, info, loggers, threaddump
+        include:
+          - health
+          - info
+          - prometheus
+          - metrics
+          - loggers
+          - threaddump
       base-path: /status
-    access:
-      default: read_only
   endpoint:
     health:
       probes:
         enabled: true
-      access:
     prometheus:
+      access: read_only
+    metrics:
       access: read_only
     info:
       access: read_only
@@ -96,8 +116,20 @@ management:
       access: read_only
     threaddump:
       access: read_only
-  server:
-    port: 8090
+
+  metrics:
+    tags:
+      application: erp-api-service
+      service: erp-api-service
+
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        hikaricp.connections.acquire: true
+        hikaricp.connections.usage: true
+        spring.data.repository.invocations: true
+      percentiles:
+        http.server.requests: 0.50,0.90,0.95,0.99,0.999,0.9999
 
 server:
   forward-headers-strategy: native
@@ -163,7 +195,7 @@ feign:
 
 otel:
   service:
-    name: erp-customer-manager
+    name: erp-api-service
 
   traces:
     exporter: otlp

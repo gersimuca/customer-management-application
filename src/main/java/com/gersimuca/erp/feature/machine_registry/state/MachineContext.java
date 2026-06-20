@@ -1,9 +1,9 @@
-package com.gersimuca.erp.feature.machine_registry;
+package com.gersimuca.erp.feature.machine_registry.state;
 
 import com.gersimuca.erp.common.machine_registry.MachineId;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.gersimuca.erp.common.util.LoggerUtils;
+import com.gersimuca.erp.feature.machine_registry.MachineRegistryService;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,9 +14,7 @@ import org.springframework.stereotype.Component;
 public class MachineContext {
 
   private final MachineRegistryService machineRegistryService;
-
-  private static final String SERVICE_NAME = "erp-api-service";
-
+  private final String podName;
   private final AtomicReference<MachineId> machineId = new AtomicReference<>();
 
   public MachineId getMachineId() {
@@ -24,13 +22,14 @@ public class MachineContext {
     if (current != null) {
       return current;
     }
+
     synchronized (this) {
       current = machineId.get();
       if (current == null) {
-        current = machineRegistryService.allocateMachineId(SERVICE_NAME);
+        current = machineRegistryService.allocateMachineId(podName);
         machineId.set(current);
+        LoggerUtils.info(log, "Allocated machineId={} for pod={}", current.value(), podName);
       }
-      LoggerUtils.info(log, "Allocated machineId={} for instance", current.value());
       return current;
     }
   }
