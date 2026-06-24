@@ -1,0 +1,91 @@
+%% auto-generated-by: diagramming.dev
+%% source-repo: gersimuca/resource-planning
+%% generated-at: 2026-06-24T18:58:27.992Z
+%% regenerable: true
+
+graph LR
+    client[API Client / UI]
+    ui_submodule["resource-planning-ui (submodule)"]
+    app("ERP Application (Spring Boot)")
+    security("Security / JWT (OAuth2 RS)")
+    cors(CORS & WebMvc)
+    exception("GeneralExceptionHandler (RFC7807)")
+    user(User Feature)
+    country(Country Feature)
+    cronjob(CronJob Feature)
+    machine_registry("MachineRegistry (Snowflake key-gen)")
+    key_gen(BusinessKeyGenerator)
+    scheduler("Scheduler (Dynamic Cron Jobs)")
+    async("Async Executor (Pekko/TaskExecutor)")
+    aspects(Logging & Trace Aspects)
+    cache_cfg(Redis Cache Config)
+    jpa_cfg(JPA / Auditor / BaseRepository)
+    api_facade("ApiFacade (External APIs)")
+    oauth2_client(OAuth2 Feign Client)
+    nagerdate_client(Nagerdate Feign Service)
+    otel_cfg(OpenTelemetry Config)
+    metrics_cfg(Metrics / Actuator)
+    openapi(OpenAPI Contract)
+    graphql(GraphQL Schema)
+    flyway(Flyway Migrations)
+    mssql((SQL Server))
+    redis((Redis))
+    keycloak{{Keycloak SSO}}
+    nagerdate_api{{Nager.Date API}}
+    otel_collector{{OTel Collector}}
+    prometheus{{Prometheus}}
+    grafana{{Grafana}}
+    elk{{Logstash → Elasticsearch → Kibana}}
+    ansible("Ansible (local env bootstrap)")
+    compose(Docker Compose Stack)
+    ci(GitHub Actions CI)
+    client -->|HTTPS /api| app
+    ui_submodule -->|REST| app
+    app -->|JWT validation| security
+    security -->|JWK Set URI| keycloak
+    app --> cors
+    app --> exception
+    app --> user
+    app --> country
+    app --> cronjob
+    app --> machine_registry
+    app --> scheduler
+    app --> async
+    app --> aspects
+    app --> graphql
+    app --> openapi
+    user --> jpa_cfg
+    country --> jpa_cfg
+    cronjob --> jpa_cfg
+    machine_registry --> jpa_cfg
+    machine_registry --> key_gen
+    key_gen -->|machine id| machine_registry
+    jpa_cfg --> flyway
+    flyway -->|migrate| mssql
+    jpa_cfg -->|JDBC| mssql
+    cache_cfg --> redis
+    app --> cache_cfg
+    country -->|lookup holidays| api_facade
+    api_facade --> nagerdate_client
+    nagerdate_client -->|token interceptor| oauth2_client
+    oauth2_client -->|OAuth2 token| keycloak
+    nagerdate_client -->|Feign HTTPS| nagerdate_api
+    scheduler -->|dynamic jobs| cronjob
+    scheduler -->|heartbeat/stale cleanup| machine_registry
+    async --> aspects
+    app --> otel_cfg
+    app --> metrics_cfg
+    otel_cfg -->|OTLP gRPC| otel_collector
+    metrics_cfg -->|/status/prometheus| prometheus
+    otel_collector --> prometheus
+    prometheus --> grafana
+    app -->|TCP JSON logs| elk
+    ansible -->|generates .env| compose
+    compose --> mssql
+    compose --> redis
+    compose --> keycloak
+    compose --> prometheus
+    compose --> grafana
+    compose --> otel_collector
+    compose --> elk
+    ci -->|mvn build| app
