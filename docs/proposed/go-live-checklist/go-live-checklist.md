@@ -1,4 +1,4 @@
-# Go Live Checklist - ENG Digital Contract
+# Go Live Checklist - ERP Digital Contract
 
 ## Overview
 This is a working document to be checked for completeness.
