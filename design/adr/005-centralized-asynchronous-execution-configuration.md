@@ -62,11 +62,11 @@ We introduced a **centralized async execution strategy** using Spring's `@Enable
 
 ## Consequences
 
-* ✅ Asynchronous behavior is **configurable**, **testable**, and **consistent** across the codebase.
-* ✅ MDC context and security context are preserved in background threads.
-* ✅ Custom rejection policies can be introduced and extended.
-* ✅ Thread pools shut down gracefully, avoiding task loss during shutdown.
-* ⛔ Slightly more complex configuration structure, but mitigated by centralization and encapsulation.
+* Asynchronous behavior is **configurable**, **testable**, and **consistent** across the codebase.
+* MDC context and security context are preserved in background threads.
+* Custom rejection policies can be introduced and extended.
+* Thread pools shut down gracefully, avoiding task loss during shutdown.
+* Slightly more complex configuration structure, but mitigated by centralization and encapsulation.
 
 ---
 

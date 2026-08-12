@@ -12,7 +12,7 @@ public interface UserMapper {
 
   UserModel mapToModel(UserDto userDto);
 
-  @Mapping(target = "userId", ignore = true)
+  @Mapping(target = "businessKey", ignore = true)
   @Mapping(target = "preferredLanguage", ignore = true)
   @Mapping(source = "token", target = "givenName", qualifiedBy = JwtMapper.GivenNameMapper.class)
   @Mapping(source = "token", target = "familyName", qualifiedBy = JwtMapper.FamilyNameMapper.class)

@@ -78,3 +78,15 @@ GET {{Health-URL}}/status/prometheus
     assertResponseStatus(200)
     assertResponseBodyTextContains("system_cpu_count")
 %}
+
+### GET Data
+# @no-cookie-jar
+GET {{Api-URL}}/api/users/data
+Content-Type: application/json
+Authorization: Bearer {{$auth.token("token")}}
+
+> {%
+    import {assertResponseStatus} from './rest-client.util.js'
+
+    assertResponseStatus(200, 409);
+%}

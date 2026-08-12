@@ -46,11 +46,11 @@ We implemented a **LoggingAspect** using Spring AOP, which:
 
 ## Consequences
 
-* ✅ Centralized, consistent logging across all service methods.
-* ✅ Automatic timing and exception logging improves observability.
-* ✅ Cleaner service code without manual logging.
-* ✅ Slight overhead due to thread-local time tracking and AOP proxy.
-* ⛔ Requires understanding of AOP and proper testing of aspect logic.
+* Centralized, consistent logging across all service methods.
+* Automatic timing and exception logging improves observability.
+* Cleaner service code without manual logging.
+* Slight overhead due to thread-local time tracking and AOP proxy.
+* Requires understanding of AOP and proper testing of aspect logic.
 
 ---
 

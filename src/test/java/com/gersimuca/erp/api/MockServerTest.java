@@ -5,7 +5,7 @@ import static org.mockserver.model.HttpResponse.response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gersimuca.erp.configuration.external.Token;
+import com.gersimuca.erp.api.oauth2.TokenResponse;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -20,7 +20,7 @@ class MockServerTest {
   private ObjectMapper objectMapper;
 
   @BeforeAll
-  public void setupMockServer() throws JsonProcessingException {
+  void setupMockServer() throws JsonProcessingException {
     ClientAndServer server = ClientAndServer.startClientAndServer(8082);
     mockServerClient = new MockServerClient("localhost", server.getLocalPort());
     objectMapper = new ObjectMapper();
@@ -28,7 +28,7 @@ class MockServerTest {
   }
 
   @AfterAll
-  public void tearDownServer() {
+  void tearDownServer() {
     mockServerClient.stop();
   }
 
@@ -38,7 +38,7 @@ class MockServerTest {
 
   private void mockTokenEndpoints() throws JsonProcessingException {
     String tokenResponse =
-        objectMapper.writeValueAsString(Token.builder().accessToken("accessToken").build());
+        objectMapper.writeValueAsString(TokenResponse.builder().accessToken("accessToken").build());
     String validRequestBody =
         "grant_type=password&client_id=core_calculation&username=admin&password=admin";
     mockServerClient

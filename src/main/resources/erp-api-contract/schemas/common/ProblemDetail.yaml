@@ -1,0 +1,65 @@
+type: object
+description: RFC7807 Problem Details response
+
+required:
+  - type
+  - title
+  - status
+  - detail
+  - instance
+  - code
+  - timestamp
+  - traceId
+  - errors
+
+properties:
+
+  type:
+    type: string
+    format: uri
+    description: URI identifying the problem type
+    example: https://api.erp.com/problems/validation-error
+    nullable: false
+
+  title:
+    type: string
+    description: Short human-readable summary
+    example: Validation failed
+    nullable: false
+
+  status:
+    type: integer
+    format: int32
+    example: 400
+    nullable: false
+
+  detail:
+    type: string
+    description: Detailed error message
+    example: One or more fields are invalid
+    nullable: false
+
+  instance:
+    type: string
+    format: uri
+    description: Request path
+    example: /users
+    nullable: false
+
+  code:
+    $ref: './ErrorCode.yaml'
+
+  timestamp:
+    type: string
+    format: date-time
+    nullable: false
+
+  traceId:
+    type: string
+    nullable: false
+
+  errors:
+    type: array
+    items:
+      $ref: './ProblemValidationError.yaml'
+    nullable: false

@@ -1,0 +1,5 @@
+description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for the resource.
+content:
+  application/json:
+    schema:
+      $ref: '../../schemas/common/ProblemDetail.yaml'

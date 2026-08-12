@@ -8,6 +8,7 @@ public class UserTestData {
           .email("iron.man@marvel.com")
           .username("iron.man")
           .userId(2L)
+          .businessKey(1001L)
           .build();
   public static final UserDto IRON_MAN_DTO =
       UserDto.builder()
@@ -15,6 +16,6 @@ public class UserTestData {
           .givenName("Iron")
           .email("iron.man@marvel.com")
           .username("iron.man")
-          .userId(2L)
+          .businessKey(1001L)
           .build();
 }
