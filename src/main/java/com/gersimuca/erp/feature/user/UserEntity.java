@@ -28,6 +28,9 @@ public class UserEntity extends AuditedEntity {
   @Column(name = "user_id")
   private Long userId;
 
+  @Column(name = "business_key", nullable = false, unique = true)
+  private Long businessKey;
+
   @Column(name = "username", nullable = false, unique = true, length = 8)
   private String username;
 

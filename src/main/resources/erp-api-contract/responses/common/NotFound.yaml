@@ -1,0 +1,5 @@
+description: The requested resource could not be found. This might be due to an incorrect URL or a non-existing resource.
+content:
+  application/json:
+    schema:
+      $ref: '../../schemas/common/ProblemDetail.yaml'

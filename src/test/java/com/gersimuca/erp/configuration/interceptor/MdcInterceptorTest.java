@@ -45,7 +45,7 @@ class MdcInterceptorTest {
 
     assertTrue(result);
 
-    String requestId = MDC.get("requestId");
+    String requestId = MDC.get("traceId");
     assertNotNull(requestId);
 
     assertTrue(requestId.matches("[0-9A-F-]{36}"));
@@ -56,10 +56,10 @@ class MdcInterceptorTest {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
 
-    MDC.put("requestId", "TEST_ID");
+    MDC.put("traceId", "TEST_ID");
 
     interceptor.afterCompletion(request, response, new Object(), null);
 
-    assertNull(MDC.get("requestId"));
+    assertNull(MDC.get("traceId"));
   }
 }

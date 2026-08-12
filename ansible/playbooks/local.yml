@@ -1,0 +1,6 @@
+- name: Local ERP setup
+  hosts: localhost
+  connection: local
+
+  roles:
+    - erp

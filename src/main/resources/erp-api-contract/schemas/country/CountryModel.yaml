@@ -1,0 +1,17 @@
+type: object
+description: Details about the country
+title: CountryModel
+
+required:
+  - countryId
+  - countryName
+  - countryCode
+
+properties:
+  countryId:
+    type: integer
+    format: int64
+  countryName:
+    type: string
+  countryCode:
+    type: string

@@ -4,6 +4,15 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${SSO_JWK_SET_URI:http://localhost:8180/auth/realms/ERP/protocol/openid-connect/certs}
+      client:
+        registration:
+          nagerdate-technical-user:
+            client-id: ${NAGERDATE_CLIENT_ID:erp}
+            authorization-grant-type: ${NAGERDATE_AUTHORIZATION_GRANT_TYPE:password}
+            provider: ${NAGERDATE_PROVIDER:nagerdate}
+        provider:
+          nagerdate:
+            token-uri: ${NAGERDATE_SSO_JWT_TOKEN_URI:http://localhost:8180/auth/realms/ERP/protocol/openid-connect/token}
   jackson:
     default-property-inclusion: non_null
     serialization:
@@ -47,39 +56,59 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
     table: flyway_schema_history
-    locations: ${FLYWAY_LOCATION:db/migration,db/importMigration}
+    locations: ${FLYWAY_LOCATION:database/mssql/migration,database/mssql/importMigration}
     validate-on-migrate: true
     clean-disabled: true
   graphql:
     graphiql:
       enabled: true
 
+  cache:
+    type: redis
+    redis:
+      key-prefix: ${REDIS_KEY_PREFIX:erp:}
+      use-key-prefix: true
+      time-to-live: 10m
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+      username: ${REDIS_USERNAME:erpapp}
+      password: ${REDIS_PASSWORD:StrongAppPassword}
+      timeout: 2s
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 1
 sso:
   client-id: ${SSO_CLIENT_ID:erp}
 
 cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:}
 
 management:
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http:
-            server:
-                requests: true
+  server:
+    port: 8090
   endpoints:
     web:
       exposure:
-        include: health, prometheus, info, loggers, threaddump
+        include:
+          - health
+          - info
+          - prometheus
+          - metrics
+          - loggers
+          - threaddump
       base-path: /status
-    access:
-      default: read_only
   endpoint:
     health:
       probes:
         enabled: true
-      access:
     prometheus:
+      access: read_only
+    metrics:
       access: read_only
     info:
       access: read_only
@@ -87,8 +116,20 @@ management:
       access: read_only
     threaddump:
       access: read_only
-  server:
-    port: 8090
+
+  metrics:
+    tags:
+      application: erp-api-service
+      service: erp-api-service
+
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        hikaricp.connections.acquire: true
+        hikaricp.connections.usage: true
+        spring.data.repository.invocations: true
+      percentiles:
+        http.server.requests: 0.50,0.90,0.95,0.99,0.999,0.9999
 
 server:
   forward-headers-strategy: native
@@ -111,6 +152,13 @@ logging:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: ${LOG_LEVEL:INFO}
+    org.springframework.security: TRACE
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.keycloak.adapters: DEBUG
+    org.springframework.security.oauth2.client: TRACE
+    org.springframework.security.oauth2.client.web: TRACE
+    org.springframework.security.oauth2.core.endpoint: TRACE
+    org.springframework.security.oauth2.client.registration: TRACE
     org.springframework.transaction.support.TransactionSynchronizationManager: DEBUG
     org.springframework.transaction: DEBUG
     org:
@@ -135,3 +183,30 @@ async:
   rejected-execution-handler-policy: abort # Options: abort, callerruns, discard, discardoldest
   phase: 10
 
+# Feign client configurations
+feign:
+  client:
+    nagerdate:
+      registration-id: ${NAGERDATE_REGISTRATION_ID:nagerdate_technical_user}
+      client-id: ${NAGERDATE_CLIENT_ID:erp}
+      url: ${NAGERDATE_API_URL:https://date.nager.at}
+      username: ${NAGERDATE_USERNAME:erp_adm}
+      password: ${NAGERDATE_PASSWORD:secret}
+
+otel:
+  service:
+    name: erp-api-service
+
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  logs:
+    exporter: otlp
+
+  exporter:
+    otlp:
+      endpoint: http://localhost:4317
+      protocol: grpc
+
+  propagators: tracecontext,baggage

@@ -1,0 +1,6 @@
+description: The request was invalid or cannot be served.
+
+content:
+  application/json:
+    schema:
+      $ref: '../../schemas/common/ProblemDetail.yaml'

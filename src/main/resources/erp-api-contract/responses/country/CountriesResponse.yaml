@@ -1,0 +1,11 @@
+description: Successfully retrieved list of available countries.
+content:
+  application/json:
+    schema:
+      title: CountriesResponse
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '../../schemas/country/CountryModel.yaml'
