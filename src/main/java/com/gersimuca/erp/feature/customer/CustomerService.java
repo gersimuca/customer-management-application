@@ -1,13 +1,11 @@
 package com.gersimuca.erp.feature.customer;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 /**
  * @author gersimuca
  */
 public interface CustomerService {
-  Page<CustomerDto> search(Status status, Long ownerId, String search, Pageable pageable);
+  CustomersPageDto search(
+      Status status, Long ownerId, String search, Integer page, Integer size, String sort);
 
   CustomerDto findById(Long id);
 

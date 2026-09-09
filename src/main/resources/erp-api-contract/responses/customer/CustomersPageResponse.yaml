@@ -1,0 +1,9 @@
+description: Successfully retrieved list of customers.
+content:
+  application/json:
+    schema:
+      title: CustomersPageResponse
+      type: object
+      properties:
+        customersPage:
+          $ref: '../../schemas/customer/CustomersPageModel.yaml'

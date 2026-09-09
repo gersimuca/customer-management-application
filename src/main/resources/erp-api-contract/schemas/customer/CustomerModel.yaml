@@ -1,0 +1,56 @@
+title: CustomerModel
+type: object
+properties:
+  customerId:
+    type: integer
+    format: int64
+    example: 123
+
+  name:
+    type: string
+    example: John Doe
+
+  email:
+    type: string
+    format: email
+    example: john.doe@example.com
+
+  phone:
+    type: string
+    example: "+355 69 123 4567"
+
+  company:
+    type: string
+    example: Acme Inc.
+
+  addressLine:
+    type: string
+    example: 123 Main Street
+
+  city:
+    type: string
+    example: Tirana
+
+  state:
+    type: string
+    example: Tirana
+
+  postalCode:
+    type: string
+    example: 1001
+
+  country:
+    type: string
+    example: Albania
+
+  status:
+    $ref: '../customer/CustomerStatus.yaml'
+
+  ownerId:
+    type: integer
+    format: int64
+    example: 42
+
+  notes:
+    type: string
+    example: Important customer
