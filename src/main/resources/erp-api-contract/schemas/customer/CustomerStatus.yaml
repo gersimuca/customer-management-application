@@ -1,0 +1,7 @@
+title: CustomerStatus
+type: string
+enum:
+  - ACTIVE
+  - INACTIVE
+  - PROSPECT
+  - CHURNED

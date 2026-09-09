@@ -1,0 +1,20 @@
+title: CustomersPageModel
+type: object
+properties:
+  customers:
+    type: array
+    items:
+      $ref: '../../schemas/customer/CustomerModel.yaml'
+  totalElements:
+    type: integer
+    format: int64
+  totalPages:
+    type: integer
+  size:
+    type: integer
+  number:
+    type: integer
+  first:
+    type: boolean
+  last:
+    type: boolean

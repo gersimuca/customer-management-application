@@ -15,6 +15,8 @@ tags:
     description: User resource.
   - name: country
     description: Country resource.
+  - name: customer
+    description: potential customer
 paths:
   /users:
     post:
@@ -88,6 +90,64 @@ paths:
       responses:
         "200":
           $ref: './responses/country/CountriesResponse.yaml'
+        "400":
+          $ref: './responses/common/BadRequest.yaml'
+        "401":
+          $ref: './responses/common/Unauthorized.yaml'
+        "403":
+          $ref: './responses/common/Forbidden.yaml'
+        "404":
+          $ref: './responses/common/NotFound.yaml'
+        "409":
+          $ref: './responses/common/Conflict.yaml'
+        "500":
+          $ref: './responses/common/InternalServerError.yaml'
+  /customers:
+    get:
+      summary: Search customers
+      operationId: searchCustomers
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: './schemas/customer/CustomerStatus.yaml'
+        - name: ownerId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: customerId
+          example: customerId,asc
+
+      responses:
+        "200":
+          $ref: './responses/customer/CustomersPageResponse.yaml'
         "400":
           $ref: './responses/common/BadRequest.yaml'
         "401":
