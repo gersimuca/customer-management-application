@@ -23,7 +23,7 @@ import org.hibernate.annotations.DynamicInsert;
 public class MachineRegistryEntity {
   @Id
   @Column(name = "machine_id", nullable = false)
-  private Integer machineId;
+  private Long machineId;
 
   @Column(name = "instance_id", nullable = false, unique = true)
   private String instanceId;

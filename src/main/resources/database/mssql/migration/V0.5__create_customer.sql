@@ -1,4 +1,4 @@
-CREATE TABLE customers
+CREATE TABLE customer
 (
     customer_id      bigint identity (1,1),
     name             VARCHAR(255) NOT NULL,

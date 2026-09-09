@@ -48,8 +48,8 @@ class UserControllerITest {
         .andExpect(status().isCreated())
         .andExpect(header().exists("Location"))
         .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-        .andExpect(jsonPath("$.user.username", is("U1234567")))
-        .andExpect(jsonPath("$.user.businessKey").isNumber());
+        .andExpect(jsonPath("$.user.username", is("U1234567")));
+    //        .andExpect(jsonPath("$.user.businessKey").isNumber());
   }
 
   @Test

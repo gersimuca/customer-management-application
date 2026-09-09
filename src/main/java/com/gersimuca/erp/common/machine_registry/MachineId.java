@@ -1,19 +1,16 @@
 package com.gersimuca.erp.common.machine_registry;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+// public final class MachineId {
 
-public final class MachineId {
-
-  @Min(0)
-  @Max(63)
-  private final Integer value;
-
-  public MachineId(final Integer value) {
-    this.value = value;
-  }
-
-  public Integer value() {
-    return value;
-  }
-}
+  //  @Min(0)
+  //  @Max(63)
+  //  private final Long value;
+  //
+  //  public MachineId(final Long value) {
+  //    this.value = value;
+  //  }
+  //
+  //  public Long value() {
+  //    return value;
+  //  }
+// }
