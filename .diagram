@@ -1,0 +1,493 @@
+diagram {
+  version: "1"
+  type: architecture
+  direction: LR
+}
+
+client {
+  id: gen-client
+  label: "API Client / UI"
+  shape: rectangle
+  at (72, 918)
+}
+
+ui_submodule {
+  id: gen-ui_submodule
+  label: "resource-planning-ui (submodule)"
+  shape: rectangle
+  at (72, 1038)
+}
+
+app {
+  id: gen-app
+  label: "ERP Application (Spring Boot)"
+  shape: rounded
+  at (302, 918)
+  path: "src/main/java/com/gersimuca/erp/Application.java"
+}
+
+security {
+  id: gen-security
+  label: "Security / JWT (OAuth2 RS)"
+  shape: rounded
+  at (992, 356)
+  path: "src/main/java/com/gersimuca/erp/configuration/security"
+}
+
+cors {
+  id: gen-cors
+  label: "CORS & WebMvc"
+  shape: rounded
+  at (532, 1342)
+  path: "src/main/java/com/gersimuca/erp/configuration/web"
+}
+
+exception {
+  id: gen-exception
+  label: "GeneralExceptionHandler (RFC7807)"
+  shape: rounded
+  at (532, 477)
+  path: "src/main/java/com/gersimuca/erp/configuration/exception"
+}
+
+user {
+  id: gen-user
+  label: "User Feature"
+  shape: rounded
+  at (762, 1048)
+  path: "src/main/java/com/gersimuca/erp/feature/user"
+}
+
+country {
+  id: gen-country
+  label: "Country Feature"
+  shape: rounded
+  at (532, 980)
+  path: "src/main/java/com/gersimuca/erp/feature/country"
+}
+
+cronjob {
+  id: gen-cronjob
+  label: "CronJob Feature"
+  shape: rounded
+  at (762, 1168)
+  path: "src/main/java/com/gersimuca/erp/feature/cronjob"
+}
+
+machine_registry {
+  id: gen-machine_registry
+  label: "MachineRegistry (Snowflake key-gen)"
+  shape: rounded
+  at (762, 1406)
+  path: "src/main/java/com/gersimuca/erp/feature/machine_registry"
+}
+
+key_gen {
+  id: gen-key_gen
+  label: "BusinessKeyGenerator"
+  shape: rounded
+  at (532, 1463)
+  path: "src/main/java/com/gersimuca/erp/common/machine_registry"
+}
+
+scheduler {
+  id: gen-scheduler
+  label: "Scheduler (Dynamic Cron Jobs)"
+  shape: rounded
+  at (532, 1222)
+  path: "src/main/java/com/gersimuca/erp/configuration/scheduler"
+}
+
+async {
+  id: gen-async
+  label: "Async Executor (Pekko/TaskExecutor)"
+  shape: rounded
+  at (532, 739)
+  path: "src/main/java/com/gersimuca/erp/configuration/async"
+}
+
+aspects {
+  id: gen-aspects
+  label: "Logging & Trace Aspects"
+  shape: rounded
+  at (762, 807)
+  path: "src/main/java/com/gersimuca/erp/common/aspect"
+}
+
+cache_cfg {
+  id: gen-cache_cfg
+  label: "Redis Cache Config"
+  shape: rounded
+  at (532, 357)
+  path: "src/main/java/com/gersimuca/erp/configuration/cache"
+}
+
+jpa_cfg {
+  id: gen-jpa_cfg
+  label: "JPA / Auditor / BaseRepository"
+  shape: rounded
+  at (992, 999)
+  path: "src/main/java/com/gersimuca/erp/configuration/jpa"
+}
+
+api_facade {
+  id: gen-api_facade
+  label: "ApiFacade (External APIs)"
+  shape: rounded
+  at (762, 927)
+  path: "src/main/java/com/gersimuca/erp/api"
+}
+
+oauth2_client {
+  id: gen-oauth2_client
+  label: "OAuth2 Feign Client"
+  shape: rounded
+  at (1222, 417)
+  path: "src/main/java/com/gersimuca/erp/api/oauth2"
+}
+
+nagerdate_client {
+  id: gen-nagerdate_client
+  label: "Nagerdate Feign Service"
+  shape: rounded
+  at (992, 530)
+  path: "src/main/java/com/gersimuca/erp/api/external/nagerdate"
+}
+
+otel_cfg {
+  id: gen-otel_cfg
+  label: "OpenTelemetry Config"
+  shape: rounded
+  at (532, 597)
+  path: "src/main/java/com/gersimuca/erp/configuration/telemetry"
+}
+
+metrics_cfg {
+  id: gen-metrics_cfg
+  label: "Metrics / Actuator"
+  shape: rounded
+  at (762, 657)
+  path: "src/main/java/com/gersimuca/erp/configuration/metric"
+}
+
+openapi {
+  id: gen-openapi
+  label: "OpenAPI Contract"
+  shape: rounded
+  at (532, 859)
+  path: "src/main/resources/erp-api-contract"
+}
+
+graphql {
+  id: gen-graphql
+  label: "GraphQL Schema"
+  shape: rounded
+  at (532, 1101)
+  path: "src/main/resources/graphql"
+}
+
+flyway {
+  id: gen-flyway
+  label: "Flyway Migrations"
+  shape: rounded
+  at (1222, 1006)
+  path: "src/main/resources/database/mssql"
+}
+
+mssql {
+  id: gen-mssql
+  label: "SQL Server"
+  shape: ellipse
+  at (1452, 945)
+}
+
+redis {
+  id: gen-redis
+  label: "Redis"
+  shape: ellipse
+  at (762, 115)
+}
+
+keycloak {
+  id: gen-keycloak
+  label: "Keycloak SSO"
+  shape: hexagon
+  at (1452, 356)
+}
+
+nagerdate_api {
+  id: gen-nagerdate_api
+  label: "Nager.Date API"
+  shape: hexagon
+  at (1222, 537)
+}
+
+otel_collector {
+  id: gen-otel_collector
+  label: "OTel Collector"
+  shape: hexagon
+  at (762, 236)
+}
+
+prometheus {
+  id: gen-prometheus
+  label: "Prometheus"
+  shape: hexagon
+  at (992, 236)
+}
+
+grafana {
+  id: gen-grafana
+  label: "Grafana"
+  shape: hexagon
+  at (1222, 236)
+}
+
+elk {
+  id: gen-elk
+  label: "Logstash → Elasticsearch → Kibana"
+  shape: hexagon
+  at (762, 537)
+}
+
+ansible {
+  id: gen-ansible
+  label: "Ansible (local env bootstrap)"
+  shape: rounded
+  at (302, 59)
+  path: "ansible"
+}
+
+compose {
+  id: gen-compose
+  label: "Docker Compose Stack"
+  shape: rounded
+  at (532, 59)
+  path: "docker/docker-compose.yml"
+}
+
+ci {
+  id: gen-ci
+  label: "GitHub Actions CI"
+  shape: rounded
+  at (72, 798)
+  path: ".github/workflows/ci.yml"
+}
+
+client -> app {
+  id: gen-edge-0
+  label: "HTTPS /api"
+}
+
+ui_submodule -> app {
+  id: gen-edge-1
+  label: "REST"
+}
+
+app -> security {
+  id: gen-edge-2
+  label: "JWT validation"
+}
+
+security -> keycloak {
+  id: gen-edge-3
+  label: "JWK Set URI"
+}
+
+app -> cors {
+  id: gen-edge-4
+}
+
+app -> exception {
+  id: gen-edge-5
+}
+
+app -> user {
+  id: gen-edge-6
+}
+
+app -> country {
+  id: gen-edge-7
+}
+
+app -> cronjob {
+  id: gen-edge-8
+}
+
+app -> machine_registry {
+  id: gen-edge-9
+}
+
+app -> scheduler {
+  id: gen-edge-10
+}
+
+app -> async {
+  id: gen-edge-11
+}
+
+app -> aspects {
+  id: gen-edge-12
+}
+
+app -> graphql {
+  id: gen-edge-13
+}
+
+app -> openapi {
+  id: gen-edge-14
+}
+
+user -> jpa_cfg {
+  id: gen-edge-15
+}
+
+country -> jpa_cfg {
+  id: gen-edge-16
+}
+
+cronjob -> jpa_cfg {
+  id: gen-edge-17
+}
+
+machine_registry -> jpa_cfg {
+  id: gen-edge-18
+}
+
+machine_registry -> key_gen {
+  id: gen-edge-19
+}
+
+key_gen -> machine_registry {
+  id: gen-edge-20
+  label: "machine id"
+}
+
+jpa_cfg -> flyway {
+  id: gen-edge-21
+}
+
+flyway -> mssql {
+  id: gen-edge-22
+  label: "migrate"
+}
+
+jpa_cfg -> mssql {
+  id: gen-edge-23
+  label: "JDBC"
+}
+
+cache_cfg -> redis {
+  id: gen-edge-24
+}
+
+app -> cache_cfg {
+  id: gen-edge-25
+}
+
+country -> api_facade {
+  id: gen-edge-26
+  label: "lookup holidays"
+}
+
+api_facade -> nagerdate_client {
+  id: gen-edge-27
+}
+
+nagerdate_client -> oauth2_client {
+  id: gen-edge-28
+  label: "token interceptor"
+}
+
+oauth2_client -> keycloak {
+  id: gen-edge-29
+  label: "OAuth2 token"
+}
+
+nagerdate_client -> nagerdate_api {
+  id: gen-edge-30
+  label: "Feign HTTPS"
+}
+
+scheduler -> cronjob {
+  id: gen-edge-31
+  label: "dynamic jobs"
+}
+
+scheduler -> machine_registry {
+  id: gen-edge-32
+  label: "heartbeat/stale cleanup"
+}
+
+async -> aspects {
+  id: gen-edge-33
+}
+
+app -> otel_cfg {
+  id: gen-edge-34
+}
+
+app -> metrics_cfg {
+  id: gen-edge-35
+}
+
+otel_cfg -> otel_collector {
+  id: gen-edge-36
+  label: "OTLP gRPC"
+}
+
+metrics_cfg -> prometheus {
+  id: gen-edge-37
+  label: "/status/prometheus"
+}
+
+otel_collector -> prometheus {
+  id: gen-edge-38
+}
+
+prometheus -> grafana {
+  id: gen-edge-39
+}
+
+app -> elk {
+  id: gen-edge-40
+  label: "TCP JSON logs"
+}
+
+ansible -> compose {
+  id: gen-edge-41
+  label: "generates .env"
+}
+
+compose -> mssql {
+  id: gen-edge-42
+}
+
+compose -> redis {
+  id: gen-edge-43
+}
+
+compose -> keycloak {
+  id: gen-edge-44
+}
+
+compose -> prometheus {
+  id: gen-edge-45
+}
+
+compose -> grafana {
+  id: gen-edge-46
+}
+
+compose -> otel_collector {
+  id: gen-edge-47
+}
+
+compose -> elk {
+  id: gen-edge-48
+}
+
+ci -> app {
+  id: gen-edge-49
+  label: "mvn build"
+}

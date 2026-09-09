@@ -11,7 +11,7 @@ public class EntityAlreadyExistsException extends BaseException {
         format("%s with id %d already exists", entityClass.getSimpleName(), id),
         HttpStatus.CONFLICT,
         ErrorSeverity.WARN,
-        ErrorCode.CONFLICT);
+        ErrorCode.DUPLICATE_RESOURCE);
   }
 
   public EntityAlreadyExistsException(final Class<?> entityClass, final String property) {
@@ -19,6 +19,6 @@ public class EntityAlreadyExistsException extends BaseException {
         format("%s already exists (%s)", entityClass, property),
         HttpStatus.CONFLICT,
         ErrorSeverity.WARN,
-        ErrorCode.CONFLICT);
+        ErrorCode.DUPLICATE_RESOURCE);
   }
 }

@@ -1,4 +1,4 @@
-# Go Live Checklist - ENG Digital Contract
+# Go Live Checklist - ERP Digital Contract
 
 ## Overview
 This is a working document to be checked for completeness.
@@ -19,7 +19,7 @@ This is a working document to be checked for completeness.
 
 | Task | Priority | Type | Notes | Due Date | Status | Responsible |
 |------|----------|------|-------|-----------|--------|-|
-| Tech stack and technologies used are documented | LOW | Compliance | Ongoing documentation<br>Compliant to Tech Stack / LHT.Platform | Go-Live date | OPEN ||
+| Tech stack and technologies used are documented | LOW | Compliance | Ongoing documentation<br>Compliant to Tech Stack / ERP.Platform | Go-Live date | OPEN ||
 | i/application integration | LOW | Compliance | Digital Contract must be listed in i/application. Interface documentation. Set application to live.<br>enter PROD URL and check if it's shown in i/application | Go-Live date | OPEN ||
 | Integrate SAP interface (SAP SD Customer/Debitor)<br>Technical Users for K04 & P04 | CRITICAL | Availability | | week prior to Go-Live date | OPEN | |
 | General Release & Deployment (CICD)<br>Jenkins Pipeline setup & tested<br>Test proper deployment process for the product, including testing, and production<br>Must build images only in nonprod namespaces<br>Expected build image released and running on production | CRITICAL | CICD | Jenkins ready for dev & test, prod is in preparation | week prior to Go-Live date | OPEN | |
@@ -32,7 +32,7 @@ This is a working document to be checked for completeness.
 | OpenShift - Should implement a Service for all deployments. | CRITICAL | Deployment | A Service automatically load balances incoming requests across all available replicas | 1 week prior to Go-Live date | OPEN | |
 | OpenShift - resilience: application needs to tolerate losing pods<br>must use replicas >= 2 for production deployments<br>must use PodPriority (prod/nonprod) in deployments<br>should implement PodDisruptionBudget to guide the cluster for possible disruptions | MEDIUM | Availability | Ensures continuous availability of the service, even if a pod crashes. | 1 week prior to Go-Live date | OPEN | |
 | Monitoring interfaces to ensure they are functioning.<br>The following interfaces may be live during production (CoCa, SD, CDmS) | MEDIUM | Monitoring | Use Spring Boot metrics & Grafana<br>Scan log files | week prior to Go-Live date | OPEN | |
-| Setup proper logging<br>must include LHT common schema attributes: stage,lhtappid & log-message<br>should use use severity as log level attribute<br>should use WARN or ERROR as severity for production | MEDIUM | Monitoring | Kibana setup | week prior to Go-Live date | OPEN | |
+| Setup proper logging<br>must include ERP common schema attributes: stage,erpappid & log-message<br>should use use severity as log level attribute<br>should use WARN or ERROR as severity for production | MEDIUM | Monitoring | Kibana setup | week prior to Go-Live date | OPEN | |
 | Ensure §5 documented deletion policies are feasible and work | MEDIUM | Compliance | All deletion concepts listed in §5 document must be implemented | week prior to Go-Live date | OPEN | |
 | Check snyk for image vulnerabilities at least two weeks prior to go live | LOW | Security | | 1 week prior to Go-Live date | OPEN | |
 | SonarQube issues fixed (scan should pass on develop / master) | MEDIUM | Quality | Issues here could mean bugs, errors | 1 week prior to Go-Live date | OPEN | |
@@ -42,9 +42,9 @@ This is a working document to be checked for completeness.
 | Commits follow conventional commit message specification | LOW | Quality | Ensures quality and traceability in development work | 1 week prior to Go-Live date | OPEN | |
 | git-flow is implemented as branching model | LOW | CICD | | 1 week prior to Go-Live date | OPEN | |
 | Main branches are protected | LOW | Security | Ensures stability & security on released build<br>Protection works for the front-end | 1 week prior to Go-Live date | OPEN | |
-| Publish API to Azure APIM Mangement if possible<br>lint API specification and check how much work it would be to make it publishable<br>integrate linting and publishing in pipeline | LOW | Quality | Ensures compliance with LHT API guidelines<br>Create Jira ticket @ Böhm, Christian | 1 week prior to Go-Live date | OPEN | |
+| Publish API to Azure APIM Mangement if possible<br>lint API specification and check how much work it would be to make it publishable<br>integrate linting and publishing in pipeline | LOW | Quality | Ensures compliance with ERP API guidelines<br>Create Jira ticket @ Böhm, Christian | 1 week prior to Go-Live date | OPEN | |
 | dbo schema is not used for application, instead create a specific schema for each application | LOW | Security | Ensures security compliance for DB use; avoiding default database-owner (dbo) schema is standard practice.<br>Possibly issue with service principles (investigate) | 1 week prior to Go-Live date | OPEN | |
-| Runs as expected on MS Edge Windows 10 | MEDIUM | Compliance | Targeted main browser & OS (LHT employee machines) | 1 week prior to Go-Live date | OPEN | |
+| Runs as expected on MS Edge Windows 10 | MEDIUM | Compliance | Targeted main browser & OS (ERP employee machines) | 1 week prior to Go-Live date | OPEN | |
 
 ## Business Tasks
 
@@ -59,7 +59,7 @@ This is a working document to be checked for completeness.
 | Purpose DIC demo session | LOW | Users | | After Go-Live | OPEN | |
 | Create support concept | MEDIUM | Users | Functional Email chain | Go-Live date | OPEN | |
 | Access to relevant tools (Confluence, Jira, Email, team channels) | MEDIUM | Users | Access granted to relevant team members | | OPEN | |
-| Document process of generating a new user and all applications | MEDIUM | Users | IDM tool includes general instruction. Description in LHT.wiki will be added. | 1 week prior to Go-Live date | OPEN | |
+| Document process of generating a new user and all applications | MEDIUM | Users | IDM tool includes general instruction. Description in ERP.wiki will be added. | 1 week prior to Go-Live date | OPEN | |
 | Create permission for the users | MEDIUM | Users | Names, Usernames, roles<br>• for edit user IDM roles & rights<br>• approval of edit Master users to have permission | 1 week prior to Go-Live date | OPEN | |
 | User Acceptance testing completed at different process stages | CRITICAL | Quality | • Check that pricing flow works correctly / pricing calculation is proper for data flow – To be discussed with Martin Barrow | 2 week prior to Go-Live date | OPEN | |
 | Train key users | | | | | OPEN | |
